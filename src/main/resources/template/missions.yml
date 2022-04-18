@@ -1,0 +1,36 @@
+foreword_1:
+  type: conversation
+  detail:
+    id: foreword_1
+    name: '&f小樱花'
+  descriptions:
+    - '&f面对这一切未知的开端'
+    - '&f表现出内心最迷茫的一面'
+foreword_2:
+  type: learn_ability
+  detail:
+    count: 1
+  descriptions:
+    - '&f按K键打开技能页面'
+    - '&f学习一个技能'
+foreword_3:
+  type: create_team
+  descriptions:
+    - '&f按I键创建一个队伍'
+foreword_4:
+  type: conversation
+  detail:
+    id: foreword_4
+    name: '&f小樱花'
+  descriptions:
+    - '&f你已经学会这些技巧了'
+    - '&f小樱花已经再等你了'
+foreword_5:
+  type: mob_killer
+  detail:
+    蜗牛王: 1
+    绿蜗牛: 10
+    红蜗牛: 10
+  descriptions:
+    - '&f按Y键打开副本页面'
+    - '&f前往副本: 新手平原'

@@ -1,0 +1,19 @@
+id: foreword
+name: '&f&l序章'
+type: MQ
+
+missions:
+  - foreword_1
+  - foreword_2
+  - foreword_3
+  - foreword_4
+  - foreword_5
+
+reward:
+  exp: 1000
+  money: 1000
+  coins: 1000
+  items:
+    - noobie_coins_gift 1
+    - noobie_clothes_gift 1
+    - noobie_equips_gift 1

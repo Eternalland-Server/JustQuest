@@ -1,0 +1,36 @@
+id: 0
+name: '&f&l小樱花'
+scale: 2
+quest-conversation:
+  - foreword
+
+default-conversation:
+  dialogue_0:
+    response:
+      - '你好，我叫小樱花！'
+      - '樱是樱花的樱，花是樱花的花'
+    reply:
+      uh:
+        text: '=_='
+        go: dialogue_1
+      exit:
+        text: '离开'
+  dialogue_1:
+    response:
+      - 'Life is one grand, sweet song, so start the music.'
+      - '生活如歌，谱写美妙人生。'
+    reply:
+      uh:
+        text: '???'
+        go: dialogue_2
+      exit:
+        text: '离开'
+  dialogue_2:
+    response:
+      - 'They coaxed the grand piano through the door.'
+      - '他们小心翼翼地把大钢琴搬进门里去。'
+    reply:
+      uh:
+        text: 'piano?'
+      exit:
+        text: '离开'
