@@ -8,11 +8,12 @@ import java.util.Map;
 public class Conversation {
 
     private final String ID;
-
+    private final String complete;
     private final Map<String, Dialogue> dialogues;
 
-    public Conversation(String ID, Map<String, Dialogue> dialogues) {
+    public Conversation(String ID, String complete, Map<String, Dialogue> dialogues) {
         this.ID = ID;
+        this.complete = complete;
         this.dialogues = dialogues;
     }
 

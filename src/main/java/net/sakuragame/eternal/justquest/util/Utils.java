@@ -1,6 +1,5 @@
 package net.sakuragame.eternal.justquest.util;
 
-import com.taylorswiftcn.megumi.uifactory.generate.ui.component.base.LabelComp;
 import com.taylorswiftcn.megumi.uifactory.generate.ui.screen.ScreenUI;
 import net.sakuragame.eternal.dragoncore.config.FolderType;
 import net.sakuragame.eternal.dragoncore.network.PacketSender;
@@ -16,39 +15,30 @@ import java.util.Map;
 
 public class Utils {
 
-    private static final YamlConfiguration done;
-
-    static {
-        ScreenUI ui = new ScreenUI(QuestUIManager.QUEST_OBJECTIVE_ID)
-                .addComponent(new LabelComp("done", "&a&l奖励可领取")
-                        .setExtend("objectives")
-                );
-
-        done = ui.build(null);
-    }
-
-    public static void setTrace(Player player, String title) {
+    public static void setTraceBar(Player player, String title) {
         Map<String, String> placeholder = new HashMap<>();
         placeholder.put("trace_title", title);
         PacketSender.sendSyncPlaceholder(player, placeholder);
         PacketSender.sendYaml(player, FolderType.Gui, QuestUIManager.QUEST_OBJECTIVE_ID, new YamlConfiguration());
-        Scheduler.runLaterAsync(() -> PacketSender.sendOpenHud(player, "traceBar"), 1);
+        PacketSender.sendRunFunction(
+                player,
+                "default",
+                "func.delay(1);func.Screen_Open_Hud('traceBar');",
+                true
+        );
     }
 
-    public static void setTrace(Player player, String title, ScreenUI contents) {
+    public static void setTraceBar(Player player, String title, ScreenUI contents) {
         Map<String, String> placeholder = new HashMap<>();
         placeholder.put("trace_title", title);
         PacketSender.sendSyncPlaceholder(player, placeholder);
         PacketSender.sendYaml(player, FolderType.Gui, QuestUIManager.QUEST_OBJECTIVE_ID, contents.build(null));
-        Scheduler.runLaterAsync(() -> PacketSender.sendOpenHud(player, "traceBar"), 1);
-    }
-
-    public static void setTraceDone(Player player, String title) {
-        Map<String, String> placeholder = new HashMap<>();
-        placeholder.put("trace_title", title);
-        PacketSender.sendSyncPlaceholder(player, placeholder);
-        PacketSender.sendYaml(player, FolderType.Gui, QuestUIManager.QUEST_OBJECTIVE_ID, done);
-        Scheduler.runLaterAsync(() -> PacketSender.sendOpenHud(player, "traceBar"), 1);
+        PacketSender.sendRunFunction(
+                player,
+                "default",
+                "func.delay(1);func.Screen_Open_Hud('traceBar');",
+                true
+        );
     }
 
     public static PageResult getPagePart(List<String> list, int page) {

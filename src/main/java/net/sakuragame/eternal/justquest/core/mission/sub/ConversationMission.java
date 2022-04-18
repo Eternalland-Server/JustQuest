@@ -38,6 +38,17 @@ public class ConversationMission extends AbstractMission {
     }
 
     @Override
+    public ScreenUI getCompleteDisplay() {
+        ScreenUI ui = new ScreenUI(QuestUIManager.QUEST_OBJECTIVE_ID);
+        ui.addComponent(
+                new LabelComp("require", "&f已完成和 " + convName + " 的对话")
+                        .setExtend("objectives")
+        );
+
+        return ui;
+    }
+
+    @Override
     public IProgress newProgress(UUID uuid, String questID) {
         return new ConversationProgress(uuid, questID, this.convID);
     }

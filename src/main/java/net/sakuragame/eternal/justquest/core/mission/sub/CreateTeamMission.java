@@ -31,6 +31,17 @@ public class CreateTeamMission extends AbstractMission {
     }
 
     @Override
+    public ScreenUI getCompleteDisplay() {
+        ScreenUI ui = new ScreenUI(QuestUIManager.QUEST_OBJECTIVE_ID);
+        ui.addComponent(
+                new LabelComp("require", "&f已创建队伍")
+                        .setExtend("objectives")
+        );
+
+        return ui;
+    }
+
+    @Override
     public IProgress newProgress(UUID uuid, String questID) {
         return new CreateTeamProgress(uuid, questID);
     }

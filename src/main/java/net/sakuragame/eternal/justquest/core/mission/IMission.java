@@ -60,6 +60,8 @@ public interface IMission {
      */
     ScreenUI getProgressDisplay(UUID uuid);
 
+    ScreenUI getCompleteDisplay();
+
     IProgress newProgress(UUID uuid, String questID);
 
     IProgress newProgress(UUID uuid, String questID, String data);

@@ -29,7 +29,18 @@ public class LearnAbilityMission extends AbstractMission {
 
         ScreenUI ui = new ScreenUI(QuestUIManager.QUEST_OBJECTIVE_ID);
         ui.addComponent(
-                new LabelComp("require", "&f学习技能: " + (progress == null ? this.count : this.count - progress.getCount()) + "/" + this.count)
+                new LabelComp("require", "&f学习技能: " + (this.count - progress.getCount()) + "/" + this.count)
+                        .setExtend("objectives")
+        );
+
+        return ui;
+    }
+
+    @Override
+    public ScreenUI getCompleteDisplay() {
+        ScreenUI ui = new ScreenUI(QuestUIManager.QUEST_OBJECTIVE_ID);
+        ui.addComponent(
+                new LabelComp("require", "&f学习技能: " + this.count + "/" + this.count)
                         .setExtend("objectives")
         );
 

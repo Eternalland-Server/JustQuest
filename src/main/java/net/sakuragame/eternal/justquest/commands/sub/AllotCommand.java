@@ -1,4 +1,4 @@
-package net.sakuragame.eternal.justquest.api.event;
+package net.sakuragame.eternal.justquest.commands.sub;
 
 import com.taylorswiftcn.justwei.commands.sub.SubCommand;
 import net.sakuragame.eternal.justquest.JustQuest;

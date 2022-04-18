@@ -55,12 +55,23 @@ public class UIConversationIO implements IConversationIO, Listener {
             this.end();
             player.closeInventory();
 
-            ConversationEvent.Complete event = new ConversationEvent.Complete(player, npc, conversation);
-            event.call();
+            if (conversation.getComplete().isEmpty()) {
+                ConversationEvent.Complete event = new ConversationEvent.Complete(player, npc, conversation);
+                event.call();
+            }
+            else {
+                ConversationEvent.Leave event = new ConversationEvent.Leave(player, npc, conversation);
+                event.call();
+            }
             return;
         }
 
         Scheduler.run(() -> {
+            if (dialogue.getID().equals(conversation.getComplete())) {
+                ConversationEvent.Complete event = new ConversationEvent.Complete(player, npc, conversation);
+                event.call();
+            }
+
             JustQuest.getUiManager().openConversation(player, this.npcName, this.dialogue, !this.opened);
             if (!this.opened) this.opened = true;
             else this.switching = true;

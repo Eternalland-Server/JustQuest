@@ -36,9 +36,8 @@
 
     <repositories>
         <repository>
-            <id>nexus-spigotmc</id>
-            <name>nexus-spigotmc</name>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+            <id>ycraft</id>
+            <url>https://maven.ycraft.cn/repository/maven-public/</url>
         </repository>
 
         <repository>

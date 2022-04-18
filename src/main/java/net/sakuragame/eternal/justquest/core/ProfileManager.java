@@ -187,9 +187,11 @@ public class ProfileManager {
     }
 
     private Conversation parseConversation(String id, ConfigurationSection section) {
+        String complete = section.getString("__complete__");
         Map<String, Dialogue> dialogues = new LinkedHashMap<>();
 
         for (String key : section.getKeys(false)) {
+            if (key.startsWith("__")) continue;
             List<String> response = section.getStringList(key + ".response");
             Map<String, ReplayOption> options = new LinkedHashMap<>();
             ConfigurationSection reply = section.getConfigurationSection(key + ".reply");
@@ -202,6 +204,6 @@ public class ProfileManager {
             dialogues.put(key, new Dialogue(key, response, options));
         }
 
-        return new Conversation(id, dialogues);
+        return new Conversation(id, complete, dialogues);
     }
 }

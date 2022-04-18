@@ -58,6 +58,29 @@ public class MobKillerMission extends AbstractMission {
     }
 
     @Override
+    public ScreenUI getCompleteDisplay() {
+        List<String> display = new ArrayList<>();
+        requirement.forEach((k, v) -> {
+            MythicMob mob = MythicMobs.inst().getAPIHelper().getMythicMob(k);
+            if (mob != null) {
+                String name = ChatColor.stripColor(mob.getDisplayName().get());
+                display.add("&f" + name + ": " + v + "/" + v);
+            }
+            else {
+                display.add(k + ": error");
+            }
+        });
+
+        ScreenUI ui = new ScreenUI(QuestUIManager.QUEST_OBJECTIVE_ID);
+        ui.addComponent(
+                new LabelComp("require", String.join("\n", display))
+                        .setExtend("objectives")
+        );
+
+        return ui;
+    }
+
+    @Override
     public IProgress newProgress(UUID uuid, String questID) {
         return new MobKillerProgress(uuid, questID, new LinkedHashMap<>(requirement));
     }
