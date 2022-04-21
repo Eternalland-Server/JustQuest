@@ -57,4 +57,21 @@ public class ConversationEvent {
             return npc;
         }
     }
+
+    @Getter
+    public static class Option extends JustEvent {
+
+        private final String npc;
+        private final Conversation conversation;
+        private final String dialogueID;
+        private final String optionID;
+
+        public Option(Player who, String npc, Conversation conversation, String dialogueID, String optionID) {
+            super(who);
+            this.npc = npc;
+            this.conversation = conversation;
+            this.dialogueID = dialogueID;
+            this.optionID = optionID;
+        }
+    }
 }

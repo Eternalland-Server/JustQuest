@@ -6,7 +6,7 @@ public interface IConversationIO {
 
     void display();
 
-    void setDialogue(String key);
+    void nextDialogue(String key);
 
     void end();
 }

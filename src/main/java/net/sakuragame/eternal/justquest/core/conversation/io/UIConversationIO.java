@@ -5,7 +5,6 @@ import com.taylorswiftcn.megumi.uifactory.event.screen.UIFScreenCloseEvent;
 import net.sakuragame.eternal.dragoncore.network.PacketSender;
 import net.sakuragame.eternal.justquest.JustQuest;
 import net.sakuragame.eternal.justquest.api.event.ConversationEvent;
-import net.sakuragame.eternal.justquest.api.event.ConversationOptionEvent;
 import net.sakuragame.eternal.justquest.core.conversation.Conversation;
 import net.sakuragame.eternal.justquest.core.conversation.Dialogue;
 import net.sakuragame.eternal.justquest.core.conversation.ReplayOption;
@@ -26,7 +25,9 @@ public class UIConversationIO implements IConversationIO, Listener {
     private final Conversation conversation;
 
     private final String npcName;
+
     private Dialogue dialogue;
+    private String lastChoiceOption;
 
     private boolean opened;
     private boolean switching;
@@ -52,6 +53,7 @@ public class UIConversationIO implements IConversationIO, Listener {
     @Override
     public void start() {
         this.dialogue = conversation.getFirstDialogue();
+        this.lastChoiceOption = null;
         this.display();
     }
 
@@ -81,7 +83,7 @@ public class UIConversationIO implements IConversationIO, Listener {
     }
 
     @Override
-    public void setDialogue(String key) {
+    public void nextDialogue(String key) {
         this.dialogue = this.conversation.getDialogue(key);
         if (this.dialogue == null && this.conversation.getComplete() == null) {
             ConversationEvent.Complete event = new ConversationEvent.Complete(player, npcID, conversation);
@@ -96,7 +98,7 @@ public class UIConversationIO implements IConversationIO, Listener {
     }
 
     @EventHandler
-    public void onSelOption(UIFCompSubmitEvent e) {
+    public void onChoice(UIFCompSubmitEvent e) {
         Player who = e.getPlayer();
         if (!who.getUniqueId().equals(this.player.getUniqueId())) return;
         if (!e.getScreenID().equals(QuestUIManager.CONV_UI_ID)) return;
@@ -104,20 +106,17 @@ public class UIConversationIO implements IConversationIO, Listener {
         OperateCode code = OperateCode.match(e.getParams().getParamI(0));
         if (code != OperateCode.Conv_Option) return;
 
-        String id = e.getParams().getParam(1);
-        ReplayOption option = this.dialogue.getOption(id);
+        this.lastChoiceOption = e.getParams().getParam(1);
+        ReplayOption option = this.dialogue.getOption(this.lastChoiceOption);
 
-        ConversationOptionEvent.Pre preEvent = new ConversationOptionEvent.Pre(player, this.npcID, this.conversation, option);
-        preEvent.call();
-        if (preEvent.isCancelled()) return;
+        ConversationEvent.Option event = new ConversationEvent.Option(player, this.npcID, this.conversation, this.dialogue.getID(), this.lastChoiceOption);
+        event.call();
+        if (event.isCancelled()) return;
 
-        this.setDialogue(option.getGo());
+        this.nextDialogue(option.getGo());
         this.display();
 
         option.fireEvents(player);
-
-        ConversationOptionEvent.Post postEvent = new ConversationOptionEvent.Post(player, this.npcID, this.conversation, option);
-        postEvent.call();
     }
 
     @EventHandler
