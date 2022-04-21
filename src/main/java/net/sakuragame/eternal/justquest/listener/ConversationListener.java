@@ -18,6 +18,11 @@ public class ConversationListener implements Listener {
         Player player = e.getPlayer();
         String id = e.getNPC();
 
+        if (id.equals("$self")) {
+            JustQuest.getUiManager().sendConvDoll(player, player.getUniqueId(), 3);
+            return;
+        }
+
         EntityInstance instance = AdyeshachAPI.INSTANCE.getEntityFromId(id, player);
         if (instance == null) return;
 
