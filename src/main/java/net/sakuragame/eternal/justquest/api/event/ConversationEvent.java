@@ -2,6 +2,7 @@ package net.sakuragame.eternal.justquest.api.event;
 
 import lombok.Getter;
 import net.sakuragame.eternal.justquest.core.conversation.Conversation;
+import net.sakuragame.eternal.justquest.core.conversation.ReplayOption;
 import org.bukkit.entity.Player;
 
 public class ConversationEvent {

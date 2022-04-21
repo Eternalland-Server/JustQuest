@@ -5,6 +5,7 @@ import com.taylorswiftcn.megumi.uifactory.event.screen.UIFScreenCloseEvent;
 import net.sakuragame.eternal.dragoncore.network.PacketSender;
 import net.sakuragame.eternal.justquest.JustQuest;
 import net.sakuragame.eternal.justquest.api.event.ConversationEvent;
+import net.sakuragame.eternal.justquest.api.event.ConversationOptionEvent;
 import net.sakuragame.eternal.justquest.core.conversation.Conversation;
 import net.sakuragame.eternal.justquest.core.conversation.Dialogue;
 import net.sakuragame.eternal.justquest.core.conversation.ReplayOption;
@@ -24,16 +25,22 @@ public class UIConversationIO implements IConversationIO, Listener {
 
     private final Conversation conversation;
 
-    private String npcName;
+    private final String npcName;
     private Dialogue dialogue;
 
     private boolean opened;
     private boolean switching;
 
     public UIConversationIO(Player player, String npcID, Conversation conversation) {
+        this(player, npcID, conversation, null);
+    }
+
+    public UIConversationIO(Player player, String npcID, Conversation conversation, String npcName) {
         this.player = player;
         this.npcID = npcID;
         this.conversation = conversation;
+
+        this.npcName = npcName == null ? JustQuest.getProfileManager().getNPCConfig(npcID).getName() : npcName;
 
         this.opened = false;
         this.switching = false;
@@ -44,7 +51,6 @@ public class UIConversationIO implements IConversationIO, Listener {
 
     @Override
     public void start() {
-        this.npcName = JustQuest.getProfileManager().getNPCConfig(this.npcID).getName();
         this.dialogue = conversation.getFirstDialogue();
         this.display();
     }
@@ -101,10 +107,17 @@ public class UIConversationIO implements IConversationIO, Listener {
         String id = e.getParams().getParam(1);
         ReplayOption option = this.dialogue.getOption(id);
 
+        ConversationOptionEvent.Pre preEvent = new ConversationOptionEvent.Pre(player, this.npcID, this.conversation, option);
+        preEvent.call();
+        if (preEvent.isCancelled()) return;
+
         this.setDialogue(option.getGo());
         this.display();
 
         option.fireEvents(player);
+
+        ConversationOptionEvent.Post postEvent = new ConversationOptionEvent.Post(player, this.npcID, this.conversation, option);
+        postEvent.call();
     }
 
     @EventHandler
