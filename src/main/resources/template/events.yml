@@ -1,4 +1,4 @@
 foreword_1_item:
-  type: item
+  type: give_items
   detail:
     potato: 1

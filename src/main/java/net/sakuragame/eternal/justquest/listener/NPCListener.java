@@ -11,11 +11,9 @@ public class NPCListener implements Listener {
     @EventHandler
     public void onRight(AdyeshachEntityInteractEvent e) {
         Player player = e.getPlayer();
-        player.sendMessage("interact");
         if (!e.isMainHand()) return;
 
         String id = e.getEntity().getId();
-        player.sendMessage("npc id: " + id);
         JustQuest.getConversationManager().enter(player, id);
     }
 }

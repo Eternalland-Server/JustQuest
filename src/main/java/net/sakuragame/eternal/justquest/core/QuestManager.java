@@ -1,6 +1,7 @@
 package net.sakuragame.eternal.justquest.core;
 
 import net.sakuragame.eternal.justquest.JustQuest;
+import net.sakuragame.eternal.justquest.core.event.IEvent;
 import net.sakuragame.eternal.justquest.core.mission.IMission;
 import net.sakuragame.eternal.justquest.core.quest.IQuest;
 import org.bukkit.entity.Player;
@@ -32,6 +33,11 @@ public class QuestManager {
     }
 
     public void fireEvents(Player player, List<String> events) {
-
+        events.forEach(key -> {
+            IEvent event = JustQuest.getProfileManager().getEvent(key);
+            if (event != null) {
+                event.execute(player);
+            }
+        });
     }
 }

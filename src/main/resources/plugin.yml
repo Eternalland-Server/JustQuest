@@ -10,6 +10,8 @@ depend:
   - Adyeshach
   - Zaphkiel
   - MythicMobs
+  - JustStore
+softdepend:
   - KirraPartyBukkit
 
 commands:

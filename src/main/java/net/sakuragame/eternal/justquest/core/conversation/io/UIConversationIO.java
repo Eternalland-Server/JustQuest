@@ -77,7 +77,7 @@ public class UIConversationIO implements IConversationIO, Listener {
     @Override
     public void setDialogue(String key) {
         this.dialogue = this.conversation.getDialogue(key);
-        if (this.dialogue == null && this.conversation.getComplete().isEmpty()) {
+        if (this.dialogue == null && this.conversation.getComplete() == null) {
             ConversationEvent.Complete event = new ConversationEvent.Complete(player, npcID, conversation);
             event.call();
         }
@@ -100,10 +100,11 @@ public class UIConversationIO implements IConversationIO, Listener {
 
         String id = e.getParams().getParam(1);
         ReplayOption option = this.dialogue.getOption(id);
-        option.fireEvents(player);
 
         this.setDialogue(option.getGo());
         this.display();
+
+        option.fireEvents(player);
     }
 
     @EventHandler

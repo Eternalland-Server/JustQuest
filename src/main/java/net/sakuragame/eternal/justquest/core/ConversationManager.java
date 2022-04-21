@@ -14,8 +14,6 @@ public class ConversationManager {
         NPCConfig config = JustQuest.getProfileManager().getNPCConfig(id);
         if (config == null) return;
 
-        player.sendMessage("call enter event");
-
         QuestAccount account = JustQuest.getAccountManager().getAccount(player);
 
         Conversation def = config.getDefaultConversation();

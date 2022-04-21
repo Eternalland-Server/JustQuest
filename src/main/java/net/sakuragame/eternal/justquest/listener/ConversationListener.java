@@ -19,14 +19,10 @@ public class ConversationListener implements Listener {
         String id = e.getNPC();
 
         EntityInstance instance = AdyeshachAPI.INSTANCE.getEntityFromId(id, player);
-        if (instance == null) {
-            player.sendMessage("instance == null");
-            return;
-        }
+        if (instance == null) return;
 
         double scale = JustQuest.getProfileManager().getNPCConfig(id).getScale();
 
-        player.sendMessage("你右键的生物UUID: " + instance.getNormalizeUniqueId());
         JustQuest.getUiManager().sendConvDoll(player, instance.getNormalizeUniqueId(), scale);
     }
 }

@@ -4,6 +4,8 @@ import org.bukkit.entity.Player;
 
 public interface IEvent {
 
+    String getID();
+
     void execute(Player player);
 
 }

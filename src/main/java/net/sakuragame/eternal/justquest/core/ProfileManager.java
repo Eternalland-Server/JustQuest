@@ -13,12 +13,15 @@ import net.sakuragame.eternal.justquest.core.event.sub.GiveItemsEvent;
 import net.sakuragame.eternal.justquest.core.event.sub.MerchantEvent;
 import net.sakuragame.eternal.justquest.core.mission.AbstractMission;
 import net.sakuragame.eternal.justquest.core.mission.IMission;
+import net.sakuragame.eternal.justquest.core.mission.hook.PluginHook;
+import net.sakuragame.eternal.justquest.core.mission.hook.party.PartyHook;
 import net.sakuragame.eternal.justquest.core.mission.sub.*;
 import net.sakuragame.eternal.justquest.core.quest.AbstractQuest;
 import net.sakuragame.eternal.justquest.core.quest.IQuest;
 import net.sakuragame.eternal.justquest.core.quest.QuestReward;
 import net.sakuragame.eternal.justquest.core.quest.sub.MainQuest;
 import net.sakuragame.eternal.justquest.core.quest.sub.SIdeQuest;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -33,6 +36,8 @@ public class ProfileManager {
     private Map<String, Class<? extends AbstractMission>> missionPreset;
     private Map<String, Class<? extends AbstractEvent>> eventPreset;
 
+    private final Map<String, PluginHook> missionHook;
+
     private Map<String, NPCConfig> npcConfig;
     private Map<String, AbstractQuest> quests;
     private Map<String, AbstractMission> missions;
@@ -41,6 +46,8 @@ public class ProfileManager {
     
     public ProfileManager(JustQuest plugin) {
         this.plugin = plugin;
+        this.missionHook = new HashMap<>();
+        this.missionHook.put("KirraPartyBukkit", new PartyHook());
     }
 
     public void init() {
@@ -60,6 +67,8 @@ public class ProfileManager {
 
         this.loadNPC();
         this.loadQuest();
+        this.loadEvent();
+        this.loadMissionHook();
 
         plugin.getLogger().info("loaded " + npcConfig.size() + " npc");
         plugin.getLogger().info("loaded " + conversations.size() + " conversations");
@@ -101,7 +110,6 @@ public class ProfileManager {
         this.registerMissionPreset("conversation", ConversationMission.class);
         this.registerMissionPreset("mob_killer", MobKillerMission.class);
         this.registerMissionPreset("learn_ability", LearnAbilityMission.class);
-        this.registerMissionPreset("create_team", CreateTeamMission.class);
         this.registerMissionPreset("consume", ConsumeMission.class);
     }
     
@@ -150,6 +158,13 @@ public class ProfileManager {
         if (files == null || files.length == 0) return;
 
         Arrays.stream(files).filter(k -> k.getName().endsWith(".yml")).forEach(this::parseEventFile);
+    }
+
+    private void loadMissionHook() {
+        for (String key : missionHook.keySet()) {
+            if (Bukkit.getPluginManager().getPlugin(key) == null) continue;
+            this.missionHook.get(key).register();
+        }
     }
 
     private void parseNPCConfigFile(File file) {

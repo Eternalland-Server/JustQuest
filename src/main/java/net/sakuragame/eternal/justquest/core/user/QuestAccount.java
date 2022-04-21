@@ -75,7 +75,6 @@ public class QuestAccount {
 
     public void updateTraceBar() {
         Player player = Bukkit.getPlayer(this.uuid);
-        player.sendMessage("update trace ui");
 
         if (this.trace == null) {
             Utils.setTraceBar(player, "&7&o暂未跟踪任何任务&7&l(F)");

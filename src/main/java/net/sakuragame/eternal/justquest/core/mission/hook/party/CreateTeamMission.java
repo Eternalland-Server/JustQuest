@@ -1,4 +1,4 @@
-package net.sakuragame.eternal.justquest.core.mission.sub;
+package net.sakuragame.eternal.justquest.core.mission.hook.party;
 
 import com.taylorswiftcn.megumi.uifactory.generate.ui.component.base.LabelComp;
 import com.taylorswiftcn.megumi.uifactory.generate.ui.screen.ScreenUI;
