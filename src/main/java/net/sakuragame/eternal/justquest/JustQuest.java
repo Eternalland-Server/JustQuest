@@ -7,7 +7,7 @@ import net.sakuragame.eternal.justquest.core.ProfileManager;
 import net.sakuragame.eternal.justquest.core.QuestManager;
 import net.sakuragame.eternal.justquest.file.FileManager;
 import lombok.Getter;
-import net.sakuragame.eternal.justquest.listener.CitizensListener;
+import net.sakuragame.eternal.justquest.listener.NPCListener;
 import net.sakuragame.eternal.justquest.listener.ConversationListener;
 import net.sakuragame.eternal.justquest.listener.PlayerListener;
 import net.sakuragame.eternal.justquest.storage.StorageManager;
@@ -40,7 +40,7 @@ public class JustQuest extends JavaPlugin {
         fileManager = new FileManager(this);
         fileManager.init();
 
-        profileManager = new ProfileManager();
+        profileManager = new ProfileManager(this);
         profileManager.init();
 
         questManager = new QuestManager();
@@ -50,7 +50,7 @@ public class JustQuest extends JavaPlugin {
         uiManager = new QuestUIManager();
 
         this.registerListener(new PlayerListener());
-        this.registerListener(new CitizensListener());
+        this.registerListener(new NPCListener());
         this.registerListener(new ConversationListener());
         getCommand("jquest").setExecutor(new MainCommand());
 

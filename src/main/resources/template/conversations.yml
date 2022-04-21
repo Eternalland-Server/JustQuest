@@ -1,73 +1,67 @@
 foreword_1:
   dialogue_0:
     response:
-      - '诶，你怎么脏兮兮的'
+      - '你好，我是樱儿'
     reply:
       uh:
-        text: '???'
+        text: '你...你好，我是谁'
         go: dialogue_1
   dialogue_1:
     response:
-      - '一看就是东边来的流民，浑身上下脏兮兮的，面黄肌瘦的，饿了很久了吧'
+      - '你是谁我怎么知道啊，浑身上下脏兮兮的'
+      - '面黄肌瘦的，饿了很久了吧'
     reply:
       uh:
-        text: '...'
+        text: '好像是有一些饿'
         go: dialogue_2
   dialogue_2:
     response:
-      - '我这里有两个馒头，你拿去吃了吧'
+      - '这个拿去吃吧，别客气了'
+    events:
+      - foreword_1_item
     reply:
       uh:
-        text: '（你狼吞虎咽的吃掉了两个馒头）'
-        go: dialogue_3
-  dialogue_3:
-    response:
-      - '你是不是现在不知道要做什么？要不你帮我一些小忙吧'
-      - '如果你能帮我一些小忙，我就给你一些好东西哦'
-      - '但是你先得学习一些特殊的小技巧'
-    reply:
-      uh:
-        text: '嗯嗯'
+        text: '嗯...谢谢'
 
 foreword_2:
   dialogue_0:
     response:
-      - '按K键可以打开技能面板学习技能哦！'
+      - '你怎么还没吃呀'
+      - '你难道不饿吗？'
     reply:
       uh:
-        text: '嗯嗯'
+        text: '哦！我忘记了'
 
 foreword_3:
   dialogue_0:
     response:
-      - '按J键可以创建队伍哦！'
+      - '你现在感觉好一些了吗？'
     reply:
       uh:
-        text: '嗯嗯'
-
-foreword_4:
-  dialogue_0:
-    response:
-      - '你学习的速度挺快的呀'
-      - '我果然没有看错人'
-    reply:
-      uh:
-        text: '^^'
+        text: '谢谢你的食物'
         go: dialogue_1
   dialogue_1:
     response:
-      - '这个小忙其实很简单'
-      - '就是为了看看你能力如何'
-      - '去找蜗牛王接收考验吧，他在新手平原等你'
+      - '不客气'
+      - '在亘古大陆我们就是要互相帮助嘛！'
+      - '你现在有力气了吗？'
     reply:
       uh:
-        text: '嗯嗯'
-
-foreword_5:
-  dialogue_0:
+        text: '有一点了'
+        go: dialogue_2
+  dialogue_2:
     response:
-      - '怎么？看到蜗牛王就怕了吗'
-      - '你不会是个胆小鬼吧?'
+      - '看你还搞不清楚情况，要不你四处逛逛'
+      - '看看能不能想起来什么'
     reply:
       uh:
-        text: '=_='
+        text: '是啊，那我四处走走吧'
+        go: dialogue_3
+  dialogue_3:
+    response:
+      - '嗯，我推荐你去问问王尔'
+      - '他一天到晚都在聊天打屁'
+      - '一定知道一点什么的'
+    reply:
+      uh:
+        text: '好的，我这就去'

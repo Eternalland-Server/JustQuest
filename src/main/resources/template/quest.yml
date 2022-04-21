@@ -1,19 +1,14 @@
 id: foreword
-name: '&f&l序章'
+name: '&f&l初见樱儿'
 type: MQ
+descriptions:
+  - '这是一条任务描述，用来描述任务大致内容'
 
 missions:
   - foreword_1
   - foreword_2
   - foreword_3
-  - foreword_4
-  - foreword_5
 
 reward:
   exp: 1000
-  money: 1000
-  coins: 1000
-  items:
-    - noobie_coins_gift 1
-    - noobie_clothes_gift 1
-    - noobie_equips_gift 1
+  money: 50000

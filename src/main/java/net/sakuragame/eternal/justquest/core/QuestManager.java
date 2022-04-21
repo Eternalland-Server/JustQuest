@@ -3,7 +3,9 @@ package net.sakuragame.eternal.justquest.core;
 import net.sakuragame.eternal.justquest.JustQuest;
 import net.sakuragame.eternal.justquest.core.mission.IMission;
 import net.sakuragame.eternal.justquest.core.quest.IQuest;
+import org.bukkit.entity.Player;
 
+import java.util.List;
 import java.util.UUID;
 
 public class QuestManager {
@@ -27,5 +29,9 @@ public class QuestManager {
         if (mission == null) return;
 
         mission.restrain(uuid);
+    }
+
+    public void fireEvents(Player player, List<String> events) {
+
     }
 }

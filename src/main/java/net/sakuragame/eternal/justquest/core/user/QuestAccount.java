@@ -55,7 +55,7 @@ public class QuestAccount {
     public List<String> getQuests() {
         return this.questProgress
                 .keySet().stream()
-                .sorted(Comparator.comparingInt(key -> JustQuest.getProfileManager().getQuest(key).getType().getID()))
+                .sorted(Comparator.comparingInt(key -> JustQuest.getProfileManager().getType(key).getID()))
                 .collect(Collectors.toList());
     }
 
@@ -82,8 +82,10 @@ public class QuestAccount {
             return;
         }
 
-        String title = JustQuest.getProfileManager().getQuest(this.trace).getName();
+        IQuest quest = JustQuest.getProfileManager().getQuest(this.trace);
         QuestProgress progress = this.questProgress.get(this.trace);
+
+        String title = quest.getType().getSymbol() + " " + quest.getName() + (progress.isCompleted() ? " ❋" : "");
 
         Utils.setTraceBar(player, title,
                 progress.isCompleted() ?
@@ -124,7 +126,7 @@ public class QuestAccount {
         Scheduler.runAsync(() -> JustQuest.getStorageManager().updateQuestProgress(this.uuid, data));
     }
 
-    public void deleteQuest(String questID) {
+    public void deleteProgress(String questID) {
         this.questProgress.remove(questID);
         if (questID.equals(this.trace)) {
             this.setTrace(null);

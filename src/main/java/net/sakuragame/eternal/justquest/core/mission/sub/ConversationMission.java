@@ -18,19 +18,17 @@ import java.util.UUID;
 public class ConversationMission extends AbstractMission {
 
     private final String convID;
-    private final String convName;
 
     public ConversationMission(String ID, String type, List<String> descriptions, ConfigurationSection section) {
         super(ID, type, descriptions, section);
         this.convID = section.getString("id");
-        this.convName = section.getString("name");
     }
 
     @Override
     public ScreenUI getProgressDisplay(UUID uuid) {
         ScreenUI ui = new ScreenUI(QuestUIManager.QUEST_OBJECTIVE_ID);
         ui.addComponent(
-                new LabelComp("require", "&f前往和 " + convName + " 进行对话")
+                new LabelComp("require", "&f完成对话: 0/1")
                         .setExtend("objectives")
         );
 
@@ -41,7 +39,7 @@ public class ConversationMission extends AbstractMission {
     public ScreenUI getCompleteDisplay() {
         ScreenUI ui = new ScreenUI(QuestUIManager.QUEST_OBJECTIVE_ID);
         ui.addComponent(
-                new LabelComp("require", "&f已完成和 " + convName + " 的对话")
+                new LabelComp("require", "&f完成对话: 1/1")
                         .setExtend("objectives")
         );
 

@@ -9,39 +9,51 @@ public class ConversationEvent {
     @Getter
     public static class Enter extends JustEvent {
 
-        private final int npc;
+        private final String npc;
         private final Conversation conversation;
 
-        public Enter(Player who, int npc, Conversation conversation) {
+        public Enter(Player who, String npc, Conversation conversation) {
             super(who);
             this.npc = npc;
             this.conversation = conversation;
+        }
+
+        public String getNPC() {
+            return npc;
         }
     }
 
     @Getter
     public static class Leave extends JustEvent {
 
-        private final int npc;
+        private final String npc;
         private final Conversation conversation;
 
-        public Leave(Player who, int npc, Conversation conversation) {
+        public Leave(Player who, String npc, Conversation conversation) {
             super(who);
             this.npc = npc;
             this.conversation = conversation;
+        }
+
+        public String getNPC() {
+            return npc;
         }
     }
 
     @Getter
     public static class Complete extends JustEvent {
 
-        private final int npc;
+        private final String npc;
         private final Conversation conversation;
 
-        public Complete(Player who, int npc, Conversation conversation) {
+        public Complete(Player who, String npc, Conversation conversation) {
             super(who);
             this.npc = npc;
             this.conversation = conversation;
+        }
+
+        public String getNPC() {
+            return npc;
         }
     }
 }

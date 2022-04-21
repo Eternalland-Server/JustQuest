@@ -29,23 +29,29 @@ public class FileManager extends JustConfiguration {
         ConfigFile.init();
         MessageFile.init();
 
-        this.initProfile();
+        this.initDefaultConfig();
     }
 
-    private void initProfile() {
-        File profile = new File(plugin.getDataFolder(), "profile");
+    private void initDefaultConfig() {
+        File profile = new File(plugin.getDataFolder(), "quest");
         if (profile.mkdirs()) {
             File dir = new File(profile, "template");
             if (dir.mkdirs()) {
                 this.copy(profile, "template/quest.yml");
                 this.copy(profile, "template/missions.yml");
                 this.copy(profile, "template/conversations.yml");
+                this.copy(profile, "template/events.yml");
             }
         }
 
         File npcConfig = new File(plugin.getDataFolder(), "npc");
         if (npcConfig.mkdirs()) {
             this.copy(plugin.getDataFolder(), "npc/npc.yml");
+        }
+
+        File eventConfig = new File(plugin.getDataFolder(), "event");
+        if (eventConfig.mkdirs()) {
+            this.copy(plugin.getDataFolder(), "event/events.yml");
         }
     }
 

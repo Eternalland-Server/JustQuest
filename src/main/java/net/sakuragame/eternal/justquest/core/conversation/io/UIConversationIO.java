@@ -20,7 +20,7 @@ import org.bukkit.event.Listener;
 public class UIConversationIO implements IConversationIO, Listener {
 
     private final Player player;
-    private final int npc;
+    private final String npcID;
 
     private final Conversation conversation;
 
@@ -30,9 +30,9 @@ public class UIConversationIO implements IConversationIO, Listener {
     private boolean opened;
     private boolean switching;
 
-    public UIConversationIO(Player player, int npc, Conversation conversation) {
+    public UIConversationIO(Player player, String npcID, Conversation conversation) {
         this.player = player;
-        this.npc = npc;
+        this.npcID = npcID;
         this.conversation = conversation;
 
         this.opened = false;
@@ -44,7 +44,7 @@ public class UIConversationIO implements IConversationIO, Listener {
 
     @Override
     public void start() {
-        this.npcName = JustQuest.getProfileManager().getNPCConfig(this.npc).getName();
+        this.npcName = JustQuest.getProfileManager().getNPCConfig(this.npcID).getName();
         this.dialogue = conversation.getFirstDialogue();
         this.display();
     }
@@ -55,22 +55,18 @@ public class UIConversationIO implements IConversationIO, Listener {
             this.end();
             player.closeInventory();
 
-            if (conversation.getComplete().isEmpty()) {
-                ConversationEvent.Complete event = new ConversationEvent.Complete(player, npc, conversation);
-                event.call();
-            }
-            else {
-                ConversationEvent.Leave event = new ConversationEvent.Leave(player, npc, conversation);
-                event.call();
-            }
+            ConversationEvent.Leave event = new ConversationEvent.Leave(player, npcID, conversation);
+            event.call();
             return;
         }
 
         Scheduler.run(() -> {
             if (dialogue.getID().equals(conversation.getComplete())) {
-                ConversationEvent.Complete event = new ConversationEvent.Complete(player, npc, conversation);
+                ConversationEvent.Complete event = new ConversationEvent.Complete(player, npcID, conversation);
                 event.call();
             }
+
+            dialogue.fireEvents(player);
 
             JustQuest.getUiManager().openConversation(player, this.npcName, this.dialogue, !this.opened);
             if (!this.opened) this.opened = true;
@@ -81,6 +77,10 @@ public class UIConversationIO implements IConversationIO, Listener {
     @Override
     public void setDialogue(String key) {
         this.dialogue = this.conversation.getDialogue(key);
+        if (this.dialogue == null && this.conversation.getComplete().isEmpty()) {
+            ConversationEvent.Complete event = new ConversationEvent.Complete(player, npcID, conversation);
+            event.call();
+        }
     }
 
     @Override
@@ -100,6 +100,8 @@ public class UIConversationIO implements IConversationIO, Listener {
 
         String id = e.getParams().getParam(1);
         ReplayOption option = this.dialogue.getOption(id);
+        option.fireEvents(player);
+
         this.setDialogue(option.getGo());
         this.display();
     }
@@ -116,7 +118,7 @@ public class UIConversationIO implements IConversationIO, Listener {
         }
 
         this.end();
-        ConversationEvent.Leave event = new ConversationEvent.Leave(player, npc, conversation);
+        ConversationEvent.Leave event = new ConversationEvent.Leave(player, npcID, conversation);
         event.call();
     }
 }

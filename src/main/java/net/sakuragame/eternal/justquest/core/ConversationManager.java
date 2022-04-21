@@ -10,9 +10,11 @@ import org.bukkit.entity.Player;
 
 public class ConversationManager {
 
-    public void enter(Player player, int npcID) {
-        NPCConfig config = JustQuest.getProfileManager().getNPCConfig(npcID);
+    public void enter(Player player, String id) {
+        NPCConfig config = JustQuest.getProfileManager().getNPCConfig(id);
         if (config == null) return;
+
+        player.sendMessage("call enter event");
 
         QuestAccount account = JustQuest.getAccountManager().getAccount(player);
 
@@ -25,10 +27,10 @@ public class ConversationManager {
             }
         }
 
-        ConversationEvent.Enter event = new ConversationEvent.Enter(player, npcID, def);
+        ConversationEvent.Enter event = new ConversationEvent.Enter(player, id, def);
         event.call();
         if (event.isCancelled()) return;
 
-        new UIConversationIO(player, npcID, def);
+        new UIConversationIO(player, id, def);
     }
 }

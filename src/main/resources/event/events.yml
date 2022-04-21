@@ -1,0 +1,10 @@
+primary_equip_merchant:
+  type: merchant
+  detail:
+    id: 初级装备商人
+sign_in_menu:
+  type: command
+  detail:
+    mode: console
+    commands:
+      - sign open %player%

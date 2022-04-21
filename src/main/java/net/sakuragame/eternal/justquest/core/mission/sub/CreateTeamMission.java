@@ -23,7 +23,7 @@ public class CreateTeamMission extends AbstractMission {
     public ScreenUI getProgressDisplay(UUID uuid) {
         ScreenUI ui = new ScreenUI(QuestUIManager.QUEST_OBJECTIVE_ID);
         ui.addComponent(
-                new LabelComp("require", "&f按 I 键创建队伍")
+                new LabelComp("require", "&f创建队伍: 0/1")
                         .setExtend("objectives")
         );
 
@@ -34,7 +34,7 @@ public class CreateTeamMission extends AbstractMission {
     public ScreenUI getCompleteDisplay() {
         ScreenUI ui = new ScreenUI(QuestUIManager.QUEST_OBJECTIVE_ID);
         ui.addComponent(
-                new LabelComp("require", "&f已创建队伍")
+                new LabelComp("require", "&f创建队伍: 1/1")
                         .setExtend("objectives")
         );
 

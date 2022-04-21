@@ -12,7 +12,7 @@ import net.sakuragame.eternal.justquest.core.user.QuestAccount;
 import net.sakuragame.eternal.justquest.core.user.QuestProgress;
 import net.sakuragame.eternal.justquest.ui.component.ConvDoll;
 import net.sakuragame.eternal.justquest.ui.component.ConvOptions;
-import net.sakuragame.eternal.justquest.ui.component.JournalList;
+import net.sakuragame.eternal.justquest.ui.component.QuestList;
 import net.sakuragame.eternal.justquest.util.Utils;
 import org.bukkit.entity.Player;
 
@@ -57,12 +57,12 @@ public class QuestUIManager {
         int total = result.getTotal();
         List<String> quests = result.getList();
 
-        JournalList journal = new JournalList(quests);
+        QuestList journal = new QuestList(quests);
         journal.send(player);
 
         Map<String, String> placeholder = new HashMap<>();
-        placeholder.put("journal_current_page", current + "");
-        placeholder.put("journal_total_page", total + "");
+        placeholder.put("quest_current_page", current + "");
+        placeholder.put("quest_total_page", total + "");
         PacketSender.sendSyncPlaceholder(player, placeholder);
 
         if (quests.size() != 0) {
