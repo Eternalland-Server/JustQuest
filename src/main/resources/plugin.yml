@@ -11,6 +11,7 @@ depend:
   - Zaphkiel
   - MythicMobs
   - JustStore
+  - DragonArmourers
 softdepend:
   - KirraPartyBukkit
 

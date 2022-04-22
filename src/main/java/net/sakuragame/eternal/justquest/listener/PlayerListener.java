@@ -27,6 +27,7 @@ public class PlayerListener implements Listener {
     public void onQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
         UUID uuid = player.getUniqueId();
+        JustQuest.getConversationManager().cancel(uuid);
         Scheduler.runAsync(() -> JustQuest.getAccountManager().removeAccount(uuid));
     }
 }

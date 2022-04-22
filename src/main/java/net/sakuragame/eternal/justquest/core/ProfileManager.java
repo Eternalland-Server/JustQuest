@@ -1,9 +1,11 @@
 package net.sakuragame.eternal.justquest.core;
 
+import com.sun.org.apache.xerces.internal.impl.dv.xs.IDDV;
 import net.sakuragame.eternal.justquest.JustQuest;
 import net.sakuragame.eternal.justquest.core.conversation.Conversation;
 import net.sakuragame.eternal.justquest.core.conversation.Dialogue;
 import net.sakuragame.eternal.justquest.core.conversation.ReplayOption;
+import net.sakuragame.eternal.justquest.core.data.ExhibitNPC;
 import net.sakuragame.eternal.justquest.core.data.NPCConfig;
 import net.sakuragame.eternal.justquest.core.data.QuestType;
 import net.sakuragame.eternal.justquest.core.event.AbstractEvent;
@@ -43,6 +45,8 @@ public class ProfileManager {
     private Map<String, AbstractMission> missions;
     private Map<String, AbstractEvent> events;
     private Map<String, Conversation> conversations;
+
+    private Map<String, ExhibitNPC> exhibitNPC;
     
     public ProfileManager(JustQuest plugin) {
         this.plugin = plugin;
@@ -61,6 +65,8 @@ public class ProfileManager {
         this.events = new HashMap<>();
         this.conversations = new HashMap<>();
 
+        this.exhibitNPC = new HashMap<>();
+
         this.registerQuestPreset();
         this.registerMissionPreset();
         this.registerEventPreset();
@@ -69,6 +75,7 @@ public class ProfileManager {
         this.loadQuest();
         this.loadEvent();
         this.loadMissionHook();
+        this.loadExhibitNPC();
 
         plugin.getLogger().info("loaded " + npcConfig.size() + " npc");
         plugin.getLogger().info("loaded " + conversations.size() + " conversations");
@@ -79,6 +86,10 @@ public class ProfileManager {
 
     public NPCConfig getNPCConfig(String ID) {
         return this.npcConfig.get(ID);
+    }
+
+    public ExhibitNPC getExhibitNPC(String ID) {
+        return this.exhibitNPC.get(ID);
     }
 
     public IQuest getQuest(String key) {
@@ -99,6 +110,10 @@ public class ProfileManager {
 
     public QuestType getType(String key) {
         return this.getQuest(key).getType();
+    }
+
+    public Set<String> getExhibitNPC() {
+        return this.exhibitNPC.keySet();
     }
 
     private void registerQuestPreset() {
@@ -165,6 +180,22 @@ public class ProfileManager {
             if (Bukkit.getPluginManager().getPlugin(key) == null) continue;
             this.missionHook.get(key).register();
         }
+    }
+
+    private void loadExhibitNPC() {
+        File dir = new File(plugin.getDataFolder(), "exhibit");
+        File[] files = dir.listFiles();
+        if (files == null || files.length == 0) return;
+
+        Arrays.stream(files).filter(k -> k.getName().endsWith(".yml")).forEach(k -> {
+            YamlConfiguration yaml = YamlConfiguration.loadConfiguration(k);
+            for (String key : yaml.getKeys(false)) {
+                String name = yaml.getString(key + ".name");
+                List<String> desc = yaml.getStringList(key + ".descriptions");
+                List<String> clothes = yaml.getStringList(key + ".clothes");
+                this.exhibitNPC.put(key, new ExhibitNPC(key, name, desc, clothes));
+            }
+        });
     }
 
     private void parseNPCConfigFile(File file) {

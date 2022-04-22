@@ -136,6 +136,14 @@
         </dependency>
 
         <dependency>
+            <groupId>eos.moe</groupId>
+            <artifactId>DragonArmourers</artifactId>
+            <version>6.47</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/.lib/DragonArmourers-6.47.jar</systemPath>
+        </dependency>
+
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.22</version>

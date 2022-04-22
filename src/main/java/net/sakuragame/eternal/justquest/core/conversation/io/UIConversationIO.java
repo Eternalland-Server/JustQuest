@@ -131,6 +131,7 @@ public class UIConversationIO implements IConversationIO, Listener {
         }
 
         this.end();
+
         ConversationEvent.Leave event = new ConversationEvent.Leave(player, npcID, conversation);
         event.call();
     }
