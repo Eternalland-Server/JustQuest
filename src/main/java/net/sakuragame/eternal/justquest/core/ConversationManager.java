@@ -32,11 +32,6 @@ public class ConversationManager {
         if (config == null) {
             ExhibitNPC exhibit = JustQuest.getProfileManager().getExhibitNPC(id);
             if (exhibit == null) return;
-
-            ConversationEvent.Enter event = new ConversationEvent.Enter(player, id, null);
-            event.call();
-            if (event.isCancelled()) return;
-
             new ExhibitConversationIO(player, exhibit);
             return;
         }

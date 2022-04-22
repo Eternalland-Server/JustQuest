@@ -6,13 +6,13 @@ import ink.ptms.adyeshach.api.AdyeshachAPI;
 import ink.ptms.adyeshach.common.entity.EntityInstance;
 import net.sakuragame.eternal.dragoncore.network.PacketSender;
 import net.sakuragame.eternal.justquest.JustQuest;
-import net.sakuragame.eternal.justquest.api.event.ConversationEvent;
 import net.sakuragame.eternal.justquest.core.conversation.Dialogue;
 import net.sakuragame.eternal.justquest.core.conversation.ReplayOption;
 import net.sakuragame.eternal.justquest.core.data.ExhibitNPC;
 import net.sakuragame.eternal.justquest.ui.OperateCode;
 import net.sakuragame.eternal.justquest.ui.QuestUIManager;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
@@ -64,6 +64,7 @@ public class ExhibitConversationIO implements IConversationIO, Listener {
 
     @Override
     public void display() {
+        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_HARP, 0.33f, 1);
         JustQuest.getUiManager().openConversation(player, "&3&l" + npc.getName(), this.dialogue, false);
     }
 
@@ -76,6 +77,7 @@ public class ExhibitConversationIO implements IConversationIO, Listener {
     public void end() {
         PacketSender.sendRunFunction(player, "default", "global.hud_visible = true;", false);
         HandlerList.unregisterAll(this);
+        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BELL, 0.33f, 1);
     }
 
     @EventHandler
@@ -94,9 +96,6 @@ public class ExhibitConversationIO implements IConversationIO, Listener {
 
         this.end();
         player.closeInventory();
-
-        ConversationEvent.Leave event = new ConversationEvent.Leave(player, npc.getID(), null);
-        event.call();
     }
 
     @EventHandler
@@ -106,8 +105,5 @@ public class ExhibitConversationIO implements IConversationIO, Listener {
         if (!e.getScreenID().equals(QuestUIManager.CONV_UI_ID)) return;
 
         this.end();
-
-        ConversationEvent.Leave event = new ConversationEvent.Leave(player, npc.getID(), null);
-        event.call();
     }
 }
