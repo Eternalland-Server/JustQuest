@@ -12,6 +12,9 @@ depend:
   - MythicMobs
   - JustStore
   - DragonArmourers
+  - JustLevel
+  - GemsEconomy
+  - JustMessage
 softdepend:
   - KirraPartyBukkit
 

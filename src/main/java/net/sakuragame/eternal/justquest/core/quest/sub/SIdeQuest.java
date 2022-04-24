@@ -9,8 +9,8 @@ import java.util.UUID;
 
 public class SIdeQuest extends AbstractQuest {
 
-    public SIdeQuest(String ID, String name, List<String> descriptions, List<String> missions, QuestReward reward) {
-        super(ID, name, descriptions, missions, reward);
+    public SIdeQuest(String ID, String name, List<String> descriptions, List<String> missions, String next, QuestReward reward) {
+        super(ID, name, descriptions, missions, next, reward);
     }
 
     @Override
@@ -21,10 +21,5 @@ public class SIdeQuest extends AbstractQuest {
     @Override
     public boolean isAllowCancel() {
         return false;
-    }
-
-    @Override
-    public void award(UUID uuid) {
-
     }
 }

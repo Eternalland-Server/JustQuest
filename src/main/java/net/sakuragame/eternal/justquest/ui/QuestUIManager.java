@@ -2,6 +2,8 @@ package net.sakuragame.eternal.justquest.ui;
 
 import com.taylorswiftcn.megumi.uifactory.generate.function.Statements;
 import com.taylorswiftcn.megumi.uifactory.generate.ui.screen.ScreenUI;
+import ink.ptms.zaphkiel.ZaphkielAPI;
+import lombok.Getter;
 import net.sakuragame.eternal.dragoncore.config.FolderType;
 import net.sakuragame.eternal.dragoncore.network.PacketSender;
 import net.sakuragame.eternal.justquest.JustQuest;
@@ -15,7 +17,10 @@ import net.sakuragame.eternal.justquest.ui.component.ConvDoll;
 import net.sakuragame.eternal.justquest.ui.component.ConvOptions;
 import net.sakuragame.eternal.justquest.ui.component.QuestList;
 import net.sakuragame.eternal.justquest.util.Utils;
+import org.bukkit.Material;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +32,12 @@ public class QuestUIManager {
     public final static String CONV_UI_ID = "conv_main";
     public final static String QUEST_UI_ID = "quest_main";
     public final static String QUEST_OBJECTIVE_ID = "quest_objectives";
+
+    @Getter private final Map<UUID, Integer> pageCache;
+
+    public QuestUIManager() {
+        this.pageCache = new HashMap<>();
+    }
 
     public void sendConvDoll(Player player, UUID uuid, double scale) {
         ConvDoll doll = new ConvDoll(uuid, scale);
@@ -50,6 +61,17 @@ public class QuestUIManager {
         this.openQuest(player, 0);
     }
 
+    public void turnPage(Player player, int value) {
+        UUID uuid = player.getUniqueId();
+        if (!this.pageCache.containsKey(uuid)) {
+            this.openQuest(player, 0);
+            return;
+        }
+
+        int page = this.pageCache.get(uuid) + value;
+        this.openQuest(player, page);
+    }
+
     public void openQuest(Player player, int page) {
         QuestAccount account = JustQuest.getAccountManager().getAccount(player);
 
@@ -61,15 +83,21 @@ public class QuestUIManager {
         QuestList journal = new QuestList(quests);
         journal.send(player);
 
-        Map<String, String> placeholder = new HashMap<>();
-        placeholder.put("quest_current_page", current + "");
-        placeholder.put("quest_total_page", total + "");
-        PacketSender.sendSyncPlaceholder(player, placeholder);
+        PacketSender.sendRunFunction(player, "default", new Statements()
+                .add("global.quest_current_page = " + current + ";")
+                .add("global.quest_total_page = " + total + ";")
+                .build(),
+                false
+        );
 
         if (quests.size() != 0) {
             this.setQuestContent(player, quests.get(0));
         }
+        else {
+            this.setEmptyContents(player);
+        }
 
+        this.pageCache.put(player.getUniqueId(), current);
         PacketSender.sendOpenGui(player, QUEST_UI_ID);
     }
 
@@ -85,17 +113,53 @@ public class QuestUIManager {
         Map<String, String> placeholder = new HashMap<>();
         placeholder.put("quest_descriptions", String.join("\n", quest.getDescriptions()));
         placeholder.put("mission_descriptions", String.join("\n", mission.getDescriptions()));
-        placeholder.put("quest_reward", quest.getRewardDescriptions());
+        placeholder.put("quest_reward", quest.getReward().getRewardDescriptions());
         PacketSender.sendSyncPlaceholder(player, placeholder);
 
+        int i = 1;
+        for (Map.Entry<String, Integer> entry : quest.getReward().getItems().entrySet()) {
+            ItemStack item = ZaphkielAPI.INSTANCE.getItemStack(entry.getKey(), null);
+            if (item != null) {
+                item.setAmount(entry.getValue());
+                PacketSender.putClientSlotItem(player, "quest_reward_" + i, item);
+            }
+            i++;
+        }
+
         PacketSender.sendRunFunction(player, "default", new Statements()
-                .add("global.quest_allow_cancel = " + quest.isAllowCancel() + ";")
-                .add("global.quest_is_completed = " + progress.isCompleted() + ";")
+                .add("global.quest_allow_cancel = " + (quest.isAllowCancel() ? 1 : 0) + ";")
+                .add("global.quest_is_completed = " + (progress.isCompleted() ? 1 : 0) + ";")
                 .build(),
                 false
         );
 
-        ScreenUI objectives = mission.getProgressDisplay(player.getUniqueId());
-        PacketSender.sendYaml(player, FolderType.Gui, objectives.getID(), objectives.build(null));
+        PacketSender.sendYaml(player, FolderType.Gui, QuestUIManager.QUEST_OBJECTIVE_ID,
+                (progress.isCompleted() ?
+                        mission.getCompleteDisplay() :
+                        mission.getProgressDisplay(player.getUniqueId())
+                ).build(null)
+        );
+    }
+
+    public void setEmptyContents(Player player) {
+        Map<String, String> placeholder = new HashMap<>();
+        placeholder.put("quest_descriptions", "");
+        placeholder.put("mission_descriptions", "");
+        placeholder.put("quest_reward", "");
+        PacketSender.sendSyncPlaceholder(player, placeholder);
+
+        ItemStack item = new ItemStack(Material.AIR);
+        for (int i = 1; i < 6; i++) {
+            PacketSender.putClientSlotItem(player, "quest_reward_" + i, item);
+        }
+
+        PacketSender.sendRunFunction(player, "default", new Statements()
+                        .add("global.quest_allow_cancel = 0;")
+                        .add("global.quest_is_completed = 0;")
+                        .build(),
+                false
+        );
+
+        PacketSender.sendYaml(player, FolderType.Gui, QuestUIManager.QUEST_OBJECTIVE_ID, new YamlConfiguration());
     }
 }

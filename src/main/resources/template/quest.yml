@@ -9,6 +9,8 @@ missions:
   - foreword_2
   - foreword_3
 
+next: chapter
+
 reward:
   exp: 1000
   money: 50000

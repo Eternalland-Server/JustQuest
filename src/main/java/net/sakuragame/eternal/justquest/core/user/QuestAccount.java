@@ -50,6 +50,7 @@ public class QuestAccount {
             }
         });
         this.questProgress.clear();
+        this.updateTraceBar();
 
         Scheduler.runAsync(() -> JustQuest.getStorageManager().purgeUserData(this.uuid));
     }
@@ -77,7 +78,7 @@ public class QuestAccount {
     public void saveQuestsProgress() {
         questProgress.values().forEach(k -> {
             if (!k.isCompleted()) {
-                JustQuest.getQuestManager().saveQuest(
+                JustQuest.getQuestManager().saveProgress(
                         this.uuid,
                         k.getMissionID()
                 );
@@ -95,7 +96,7 @@ public class QuestAccount {
 
     public void setQuestTrace(String id) {
         if (id == null) {
-            this.setQuestTrace();
+            this.updateTraceBar();
             return;
         }
 
@@ -107,7 +108,7 @@ public class QuestAccount {
         Scheduler.runAsync(() -> JustQuest.getStorageManager().updateTrace(this.uuid, this.questTrace));
     }
 
-    public void setQuestTrace() {
+    public void autoQuestTrace() {
         if (this.questProgress.size() != 0) {
             this.questTrace = this.questProgress.keySet().stream().findFirst().get();
         }
@@ -142,7 +143,42 @@ public class QuestAccount {
                                 .getProgressDisplay(uuid)
         );
     }
-    
+
+    public void completeQuest(String questID) {
+        QuestProgress data = this.questProgress.get(questID);
+        data.setState(QuestState.Completed);
+
+        if (questID.equals(this.questTrace)) {
+            String nextID = JustQuest.getProfileManager().getQuest(questID).getNext();
+            if (nextID != null) {
+                IQuest next = JustQuest.getProfileManager().getQuest(nextID);
+                if (next == null) {
+                    this.updateTraceBar();
+                    return;
+                }
+                next.allot(this.uuid);
+                this.setQuestTrace(nextID);
+                this.updateTraceBar();
+            }
+            else {
+                this.updateTraceBar();
+            }
+        }
+
+        Scheduler.runAsync(() -> JustQuest.getStorageManager().updateQuestProgress(this.uuid, data));
+    }
+
+    public void cancelQuest(String questID) {
+        QuestProgress data = this.questProgress.remove(questID);
+        IMission mission = JustQuest.getProfileManager().getMission(data.getMissionID());
+        mission.abandon(this.uuid);
+
+        if (this.questTrace.equals(questID)) {
+            this.autoQuestTrace();
+            this.updateTraceBar();
+        }
+    }
+
     public void completeMission(String questID, String missionID) {
         IQuest quest = JustQuest.getProfileManager().getQuest(questID);
         String next = quest.nextMission(missionID);
@@ -155,18 +191,11 @@ public class QuestAccount {
         mission.active(uuid, questID);
     }
 
-    public void completeQuest(String questID) {
-        QuestProgress data = this.questProgress.get(questID);
-        data.setState(QuestState.Completed);
-        if (questID.equals(this.questTrace)) this.updateTraceBar();
-
-        Scheduler.runAsync(() -> JustQuest.getStorageManager().updateQuestProgress(this.uuid, data));
-    }
-
     public void deleteProgress(String questID) {
         this.questProgress.remove(questID);
         if (questID.equals(this.questTrace)) {
-            this.setQuestTrace();
+            this.autoQuestTrace();
+            this.updateTraceBar();
         }
 
         Scheduler.runAsync(() -> JustQuest.getStorageManager().deleteQuestProgress(this.uuid, questID));

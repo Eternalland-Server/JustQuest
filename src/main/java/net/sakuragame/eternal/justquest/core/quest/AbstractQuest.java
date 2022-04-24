@@ -17,13 +17,16 @@ public abstract class AbstractQuest implements IQuest {
 
     private final List<String> missions;
 
+    private final String next;
+
     private final QuestReward reward;
 
-    public AbstractQuest(String ID, String name, List<String> descriptions, List<String> missions, QuestReward reward) {
+    public AbstractQuest(String ID, String name, List<String> descriptions, List<String> missions, String next, QuestReward reward) {
         this.ID = ID;
         this.name = name;
         this.descriptions = descriptions;
         this.missions = missions;
+        this.next = next;
         this.reward = reward;
     }
 
@@ -52,7 +55,13 @@ public abstract class AbstractQuest implements IQuest {
     public void cancel(UUID uuid) {
         if (!this.isAllowCancel()) return;
 
-        // TODO
+        QuestAccount account = JustQuest.getAccountManager().getAccount(uuid);
+        account.cancelQuest(this.ID);
+    }
+
+    @Override
+    public void award(UUID uuid) {
+        this.reward.apply(uuid);
     }
 
     @Override
@@ -61,10 +70,5 @@ public abstract class AbstractQuest implements IQuest {
         if (index == -1) return null;
         if (index + 1 >= this.missions.size()) return null;
         return this.missions.get(index + 1);
-    }
-
-    @Override
-    public String getRewardDescriptions() {
-        return this.reward.getRewardDescriptions();
     }
 }

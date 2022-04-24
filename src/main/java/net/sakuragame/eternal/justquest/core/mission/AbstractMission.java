@@ -54,6 +54,7 @@ public abstract class AbstractMission implements IMission, Listener {
 
         if (account.getQuestTrace() == null) {
             account.setQuestTrace(questID);
+            account.updateTraceBar();
         }
 
         progress.update();

@@ -219,10 +219,11 @@ public class ProfileManager {
         QuestType type = QuestType.valueOf(yaml.getString("type").toUpperCase());
         List<String> descriptions = yaml.getStringList("descriptions");
         List<String> missions = yaml.getStringList("missions");
+        String next = yaml.getString("next");
 
-        double exp = yaml.getDouble("award.exp", -1);
-        double money = yaml.getDouble("award.money", -1);
-        int coins = yaml.getInt("award.coins", -1);
+        double exp = yaml.getDouble("reward.exp", -1);
+        double money = yaml.getDouble("reward.money", -1);
+        int coins = yaml.getInt("reward.coins", -1);
         List<String> items = yaml.getStringList("award.items");
         Map<String, Integer> map = new HashMap<>();
         items.forEach(s -> {
@@ -239,8 +240,8 @@ public class ProfileManager {
             if (preset == null) return;
 
             this.quests.put(id, preset
-                    .getConstructor(String.class, String.class, List.class, List.class, QuestReward.class)
-                    .newInstance(id, name, descriptions, missions, reward)
+                    .getConstructor(String.class, String.class, List.class, List.class, String.class, QuestReward.class)
+                    .newInstance(id, name, descriptions, missions, next, reward)
             );
         }
         catch (Exception e) {

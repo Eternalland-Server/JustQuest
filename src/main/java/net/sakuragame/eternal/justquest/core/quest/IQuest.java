@@ -36,6 +36,13 @@ public interface IQuest {
     List<String> getDescriptions();
 
     /**
+     * 得到奖励
+     *
+     * @return {@link QuestReward}
+     */
+    QuestReward getReward();
+
+    /**
      * 分配任务给玩家
      *
      * @param uuid uuid
@@ -73,12 +80,17 @@ public interface IQuest {
     void award(UUID uuid);
 
     /**
+     * 获取后续任务
+     *
+     * @return {@link String}
+     */
+    String getNext();
+
+    /**
      * 获取下一个子任务
      *
      * @param id 当前子任务ID
      * @return {@link String}
      */
     String nextMission(String id);
-
-    String getRewardDescriptions();
 }
