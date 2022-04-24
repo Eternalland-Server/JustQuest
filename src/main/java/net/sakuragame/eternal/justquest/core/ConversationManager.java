@@ -9,6 +9,7 @@ import net.sakuragame.eternal.justquest.core.conversation.io.UIConversationIO;
 import net.sakuragame.eternal.justquest.core.data.ExhibitNPC;
 import net.sakuragame.eternal.justquest.core.data.NPCConfig;
 import net.sakuragame.eternal.justquest.core.user.QuestAccount;
+import net.sakuragame.eternal.justquest.core.user.QuestProgress;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -41,6 +42,9 @@ public class ConversationManager {
         Conversation def = config.getDefaultConversation();
         for (String quest : config.getQuestConversation()) {
             if (account.getQuestProgress().containsKey(quest)) {
+                QuestProgress progress = account.getQuestProgress().get(quest);
+                if (progress.isCompleted()) continue;
+
                 String mission = account.getQuestProgress().get(quest).getMissionID();
                 def = JustQuest.getProfileManager().getConversation(mission);
                 break;
