@@ -14,6 +14,7 @@ import org.bukkit.event.Listener;
 public class QuestListener implements Listener {
 
     public QuestListener() {
+        CoreAPI.registerKey("J");
         CoreAPI.registerKey("N");
     }
 
@@ -27,6 +28,14 @@ public class QuestListener implements Listener {
                 account.updateTraceBar();
             }
         }, 10);
+    }
+
+    @EventHandler
+    public void onQuestUI(KeyPressEvent e) {
+        Player player = e.getPlayer();
+        if (!e.getKey().equalsIgnoreCase("J")) return;
+
+        JustQuest.getUiManager().openQuest(player);
     }
 
     @EventHandler

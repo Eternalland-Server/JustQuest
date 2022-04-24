@@ -37,7 +37,7 @@ public class ConversationMission extends AbstractMission {
     public ScreenUI getProgressDisplay(UUID uuid) {
         ScreenUI ui = new ScreenUI(QuestUIManager.QUEST_OBJECTIVE_ID);
         ui.addComponent(
-                new LabelComp("require", "⊑&f完成对话: 0/1\\n⊓开启导航(N)")
+                new LabelComp("require", "⊑&f完成对话: 0/1\n⊓开启导航(N)")
                         .setExtend("objectives")
         );
 
