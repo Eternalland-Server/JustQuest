@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 
 public class JustQuestAPI {
 
-    public void allotQuest(Player player, String id) {
+    public static void allotQuest(Player player, String id) {
         JustQuest.getQuestManager().allotQuest(player.getUniqueId(), id);
     }
 }
