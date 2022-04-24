@@ -18,25 +18,27 @@ public class Utils {
     public static void setTraceBar(Player player, String title) {
         Map<String, String> placeholder = new HashMap<>();
         placeholder.put("trace_title", title);
+        placeholder.put("trace_desc", "");
         PacketSender.sendSyncPlaceholder(player, placeholder);
         PacketSender.sendYaml(player, FolderType.Gui, QuestUIManager.QUEST_OBJECTIVE_ID, new YamlConfiguration());
         PacketSender.sendRunFunction(
                 player,
                 "default",
-                "func.delay(1);func.Screen_Open_Hud('traceBar');",
+                "func.delay(50);func.Screen_Open_Hud('quest_trace');",
                 true
         );
     }
 
-    public static void setTraceBar(Player player, String title, ScreenUI contents) {
+    public static void setTraceBar(Player player, String title, List<String> desc, ScreenUI contents) {
         Map<String, String> placeholder = new HashMap<>();
         placeholder.put("trace_title", title);
+        placeholder.put("trace_desc", String.join("\n", desc));
         PacketSender.sendSyncPlaceholder(player, placeholder);
         PacketSender.sendYaml(player, FolderType.Gui, QuestUIManager.QUEST_OBJECTIVE_ID, contents.build(null));
         PacketSender.sendRunFunction(
                 player,
                 "default",
-                "func.delay(1);func.Screen_Open_Hud('traceBar');",
+                "func.delay(50);func.Screen_Open_Hud('quest_trace');",
                 true
         );
     }

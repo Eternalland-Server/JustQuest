@@ -18,8 +18,8 @@ public class LearnAbilityMission extends AbstractMission {
 
     private final int count;
 
-    public LearnAbilityMission(String ID, String type, List<String> descriptions, ConfigurationSection section) {
-        super(ID, type, descriptions, section);
+    public LearnAbilityMission(String ID, String type, List<String> events, List<String> descriptions, ConfigurationSection section) {
+        super(ID, type, events, descriptions, section);
         this.count = section.getInt("count");
     }
 
@@ -29,7 +29,7 @@ public class LearnAbilityMission extends AbstractMission {
 
         ScreenUI ui = new ScreenUI(QuestUIManager.QUEST_OBJECTIVE_ID);
         ui.addComponent(
-                new LabelComp("require", "&f学习技能: " + (this.count - progress.getCount()) + "/" + this.count)
+                new LabelComp("require", "⊑&f学习技能: " + (this.count - progress.getCount()) + "/" + this.count)
                         .setExtend("objectives")
         );
 
@@ -40,7 +40,7 @@ public class LearnAbilityMission extends AbstractMission {
     public ScreenUI getCompleteDisplay() {
         ScreenUI ui = new ScreenUI(QuestUIManager.QUEST_OBJECTIVE_ID);
         ui.addComponent(
-                new LabelComp("require", "&f学习技能: " + this.count + "/" + this.count)
+                new LabelComp("require", "⊑&f学习技能: " + this.count + "/" + this.count)
                         .setExtend("objectives")
         );
 

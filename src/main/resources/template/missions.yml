@@ -2,17 +2,21 @@ foreword_1:
   type: conversation
   detail:
     id: foreword_1
+    npc: 0
   descriptions:
     - '&f前往和 &a小樱花 &f进行对话'
 foreword_2:
-  type: comsume
+  type: consume
   detail:
     potato: 1
+  events:
+    - foreword_1_b
   descriptions:
     - '&f吃掉背包内的烤马铃薯'
 foreword_3:
   type: conversation
   detail:
     id: foreword_3
+    npc: 0
   descriptions:
     - '&f继续和 &a小樱花 &f进行对话'

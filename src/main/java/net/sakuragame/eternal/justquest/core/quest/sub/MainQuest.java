@@ -9,8 +9,8 @@ import java.util.UUID;
 
 public class MainQuest extends AbstractQuest {
 
-    public MainQuest(String ID, String name, List<String> missions, QuestReward reward) {
-        super(ID, name, missions, reward);
+    public MainQuest(String ID, String name, List<String> descriptions, List<String> missions, QuestReward reward) {
+        super(ID, name, descriptions, missions, reward);
     }
 
     @Override

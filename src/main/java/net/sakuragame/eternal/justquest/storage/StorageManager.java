@@ -109,4 +109,22 @@ public class StorageManager {
                 new Object[]{uid, questID}
         );
     }
+
+    public void purgeUserData(UUID uuid) {
+        int uid = ClientManagerAPI.getUserID(uuid);
+        if (uid == -1) return;
+
+        dataManager.executeDelete(
+                QuestTables.Quest_Account.getTableName(),
+                "uid", uid
+        );
+        dataManager.executeDelete(
+                QuestTables.Quest_Finished.getTableName(),
+                "uid", uid
+        );
+        dataManager.executeDelete(
+                QuestTables.Quest_Progress.getTableName(),
+                "uid", uid
+        );
+    }
 }

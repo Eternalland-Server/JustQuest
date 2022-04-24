@@ -20,8 +20,8 @@ public class MobKillerMission extends AbstractMission {
 
     private final Map<String, Integer> requirement;
 
-    public MobKillerMission(String ID, String type, List<String> descriptions, ConfigurationSection section) {
-        super(ID, type, descriptions, section);
+    public MobKillerMission(String ID, String type, List<String> events, List<String> descriptions, ConfigurationSection section) {
+        super(ID, type, events, descriptions, section);
         this.requirement = new LinkedHashMap<>();
 
         for (String key : section.getKeys(false)) {
@@ -38,7 +38,7 @@ public class MobKillerMission extends AbstractMission {
             MythicMob mob = MythicMobs.inst().getAPIHelper().getMythicMob(k);
             if (mob != null) {
                 String name = ChatColor.stripColor(mob.getDisplayName().get());
-                display.add("&f" + name + ": " + (v - progress.getCount(k)) + "/" + v);
+                display.add("⊑&f" + name + ": " + (v - progress.getCount(k)) + "/" + v);
             }
             else {
                 display.add(k + ": error");
@@ -61,7 +61,7 @@ public class MobKillerMission extends AbstractMission {
             MythicMob mob = MythicMobs.inst().getAPIHelper().getMythicMob(k);
             if (mob != null) {
                 String name = ChatColor.stripColor(mob.getDisplayName().get());
-                display.add("&f" + name + ": " + v + "/" + v);
+                display.add("⊑&f" + name + ": " + v + "/" + v);
             }
             else {
                 display.add(k + ": error");

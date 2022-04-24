@@ -2,6 +2,7 @@ package net.sakuragame.eternal.justquest.core.quest;
 
 import net.sakuragame.eternal.justquest.core.data.QuestType;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface IQuest {
@@ -26,6 +27,13 @@ public interface IQuest {
      * @return {@link QuestType}
      */
     QuestType getType();
+
+    /**
+     * 获取任务描述
+     *
+     * @return {@link List}<{@link String}>
+     */
+    List<String> getDescriptions();
 
     /**
      * 分配任务给玩家
@@ -71,4 +79,6 @@ public interface IQuest {
      * @return {@link String}
      */
     String nextMission(String id);
+
+    String getRewardDescriptions();
 }

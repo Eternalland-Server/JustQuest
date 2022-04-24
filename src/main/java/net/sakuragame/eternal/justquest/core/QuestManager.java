@@ -4,6 +4,7 @@ import net.sakuragame.eternal.justquest.JustQuest;
 import net.sakuragame.eternal.justquest.core.event.IEvent;
 import net.sakuragame.eternal.justquest.core.mission.IMission;
 import net.sakuragame.eternal.justquest.core.quest.IQuest;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -39,5 +40,9 @@ public class QuestManager {
                 event.execute(player);
             }
         });
+    }
+
+    public void fireEvents(UUID uuid, List<String> events) {
+        this.fireEvents(Bukkit.getPlayer(uuid), events);
     }
 }

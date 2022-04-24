@@ -1,4 +1,10 @@
-foreword_1_item:
+foreword_1_a:
   type: give_items
   detail:
     potato: 1
+foreword_1_b:
+  type: notify
+  detail:
+    type: title
+    subject: '&a&l你慢慢恢复了体力~'
+    subhead: '&7&oEternalLand'

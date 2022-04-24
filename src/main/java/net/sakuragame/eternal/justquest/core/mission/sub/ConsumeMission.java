@@ -21,8 +21,8 @@ public class ConsumeMission extends AbstractMission {
 
     private final Map<String, Integer> requirement;
 
-    public ConsumeMission(String ID, String type, List<String> descriptions, ConfigurationSection section) {
-        super(ID, type, descriptions, section);
+    public ConsumeMission(String ID, String type, List<String> events, List<String> descriptions, ConfigurationSection section) {
+        super(ID, type, events, descriptions, section);
         this.requirement = new LinkedHashMap<>();
 
         for (String key : section.getKeys(false)) {
@@ -39,7 +39,7 @@ public class ConsumeMission extends AbstractMission {
             Item item = ZaphkielAPI.INSTANCE.getRegisteredItem().get(k);
             if (item != null) {
                 String name = ChatColor.stripColor(item.getName().get("NAME"));
-                display.add("&f" + name + ": " + (v - progress.getCount(k)) + "/" + v);
+                display.add("⊑&f" + name + ": " + (v - progress.getCount(k)) + "/" + v);
             }
             else {
                 display.add(k + ": error");
@@ -62,7 +62,7 @@ public class ConsumeMission extends AbstractMission {
             Item item = ZaphkielAPI.INSTANCE.getRegisteredItem().get(k);
             if (item != null) {
                 String name = ChatColor.stripColor(item.getName().get("NAME"));
-                display.add("&f" + name + ": " + v + "/" + v);
+                display.add("⊑&f" + name + ": " + v + "/" + v);
             }
             else {
                 display.add(k + ": error");
@@ -97,7 +97,7 @@ public class ConsumeMission extends AbstractMission {
         Item item = ZaphkielAPI.INSTANCE.getItem(itemStack);
         if (item == null) return;
 
-        if (this.requirement.containsKey(item.getId())) return;
+        if (!this.requirement.containsKey(item.getId())) return;
 
         IProgress progress = this.getData(uuid);
         if (progress == null) return;

@@ -1,5 +1,6 @@
 package net.sakuragame.eternal.justquest.ui;
 
+import com.taylorswiftcn.megumi.uifactory.generate.function.Statements;
 import com.taylorswiftcn.megumi.uifactory.generate.ui.screen.ScreenUI;
 import net.sakuragame.eternal.dragoncore.config.FolderType;
 import net.sakuragame.eternal.dragoncore.network.PacketSender;
@@ -82,10 +83,17 @@ public class QuestUIManager {
         IMission mission = JustQuest.getProfileManager().getMission(missionID);
 
         Map<String, String> placeholder = new HashMap<>();
-        placeholder.put("quest_descriptions", String.join("\n", mission.getDescriptions()));
-        placeholder.put("quest_allow_cancel", quest.isAllowCancel() ? "1" : "0");
-        placeholder.put("quest_complete", progress.isCompleted() ? "1" : "0");
+        placeholder.put("quest_descriptions", String.join("\n", quest.getDescriptions()));
+        placeholder.put("mission_descriptions", String.join("\n", mission.getDescriptions()));
+        placeholder.put("quest_reward", quest.getRewardDescriptions());
         PacketSender.sendSyncPlaceholder(player, placeholder);
+
+        PacketSender.sendRunFunction(player, "default", new Statements()
+                .add("global.quest_allow_cancel = " + quest.isAllowCancel() + ";")
+                .add("global.quest_is_completed = " + progress.isCompleted() + ";")
+                .build(),
+                false
+        );
 
         ScreenUI objectives = mission.getProgressDisplay(player.getUniqueId());
         PacketSender.sendYaml(player, FolderType.Gui, objectives.getID(), objectives.build(null));

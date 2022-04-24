@@ -10,6 +10,7 @@ import lombok.Getter;
 import net.sakuragame.eternal.justquest.listener.NPCListener;
 import net.sakuragame.eternal.justquest.listener.ConversationListener;
 import net.sakuragame.eternal.justquest.listener.PlayerListener;
+import net.sakuragame.eternal.justquest.listener.QuestListener;
 import net.sakuragame.eternal.justquest.storage.StorageManager;
 import net.sakuragame.eternal.justquest.ui.QuestUIManager;
 import org.bukkit.Bukkit;
@@ -52,6 +53,7 @@ public class JustQuest extends JavaPlugin {
         this.registerListener(new PlayerListener());
         this.registerListener(new NPCListener());
         this.registerListener(new ConversationListener());
+        this.registerListener(new QuestListener());
         getCommand("jquest").setExecutor(new MainCommand());
 
         long end = System.currentTimeMillis();

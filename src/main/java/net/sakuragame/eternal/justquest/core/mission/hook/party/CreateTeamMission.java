@@ -15,8 +15,8 @@ import java.util.UUID;
 
 public class CreateTeamMission extends AbstractMission {
 
-    public CreateTeamMission(String ID, String type, List<String> descriptions, ConfigurationSection section) {
-        super(ID, type, descriptions, section);
+    public CreateTeamMission(String ID, String type, List<String> events, List<String> descriptions, ConfigurationSection section) {
+        super(ID, type, events, descriptions, section);
     }
 
     @Override

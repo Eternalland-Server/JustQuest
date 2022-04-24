@@ -18,4 +18,13 @@ public class QuestReward {
         this.coins = coins;
         this.items = items;
     }
+
+    public String getRewardDescriptions() {
+        StringBuilder builder = new StringBuilder();
+        if (this.money != -1) builder.append("&a金币: &f").append(this.money);
+        if (this.coins != -1) builder.append("&a点劵: &f").append(this.coins);
+        if (this.exp != -1) builder.append("&a经验: &f").append(this.exp);
+
+        return builder.toString();
+    }
 }

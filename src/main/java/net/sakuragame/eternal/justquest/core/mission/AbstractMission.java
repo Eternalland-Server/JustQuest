@@ -5,6 +5,7 @@ import net.sakuragame.eternal.justquest.JustQuest;
 import net.sakuragame.eternal.justquest.core.user.QuestAccount;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
@@ -19,13 +20,15 @@ public abstract class AbstractMission implements IMission, Listener {
     private final String ID;
 
     private final String type;
+    private final List<String> events;
     private final List<String> descriptions;
 
     private final Map<UUID, IProgress> data;
 
-    public AbstractMission(String ID, String type, List<String> descriptions, ConfigurationSection section) {
+    public AbstractMission(String ID, String type, List<String> events, List<String> descriptions, ConfigurationSection section) {
         this.ID = ID;
         this.type = type;
+        this.events = events;
         this.descriptions = descriptions;
 
         this.data = new HashMap<>();
@@ -47,7 +50,11 @@ public abstract class AbstractMission implements IMission, Listener {
         this.data.put(uuid, progress);
 
         QuestAccount account = JustQuest.getAccountManager().getAccount(uuid);
-        account.saveProgress(questID, this.ID, progress.getConvertData());
+        account.saveQuestProgress(questID, this.ID, progress.getConvertData());
+
+        if (account.getQuestTrace() == null) {
+            account.setQuestTrace(questID);
+        }
 
         progress.update();
         if (this.data.size() == 1) this.enable();
@@ -57,8 +64,14 @@ public abstract class AbstractMission implements IMission, Listener {
     public void restrain(UUID uuid) {
         IProgress progress = this.data.remove(uuid);
         QuestAccount account = JustQuest.getAccountManager().getAccount(uuid);
-        account.saveProgress(progress.getQuestID(), this.ID, progress.getConvertData());
+        account.saveQuestProgress(progress.getQuestID(), this.ID, progress.getConvertData());
 
+        if (this.data.size() == 0) this.disable();
+    }
+
+    @Override
+    public void abandon(UUID uuid) {
+        this.data.remove(uuid);
         if (this.data.size() == 0) this.disable();
     }
 
@@ -66,7 +79,6 @@ public abstract class AbstractMission implements IMission, Listener {
     public void keep(UUID uuid, String questID, String data) {
         IProgress progress = this.newProgress(uuid, questID, data);
         this.data.put(uuid, progress);
-        progress.update();
 
         if (this.data.size() == 1) this.enable();
     }
@@ -74,8 +86,15 @@ public abstract class AbstractMission implements IMission, Listener {
     @Override
     public void complete(UUID uuid) {
         IProgress progress = this.data.remove(uuid);
+        JustQuest.getQuestManager().fireEvents(uuid, this.events);
+
         QuestAccount account = JustQuest.getAccountManager().getAccount(uuid);
         account.completeMission(progress.getQuestID(), this.ID);
+    }
+
+    @Override
+    public void navigation(Player player) {
+
     }
 
     public IProgress getData(UUID uuid) {

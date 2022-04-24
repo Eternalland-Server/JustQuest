@@ -13,6 +13,7 @@ import net.sakuragame.eternal.justquest.core.event.IEvent;
 import net.sakuragame.eternal.justquest.core.event.sub.CommandEvent;
 import net.sakuragame.eternal.justquest.core.event.sub.GiveItemsEvent;
 import net.sakuragame.eternal.justquest.core.event.sub.MerchantEvent;
+import net.sakuragame.eternal.justquest.core.event.sub.TitleEvent;
 import net.sakuragame.eternal.justquest.core.mission.AbstractMission;
 import net.sakuragame.eternal.justquest.core.mission.IMission;
 import net.sakuragame.eternal.justquest.core.mission.hook.PluginHook;
@@ -132,6 +133,7 @@ public class ProfileManager {
         this.registerEventPreset("give_items", GiveItemsEvent.class);
         this.registerEventPreset("merchant", MerchantEvent.class);
         this.registerEventPreset("command", CommandEvent.class);
+        this.registerEventPreset("title", TitleEvent.class);
     }
 
     public void registerQuestPreset(QuestType type, Class<? extends AbstractQuest> questPreset) {
@@ -215,6 +217,7 @@ public class ProfileManager {
         String id = yaml.getString("id");
         String name = yaml.getString("name");
         QuestType type = QuestType.valueOf(yaml.getString("type").toUpperCase());
+        List<String> descriptions = yaml.getStringList("descriptions");
         List<String> missions = yaml.getStringList("missions");
 
         double exp = yaml.getDouble("award.exp", -1);
@@ -236,8 +239,8 @@ public class ProfileManager {
             if (preset == null) return;
 
             this.quests.put(id, preset
-                    .getConstructor(String.class, String.class, List.class, QuestReward.class)
-                    .newInstance(id, name, missions, reward)
+                    .getConstructor(String.class, String.class, List.class, List.class, QuestReward.class)
+                    .newInstance(id, name, descriptions, missions, reward)
             );
         }
         catch (Exception e) {
@@ -250,6 +253,7 @@ public class ProfileManager {
         for (String key : yaml.getKeys(false)) {
             String type = yaml.getString(key + ".type");
             ConfigurationSection detail = yaml.getConfigurationSection(key + ".detail");
+            List<String> events = yaml.getStringList(key + ".events");
             List<String> descriptions = yaml.getStringList(key + ".descriptions");
 
             try {
@@ -257,8 +261,8 @@ public class ProfileManager {
                 if (preset == null) continue;
 
                 this.missions.put(key, preset
-                        .getConstructor(String.class, String.class, List.class, ConfigurationSection.class)
-                        .newInstance(key, type, descriptions, detail)
+                        .getConstructor(String.class, String.class, List.class, List.class, ConfigurationSection.class)
+                        .newInstance(key, type, events, descriptions, detail)
                 );
             }
             catch (Exception e) {
