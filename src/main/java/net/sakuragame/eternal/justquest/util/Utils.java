@@ -51,6 +51,6 @@ public class Utils {
         int from = current * 6;
         int to = (page > total) ? size : Math.min((page + 1) * 6, size);
 
-        return new PageResult(current + 1, to, new ArrayList<>(list.subList(from, to)));
+        return new PageResult(current + 1, total, new ArrayList<>(list.subList(from, to)));
     }
 }

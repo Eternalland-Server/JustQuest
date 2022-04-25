@@ -63,8 +63,6 @@ public class QuestListener implements Listener {
         Player player = e.getPlayer();
         IQuest quest = e.getQuest();
 
-        player.sendMessage("allot quest: " + quest.getName());
-
         Map<String, String> placeholder = new HashMap<>();
         placeholder.put("quest_notice_title", "&6&l[!] &f新任务");
         placeholder.put("quest_notice_contents", quest.getName());

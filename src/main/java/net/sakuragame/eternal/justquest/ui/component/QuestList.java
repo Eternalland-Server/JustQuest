@@ -40,15 +40,15 @@ public class QuestList {
                             .setTexture("(global.quest_choose == '" + id + "')?'ui/quest/line.png':'0,0,0,0'")
                             .setXY("area.x", "area.y+" + i * 26)
                             .setCompSize(177, 25)
-                            .addAction(ActionType.Left_Click, new Statements()
-                                    .add("func.Sound_Play();")
-                                    .add("global.quest_choose = '" + id + "';")
-                                    .build()
-                            )
                             .addAction(ActionType.Left_Click, new SubmitParams()
                                     .setCondition("(global.quest_choose != '" + id + "')")
                                     .addValue(OperateCode.Choose_Quest.getID())
                                     .addValue(id)
+                            )
+                            .addAction(ActionType.Left_Click, new Statements()
+                                    .add("func.Sound_Play();")
+                                    .add("global.quest_choose = '" + id + "';")
+                                    .build()
                             )
                     )
                     .addComponent(new TextureComp("q_" + i + "_a")
@@ -78,7 +78,7 @@ public class QuestList {
             }
         }
 
-        PacketSender.sendRunFunction(player, "default", "global.quest_choose = " + quests.get(0) + ";", false);
+        PacketSender.sendRunFunction(player, "default", "global.quest_choose = '" + quests.get(0) + "';", false);
         PacketSender.sendYaml(player, FolderType.Gui, this.UI.getID(), this.UI.build(null));
     }
 }

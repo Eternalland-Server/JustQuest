@@ -47,7 +47,7 @@ public class UIListener implements Listener {
 
     private void onHandleChoose(Player player, String questID) {
         JustQuest.getUiManager().setQuestContent(player, questID);
-        PacketSender.sendOpenHud(player, QuestUIManager.QUEST_UI_ID);
+        PacketSender.sendOpenGui(player, QuestUIManager.QUEST_UI_ID);
     }
 
     private void onHandleReceive(Player player, String questID) {

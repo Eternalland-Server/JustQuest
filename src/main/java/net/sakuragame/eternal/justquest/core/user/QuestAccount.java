@@ -57,10 +57,14 @@ public class QuestAccount {
     }
 
     public List<String> getQuests() {
-        return this.questProgress
-                .keySet().stream()
-                .sorted(Comparator.comparingInt(key -> JustQuest.getProfileManager().getType(key).getID()))
-                .collect(Collectors.toList());
+        List<String> result = new ArrayList<>();
+        this.questProgress
+                .values().stream()
+                .sorted()
+                .collect(Collectors.toList())
+                .forEach(k -> result.add(k.getQuestID()));
+
+        return result;
     }
 
     public void resumeQuestsProgress() {

@@ -12,6 +12,13 @@ public class Conversation {
     private final String complete;
     private final Map<String, Dialogue> dialogues;
 
+    public Conversation(String ID, String complete, Map<String, Dialogue> dialogues) {
+        this.ID = ID;
+        this.npc = null;
+        this.complete = complete;
+        this.dialogues = dialogues;
+    }
+
     public Conversation(String ID, String npc, String complete, Map<String, Dialogue> dialogues) {
         this.ID = ID;
         this.npc = npc;

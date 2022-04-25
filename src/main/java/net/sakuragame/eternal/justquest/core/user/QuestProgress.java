@@ -2,9 +2,12 @@ package net.sakuragame.eternal.justquest.core.user;
 
 import lombok.Getter;
 import net.sakuragame.eternal.justquest.core.data.QuestState;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Comparator;
 
 @Getter
-public class QuestProgress {
+public class QuestProgress implements Comparable<QuestProgress> {
 
     private final String questID;
     private String missionID;
@@ -38,5 +41,11 @@ public class QuestProgress {
 
     public boolean isCompleted() {
         return this.state == QuestState.Completed;
+    }
+
+    @Override
+    public int compareTo(@NotNull QuestProgress o) {
+        if (this.isCompleted() && o.isCompleted()) return 0;
+        return this.isCompleted() ? -1 : 1;
     }
 }
