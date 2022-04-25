@@ -111,6 +111,7 @@ public class QuestUIManager {
         IMission mission = JustQuest.getProfileManager().getMission(missionID);
 
         Map<String, String> placeholder = new HashMap<>();
+        placeholder.put("quest_title", quest.getName());
         placeholder.put("quest_descriptions", String.join("\n", quest.getDescriptions()));
         placeholder.put("mission_descriptions", String.join("\n", mission.getDescriptions()));
         placeholder.put("quest_reward", quest.getReward().getRewardDescriptions());

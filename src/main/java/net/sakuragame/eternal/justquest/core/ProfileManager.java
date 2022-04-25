@@ -10,10 +10,7 @@ import net.sakuragame.eternal.justquest.core.data.NPCConfig;
 import net.sakuragame.eternal.justquest.core.data.QuestType;
 import net.sakuragame.eternal.justquest.core.event.AbstractEvent;
 import net.sakuragame.eternal.justquest.core.event.IEvent;
-import net.sakuragame.eternal.justquest.core.event.sub.CommandEvent;
-import net.sakuragame.eternal.justquest.core.event.sub.GiveItemsEvent;
-import net.sakuragame.eternal.justquest.core.event.sub.MerchantEvent;
-import net.sakuragame.eternal.justquest.core.event.sub.TitleEvent;
+import net.sakuragame.eternal.justquest.core.event.sub.*;
 import net.sakuragame.eternal.justquest.core.mission.AbstractMission;
 import net.sakuragame.eternal.justquest.core.mission.IMission;
 import net.sakuragame.eternal.justquest.core.mission.hook.PluginHook;
@@ -133,7 +130,9 @@ public class ProfileManager {
         this.registerEventPreset("give_items", GiveItemsEvent.class);
         this.registerEventPreset("merchant", MerchantEvent.class);
         this.registerEventPreset("command", CommandEvent.class);
+        this.registerEventPreset("message", MessageEvent.class);
         this.registerEventPreset("title", TitleEvent.class);
+        this.registerEventPreset("dungeon", DungeonEvent.class);
     }
 
     public void registerQuestPreset(QuestType type, Class<? extends AbstractQuest> questPreset) {
@@ -281,6 +280,7 @@ public class ProfileManager {
     }
 
     private Conversation parseConversation(String id, ConfigurationSection section) {
+        String npc = section.getString("__npc__");
         String complete = section.getString("__complete__");
         Map<String, Dialogue> dialogues = new LinkedHashMap<>();
 
@@ -301,7 +301,7 @@ public class ProfileManager {
             dialogues.put(key, new Dialogue(key, response, events, options));
         }
 
-        return new Conversation(id, complete, dialogues);
+        return new Conversation(id, npc, complete, dialogues);
     }
     
     private void parseEventFile(File file) {

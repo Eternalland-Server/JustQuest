@@ -4,6 +4,7 @@ import com.taylorswiftcn.megumi.uifactory.event.comp.UIFCompSubmitEvent;
 import com.taylorswiftcn.megumi.uifactory.generate.function.SubmitParams;
 import net.sakuragame.eternal.dragoncore.network.PacketSender;
 import net.sakuragame.eternal.justquest.JustQuest;
+import net.sakuragame.eternal.justquest.core.quest.IQuest;
 import net.sakuragame.eternal.justquest.file.sub.ConfigFile;
 import net.sakuragame.eternal.justquest.ui.OperateCode;
 import net.sakuragame.eternal.justquest.ui.QuestUIManager;
@@ -50,13 +51,19 @@ public class UIListener implements Listener {
     }
 
     private void onHandleReceive(Player player, String questID) {
-        JustQuest.getQuestManager().receiveReward(player.getUniqueId(), questID);
+        IQuest quest = JustQuest.getProfileManager().getQuest(questID);
+        if (quest == null) return;
+
+        quest.award(player.getUniqueId());
         this.reopen(player);
         player.sendMessage(ConfigFile.prefix + "任务奖励领取成功!");
     }
 
     private void onHandleCancel(Player player, String questID) {
-        JustQuest.getQuestManager().cancelQuest(player.getUniqueId(), questID);
+        IQuest quest = JustQuest.getProfileManager().getQuest(questID);
+        if (quest == null) return;
+
+        quest.cancel(player.getUniqueId());
         this.reopen(player);
         player.sendMessage(ConfigFile.prefix + "任务已取消!");
     }

@@ -2,8 +2,11 @@ package net.sakuragame.eternal.justquest.core.quest;
 
 import lombok.Getter;
 import net.sakuragame.eternal.justquest.JustQuest;
+import net.sakuragame.eternal.justquest.api.event.QuestEvent;
 import net.sakuragame.eternal.justquest.core.mission.IMission;
 import net.sakuragame.eternal.justquest.core.user.QuestAccount;
+import net.sakuragame.eternal.justquest.core.user.QuestProgress;
+import org.bukkit.Bukkit;
 
 import java.util.List;
 import java.util.UUID;
@@ -39,6 +42,9 @@ public abstract class AbstractQuest implements IQuest {
         if (mission == null) return;
 
         mission.active(uuid, this.getID());
+
+        QuestEvent.Allot event = new QuestEvent.Allot(Bukkit.getPlayer(uuid), this);
+        event.call();
     }
 
     @Override
@@ -57,11 +63,20 @@ public abstract class AbstractQuest implements IQuest {
 
         QuestAccount account = JustQuest.getAccountManager().getAccount(uuid);
         account.cancelQuest(this.ID);
+
+        QuestEvent.Cancel event = new QuestEvent.Cancel(Bukkit.getPlayer(uuid), this);
+        event.call();
     }
 
     @Override
     public void award(UUID uuid) {
+        QuestAccount account = JustQuest.getAccountManager().getAccount(uuid);
+        QuestProgress progress = account.getQuestProgress().get(this.ID);
+        if (progress == null) return;
+        if (!progress.isCompleted()) return;
+
         this.reward.apply(uuid);
+        account.deleteProgress(this.ID);
     }
 
     @Override

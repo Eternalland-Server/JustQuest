@@ -9,6 +9,7 @@ import net.sakuragame.eternal.justquest.core.mission.AbstractProgress;
 import net.sakuragame.eternal.justquest.core.mission.IProgress;
 import net.sakuragame.eternal.justquest.ui.QuestUIManager;
 import net.sakuragame.eternal.waypoints.api.WaypointsAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,6 +27,18 @@ public class ConversationMission extends AbstractMission {
         super(ID, type, events, descriptions, section);
         this.convID = section.getString("id");
         this.npcID = section.getString("npc");
+    }
+
+    @Override
+    public void active(UUID uuid, String questID) {
+        super.active(uuid, questID);
+        this.navigation(Bukkit.getPlayer(uuid));
+    }
+
+    @Override
+    public void keep(UUID uuid, String questID, String data) {
+        super.keep(uuid, questID, data);
+        this.navigation(Bukkit.getPlayer(uuid));
     }
 
     @Override

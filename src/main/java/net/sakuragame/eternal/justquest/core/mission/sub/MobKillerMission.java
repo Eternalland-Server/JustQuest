@@ -38,7 +38,7 @@ public class MobKillerMission extends AbstractMission {
             MythicMob mob = MythicMobs.inst().getAPIHelper().getMythicMob(k);
             if (mob != null) {
                 String name = ChatColor.stripColor(mob.getDisplayName().get());
-                display.add("⊑&f" + name + ": " + (v - progress.getCount(k)) + "/" + v);
+                display.add("⊒&f" + name + ": " + (v - progress.getCount(k)) + "/" + v);
             }
             else {
                 display.add(k + ": error");
@@ -61,7 +61,7 @@ public class MobKillerMission extends AbstractMission {
             MythicMob mob = MythicMobs.inst().getAPIHelper().getMythicMob(k);
             if (mob != null) {
                 String name = ChatColor.stripColor(mob.getDisplayName().get());
-                display.add("⊑&f" + name + ": " + v + "/" + v);
+                display.add("⊒&f" + name + ": " + v + "/" + v);
             }
             else {
                 display.add(k + ": error");

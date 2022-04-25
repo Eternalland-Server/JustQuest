@@ -42,7 +42,7 @@ public class QuestList {
                             .setCompSize(177, 25)
                             .addAction(ActionType.Left_Click, new Statements()
                                     .add("func.Sound_Play();")
-                                    .add("global.quest_choose = " + i + ";")
+                                    .add("global.quest_choose = '" + id + "';")
                                     .build()
                             )
                             .addAction(ActionType.Left_Click, new SubmitParams()
@@ -78,6 +78,7 @@ public class QuestList {
             }
         }
 
+        PacketSender.sendRunFunction(player, "default", "global.quest_choose = " + quests.get(0) + ";", false);
         PacketSender.sendYaml(player, FolderType.Gui, this.UI.getID(), this.UI.build(null));
     }
 }

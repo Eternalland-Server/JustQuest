@@ -3,8 +3,7 @@ foreword_1_a:
   detail:
     potato: 1
 foreword_1_b:
-  type: notify
+  type: title
   detail:
-    type: title
     subject: '&a&l你慢慢恢复了体力~'
     subhead: '&7&oEternalLand'

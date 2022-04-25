@@ -2,6 +2,7 @@ package net.sakuragame.eternal.justquest.core.user;
 
 import lombok.Getter;
 import net.sakuragame.eternal.justquest.JustQuest;
+import net.sakuragame.eternal.justquest.api.event.QuestEvent;
 import net.sakuragame.eternal.justquest.core.data.QuestState;
 import net.sakuragame.eternal.justquest.core.mission.IMission;
 import net.sakuragame.eternal.justquest.core.quest.IQuest;
@@ -147,9 +148,14 @@ public class QuestAccount {
     public void completeQuest(String questID) {
         QuestProgress data = this.questProgress.get(questID);
         data.setState(QuestState.Completed);
+        Scheduler.runAsync(() -> JustQuest.getStorageManager().updateQuestProgress(this.uuid, data));
+
+        IQuest quest = JustQuest.getProfileManager().getQuest(questID);
+        QuestEvent.Complete event = new QuestEvent.Complete(Bukkit.getPlayer(this.uuid), quest);
+        event.call();
 
         if (questID.equals(this.questTrace)) {
-            String nextID = JustQuest.getProfileManager().getQuest(questID).getNext();
+            String nextID = quest.getNext();
             if (nextID != null) {
                 IQuest next = JustQuest.getProfileManager().getQuest(nextID);
                 if (next == null) {
@@ -164,8 +170,6 @@ public class QuestAccount {
                 this.updateTraceBar();
             }
         }
-
-        Scheduler.runAsync(() -> JustQuest.getStorageManager().updateQuestProgress(this.uuid, data));
     }
 
     public void cancelQuest(String questID) {
