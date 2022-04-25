@@ -77,6 +77,9 @@ public abstract class AbstractQuest implements IQuest {
 
         this.reward.apply(uuid);
         account.deleteProgress(this.ID);
+
+        QuestEvent.Finished event = new QuestEvent.Finished(Bukkit.getPlayer(uuid), this);
+        event.call();
     }
 
     @Override

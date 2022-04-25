@@ -1,6 +1,7 @@
 package net.sakuragame.eternal.justquest.core.user;
 
 import lombok.Getter;
+import net.sakuragame.eternal.dragoncore.network.PacketSender;
 import net.sakuragame.eternal.justquest.JustQuest;
 import net.sakuragame.eternal.justquest.api.event.QuestEvent;
 import net.sakuragame.eternal.justquest.core.data.QuestState;
@@ -99,6 +100,16 @@ public class QuestAccount {
         Scheduler.runAsync(() -> JustQuest.getStorageManager().updateQuestProgress(this.uuid, this.questProgress.get(questID)));
     }
 
+    public void sendCompletedCount() {
+        int i = 0;
+        for (QuestProgress progress : this.questProgress.values()) {
+            if (!progress.isCompleted()) continue;
+            i++;
+        }
+
+        PacketSender.sendRunFunction(Bukkit.getPlayer(this.uuid), "default", "global.quest_completed_count = " + i + ";", false);
+    }
+
     public void setQuestTrace(String id) {
         if (id == null) {
             this.updateTraceBar();
@@ -155,7 +166,7 @@ public class QuestAccount {
         Scheduler.runAsync(() -> JustQuest.getStorageManager().updateQuestProgress(this.uuid, data));
 
         IQuest quest = JustQuest.getProfileManager().getQuest(questID);
-        QuestEvent.Complete event = new QuestEvent.Complete(Bukkit.getPlayer(this.uuid), quest);
+        QuestEvent.Completed event = new QuestEvent.Completed(Bukkit.getPlayer(this.uuid), quest);
         event.call();
 
         if (questID.equals(this.questTrace)) {

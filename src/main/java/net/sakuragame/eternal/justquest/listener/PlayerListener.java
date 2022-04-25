@@ -1,7 +1,10 @@
 package net.sakuragame.eternal.justquest.listener;
 
+import com.taylorswiftcn.megumi.uifactory.event.screen.UIFScreenOpenEvent;
+import net.sakuragame.eternal.dragoncore.api.event.YamlSendFinishedEvent;
 import net.sakuragame.eternal.justquest.JustQuest;
 import net.sakuragame.eternal.justquest.api.event.QuestAccountLoadEvent;
+import net.sakuragame.eternal.justquest.core.user.QuestAccount;
 import net.sakuragame.eternal.justquest.util.Scheduler;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -32,5 +35,16 @@ public class PlayerListener implements Listener {
         UUID uuid = player.getUniqueId();
         JustQuest.getConversationManager().cancel(uuid);
         Scheduler.runAsync(() -> JustQuest.getAccountManager().removeAccount(uuid));
+    }
+
+    @EventHandler
+    public void onFinish(UIFScreenOpenEvent e) {
+        Player player = e.getPlayer();
+        if (!e.getScreenID().equals("quest_hint")) return;
+
+        QuestAccount account = JustQuest.getAccountManager().getAccount(player.getUniqueId());
+        if (account == null) return;
+
+        account.sendCompletedCount();
     }
 }

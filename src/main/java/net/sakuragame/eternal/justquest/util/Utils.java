@@ -21,12 +21,8 @@ public class Utils {
         placeholder.put("trace_desc", "");
         PacketSender.sendSyncPlaceholder(player, placeholder);
         PacketSender.sendYaml(player, FolderType.Gui, QuestUIManager.QUEST_OBJECTIVE_ID, new YamlConfiguration());
-        PacketSender.sendRunFunction(
-                player,
-                "default",
-                "func.delay(50);func.Screen_Open_Hud('quest_trace');",
-                true
-        );
+
+        Scheduler.runLaterAsync(() -> PacketSender.sendOpenHud(player, "quest_trace"), 1);
     }
 
     public static void setTraceBar(Player player, String title, List<String> desc, ScreenUI contents) {
@@ -35,12 +31,8 @@ public class Utils {
         placeholder.put("trace_desc", String.join("\n", desc));
         PacketSender.sendSyncPlaceholder(player, placeholder);
         PacketSender.sendYaml(player, FolderType.Gui, QuestUIManager.QUEST_OBJECTIVE_ID, contents.build(null));
-        PacketSender.sendRunFunction(
-                player,
-                "default",
-                "func.delay(50);func.Screen_Open_Hud('quest_trace');",
-                true
-        );
+
+        Scheduler.runLaterAsync(() -> PacketSender.sendOpenHud(player, "quest_trace"), 1);
     }
 
     public static PageResult getPagePart(List<String> list, int page) {

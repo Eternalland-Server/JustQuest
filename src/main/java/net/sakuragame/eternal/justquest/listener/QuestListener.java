@@ -71,4 +71,19 @@ public class QuestListener implements Listener {
         PacketSender.sendRunFunction(player, "default", "global.quest_notice_visible = 1;", true);
         PacketSender.sendOpenHud(player, "quest_notice");
     }
+
+    @EventHandler
+    public void onCompleted(QuestEvent.Completed e) {
+        this.updateCount(e.getPlayer());
+    }
+
+    @EventHandler
+    public void onFinished(QuestEvent.Finished e) {
+        this.updateCount(e.getPlayer());
+    }
+
+    private void updateCount(Player player) {
+        QuestAccount account = JustQuest.getAccountManager().getAccount(player);
+        account.sendCompletedCount();
+    }
 }

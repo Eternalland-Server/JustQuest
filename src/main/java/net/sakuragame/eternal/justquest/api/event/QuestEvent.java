@@ -20,14 +20,20 @@ public abstract class QuestEvent extends JustEvent {
         }
     }
 
-    public static class Complete extends QuestEvent {
-        public Complete(Player who, IQuest quest) {
+    public static class Completed extends QuestEvent {
+        public Completed(Player who, IQuest quest) {
             super(who, quest);
         }
     }
 
     public static class Cancel extends QuestEvent {
         public Cancel(Player who, IQuest quest) {
+            super(who, quest);
+        }
+    }
+
+    public static class Finished extends QuestEvent {
+        public Finished(Player who, IQuest quest) {
             super(who, quest);
         }
     }
