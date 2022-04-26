@@ -153,7 +153,7 @@ public class QuestAccount {
                 progress.isCompleted() ?
                         JustQuest.getProfileManager()
                                 .getMission(progress.getMissionID())
-                                .getCompleteDisplay() :
+                                .getCompleteDisplay(uuid) :
                         JustQuest.getProfileManager()
                                 .getMission(progress.getMissionID())
                                 .getProgressDisplay(uuid)

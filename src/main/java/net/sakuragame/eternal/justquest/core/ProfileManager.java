@@ -128,6 +128,7 @@ public class ProfileManager {
         this.registerMissionPreset("learn_ability", LearnAbilityMission.class);
         this.registerMissionPreset("consume", ConsumeMission.class);
         this.registerMissionPreset("dungeon", DungeonMission.class);
+        this.registerMissionPreset("collect", CollectMission.class);
     }
     
     private void registerEventPreset() {
@@ -164,10 +165,12 @@ public class ProfileManager {
         if (files == null || files.length == 0) return;
 
         Arrays.stream(files).filter(File::isDirectory).forEach(sub -> {
-            this.parseQuestFile(new File(sub, "quest.yml"));
-            this.parseMissionFile(new File(sub, "missions.yml"));
-            this.parseConversationFile(new File(sub, "conversations.yml"));
-            this.parseEventFile(new File(sub, "events.yml"));
+            if (!sub.getName().startsWith("#")) {
+                this.parseQuestFile(new File(sub, "quest.yml"));
+                this.parseMissionFile(new File(sub, "missions.yml"));
+                this.parseConversationFile(new File(sub, "conversations.yml"));
+                this.parseEventFile(new File(sub, "events.yml"));
+            }
         });
     }
     

@@ -51,7 +51,7 @@ public class DungeonMission extends AbstractMission {
     }
 
     @Override
-    public ScreenUI getCompleteDisplay() {
+    public ScreenUI getCompleteDisplay(UUID uuid) {
         String name = ChatColor.stripColor(KirraDungeonCommonAPI.INSTANCE.getDisplayNameById(this.id));
         ScreenUI ui = new ScreenUI(QuestUIManager.QUEST_OBJECTIVE_ID);
         ui

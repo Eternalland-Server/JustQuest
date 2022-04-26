@@ -75,7 +75,7 @@ public interface IMission {
      */
     ScreenUI getProgressDisplay(UUID uuid);
 
-    ScreenUI getCompleteDisplay();
+    ScreenUI getCompleteDisplay(UUID uuid);
 
     IProgress newProgress(UUID uuid, String questID);
 

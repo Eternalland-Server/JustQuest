@@ -116,7 +116,7 @@ public class QuestUIManager {
 
         List<String> keys = new ArrayList<>(quest.getReward().getItems().keySet());
         for (int i = 0; i < 7; i++) {
-            if (quest.getReward().getItems().size() < i) {
+            if (quest.getReward().getItems().size() <= i) {
                 PacketSender.putClientSlotItem(player, "quest_reward_" + (i + 1), new ItemStack(Material.AIR));
                 return;
             }
@@ -138,7 +138,7 @@ public class QuestUIManager {
 
         PacketSender.sendYaml(player, FolderType.Gui, QuestUIManager.QUEST_OBJECTIVE_ID,
                 (progress.isCompleted() ?
-                        mission.getCompleteDisplay() :
+                        mission.getCompleteDisplay(player.getUniqueId()) :
                         mission.getProgressDisplay(player.getUniqueId())
                 ).build(null)
         );

@@ -38,7 +38,7 @@ public class LearnAbilityMission extends AbstractMission {
     }
 
     @Override
-    public ScreenUI getCompleteDisplay() {
+    public ScreenUI getCompleteDisplay(UUID uuid) {
         ScreenUI ui = new ScreenUI(QuestUIManager.QUEST_OBJECTIVE_ID);
         ui.addComponent(
                 new LabelComp("require", "⊑&f学习技能: " + this.count + "/" + this.count)

@@ -55,7 +55,7 @@ public class MobKillerMission extends AbstractMission {
     }
 
     @Override
-    public ScreenUI getCompleteDisplay() {
+    public ScreenUI getCompleteDisplay(UUID uuid) {
         List<String> display = new ArrayList<>();
         requirement.forEach((k, v) -> {
             MythicMob mob = MythicMobs.inst().getAPIHelper().getMythicMob(k);

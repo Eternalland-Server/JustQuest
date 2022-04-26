@@ -58,7 +58,7 @@ public class ConversationMission extends AbstractMission {
     }
 
     @Override
-    public ScreenUI getCompleteDisplay() {
+    public ScreenUI getCompleteDisplay(UUID uuid) {
         ScreenUI ui = new ScreenUI(QuestUIManager.QUEST_OBJECTIVE_ID);
         ui.addComponent(
                 new LabelComp("require", "⊑&f完成对话: 1/1")
