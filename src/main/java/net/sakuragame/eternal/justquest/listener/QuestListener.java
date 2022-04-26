@@ -3,19 +3,16 @@ package net.sakuragame.eternal.justquest.listener;
 import net.sakuragame.eternal.dragoncore.api.CoreAPI;
 import net.sakuragame.eternal.dragoncore.api.KeyPressEvent;
 import net.sakuragame.eternal.dragoncore.api.event.YamlSendFinishedEvent;
-import net.sakuragame.eternal.dragoncore.network.PacketSender;
 import net.sakuragame.eternal.justquest.JustQuest;
 import net.sakuragame.eternal.justquest.api.event.QuestEvent;
 import net.sakuragame.eternal.justquest.core.mission.IMission;
 import net.sakuragame.eternal.justquest.core.quest.IQuest;
 import net.sakuragame.eternal.justquest.core.user.QuestAccount;
 import net.sakuragame.eternal.justquest.util.Scheduler;
+import net.sakuragame.eternal.justquest.util.Utils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class QuestListener implements Listener {
 
@@ -63,17 +60,14 @@ public class QuestListener implements Listener {
         Player player = e.getPlayer();
         IQuest quest = e.getQuest();
 
-        Map<String, String> placeholder = new HashMap<>();
-        placeholder.put("quest_notice_title", "&6&l[!] &f新任务");
-        placeholder.put("quest_notice_contents", quest.getName());
-
-        PacketSender.sendSyncPlaceholder(player, placeholder);
-        PacketSender.sendRunFunction(player, "default", "global.quest_notice_visible = 1;", true);
-        PacketSender.sendOpenHud(player, "quest_notice");
+        Utils.sendNotify(player, "&6&l[!] &f新任务", quest.getName());
     }
 
     @EventHandler
     public void onCompleted(QuestEvent.Completed e) {
+        Player player = e.getPlayer();
+        player.sendTitle("§a§l任务完成", e.getQuest().getName(), 10, 20, 10);
+
         this.updateCount(e.getPlayer());
     }
 

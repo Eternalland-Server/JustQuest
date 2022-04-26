@@ -27,6 +27,9 @@ public class ExpendProgress extends AbstractProgress {
     }
 
     @Override
+    public void push() {}
+
+    @Override
     public void push(String key) {
         this.map.computeIfPresent(key, (k, v) -> Math.max(0, v - 1));
     }

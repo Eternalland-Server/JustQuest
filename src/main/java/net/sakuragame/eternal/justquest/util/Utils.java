@@ -1,12 +1,14 @@
 package net.sakuragame.eternal.justquest.util;
 
 import com.taylorswiftcn.megumi.uifactory.generate.ui.screen.ScreenUI;
+import ink.ptms.zaphkiel.ZaphkielAPI;
 import net.sakuragame.eternal.dragoncore.config.FolderType;
 import net.sakuragame.eternal.dragoncore.network.PacketSender;
 import net.sakuragame.eternal.justquest.core.data.PageResult;
 import net.sakuragame.eternal.justquest.ui.QuestUIManager;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +16,32 @@ import java.util.List;
 import java.util.Map;
 
 public class Utils {
+
+    public static void giveItems(Player player, Map<String, Integer> items) {
+        int i = 1;
+        for (Map.Entry<String, Integer> entry : items.entrySet()) {
+            ItemStack item = ZaphkielAPI.INSTANCE.getItemStack(entry.getKey(), player);
+            if (item != null) {
+                item.setAmount(entry.getValue());
+                player.getInventory().addItem(item);
+                PacketSender.putClientSlotItem(player, "quest_items_" + i, item);
+            }
+            i++;
+        }
+
+        PacketSender.sendRunFunction(player, "default", "global.quest_items_count = " + items.size() + ";", true);
+        PacketSender.sendOpenHud(player, "quest_items");
+    }
+
+    public static void sendNotify(Player player, String title, String contents) {
+        Map<String, String> placeholder = new HashMap<>();
+        placeholder.put("quest_notice_title", title);
+        placeholder.put("quest_notice_contents", contents);
+
+        PacketSender.sendSyncPlaceholder(player, placeholder);
+        PacketSender.sendRunFunction(player, "default", "global.quest_notice_visible = 1;", true);
+        PacketSender.sendOpenHud(player, "quest_notice");
+    }
 
     public static void setTraceBar(Player player, String title) {
         Map<String, String> placeholder = new HashMap<>();

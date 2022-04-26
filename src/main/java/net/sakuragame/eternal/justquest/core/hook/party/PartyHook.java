@@ -1,9 +1,14 @@
-package net.sakuragame.eternal.justquest.core.mission.hook.party;
+package net.sakuragame.eternal.justquest.core.hook.party;
 
 import net.sakuragame.eternal.justquest.JustQuest;
-import net.sakuragame.eternal.justquest.core.mission.hook.PluginHook;
+import net.sakuragame.eternal.justquest.core.hook.PluginHook;
 
 public class PartyHook implements PluginHook {
+
+    @Override
+    public String getPlugin() {
+        return "KirraPartyBukkit";
+    }
 
     @Override
     public void register() {

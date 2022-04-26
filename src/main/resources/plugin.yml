@@ -10,13 +10,14 @@ depend:
   - Adyeshach
   - Zaphkiel
   - MythicMobs
-  - JustStore
   - DragonArmourers
   - JustLevel
   - GemsEconomy
   - JustMessage
 softdepend:
+  - KirraDungeonCommon
   - KirraPartyBukkit
+  - JustStore
 
 commands:
   jquest:

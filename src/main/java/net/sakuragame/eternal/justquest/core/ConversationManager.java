@@ -47,6 +47,7 @@ public class ConversationManager {
 
                 String mission = account.getQuestProgress().get(quest).getMissionID();
                 Conversation conv = JustQuest.getProfileManager().getConversation(mission);
+                if (conv == null) continue;
                 if (conv.getNPC() != null && !conv.getNPC().equals(id)) continue;
 
                 def = conv;

@@ -8,6 +8,8 @@ public interface IProgress {
 
     String getQuestID();
 
+    void push();
+
     void push(String key);
 
     void push(String key, int i);

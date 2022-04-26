@@ -1,13 +1,12 @@
 package net.sakuragame.eternal.justquest.core.quest;
 
-import ink.ptms.zaphkiel.ZaphkielAPI;
 import lombok.Getter;
 import net.sakuragame.eternal.gemseconomy.api.GemsEconomyAPI;
 import net.sakuragame.eternal.gemseconomy.currency.EternalCurrency;
 import net.sakuragame.eternal.justlevel.api.JustLevelAPI;
+import net.sakuragame.eternal.justquest.util.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.Map;
 import java.util.UUID;
@@ -33,13 +32,7 @@ public class QuestReward {
         GemsEconomyAPI.deposit(uuid, this.coins, EternalCurrency.Coins);
 
         Player player = Bukkit.getPlayer(uuid);
-        items.forEach((k, v) -> {
-            ItemStack item = ZaphkielAPI.INSTANCE.getItemStack(k, player);
-            if (item != null) {
-                item.setAmount(v);
-                player.getInventory().addItem(item);
-            }
-        });
+        Utils.giveItems(player, this.items);
     }
 
     public String getRewardDescriptions() {

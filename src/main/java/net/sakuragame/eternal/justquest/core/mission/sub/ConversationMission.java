@@ -113,6 +113,9 @@ public class ConversationMission extends AbstractMission {
         }
 
         @Override
+        public void push() {}
+
+        @Override
         public void push(String key) {
             if (!key.equals(ID)) return;
             this.complete = true;

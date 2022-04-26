@@ -6,6 +6,7 @@ import net.sakuragame.eternal.justability.api.event.PowerLevelChangeEvent;
 import net.sakuragame.eternal.justquest.core.mission.AbstractMission;
 import net.sakuragame.eternal.justquest.core.mission.AbstractProgress;
 import net.sakuragame.eternal.justquest.core.mission.IProgress;
+import net.sakuragame.eternal.justquest.core.mission.progress.CountProgress;
 import net.sakuragame.eternal.justquest.ui.QuestUIManager;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -25,7 +26,7 @@ public class LearnAbilityMission extends AbstractMission {
 
     @Override
     public ScreenUI getProgressDisplay(UUID uuid) {
-        LearnAbilityProgress progress = (LearnAbilityProgress) this.getData(uuid);
+        CountProgress progress = (CountProgress) this.getData(uuid);
 
         ScreenUI ui = new ScreenUI(QuestUIManager.QUEST_OBJECTIVE_ID);
         ui.addComponent(
@@ -49,12 +50,12 @@ public class LearnAbilityMission extends AbstractMission {
 
     @Override
     public IProgress newProgress(UUID uuid, String questID) {
-        return new LearnAbilityProgress(uuid, questID, this.count);
+        return new CountProgress(uuid, questID, this.count);
     }
 
     @Override
     public IProgress newProgress(UUID uuid, String questID, String data) {
-        return new LearnAbilityProgress(uuid, questID, data);
+        return new CountProgress(uuid, questID, data);
     }
 
     @EventHandler
@@ -67,52 +68,12 @@ public class LearnAbilityMission extends AbstractMission {
         IProgress progress = this.getData(uuid);
         if (progress == null) return;
 
-        progress.push("", change);
-        progress.update();
+        progress.push();
         if (!progress.isFinished()) {
             progress.update();
             return;
         }
 
         this.complete(uuid);
-    }
-
-    public static class LearnAbilityProgress extends AbstractProgress {
-
-        private int count;
-
-        public LearnAbilityProgress(UUID uuid, String questID, int count) {
-            super(uuid, questID);
-            this.count = count;
-        }
-
-        public LearnAbilityProgress(UUID uuid, String questID, String data) {
-            super(uuid, questID);
-            this.count = Integer.parseInt(data);
-        }
-
-        public int getCount() {
-            return count;
-        }
-
-        @Override
-        public void push(String key) {
-            this.count--;
-        }
-
-        @Override
-        public void push(String key, int i) {
-            this.count -= i;
-        }
-
-        @Override
-        public boolean isFinished() {
-            return this.count <= 0;
-        }
-
-        @Override
-        public String getConvertData() {
-            return "" + count;
-        }
     }
 }

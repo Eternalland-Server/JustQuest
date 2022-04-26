@@ -22,10 +22,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class QuestUIManager {
 
@@ -117,14 +114,19 @@ public class QuestUIManager {
         placeholder.put("quest_reward", quest.getReward().getRewardDescriptions());
         PacketSender.sendSyncPlaceholder(player, placeholder);
 
-        int i = 1;
-        for (Map.Entry<String, Integer> entry : quest.getReward().getItems().entrySet()) {
-            ItemStack item = ZaphkielAPI.INSTANCE.getItemStack(entry.getKey(), null);
-            if (item != null) {
-                item.setAmount(entry.getValue());
-                PacketSender.putClientSlotItem(player, "quest_reward_" + i, item);
+        List<String> keys = new ArrayList<>(quest.getReward().getItems().keySet());
+        for (int i = 0; i < 7; i++) {
+            if (quest.getReward().getItems().size() < i) {
+                PacketSender.putClientSlotItem(player, "quest_reward_" + (i + 1), new ItemStack(Material.AIR));
+                return;
             }
-            i++;
+
+            String id = keys.get(i);
+            ItemStack item = ZaphkielAPI.INSTANCE.getItemStack(id, null);
+            if (item != null) {
+                item.setAmount(quest.getReward().getItems().get(id));
+                PacketSender.putClientSlotItem(player, "quest_reward_" + (i + 1), item);
+            }
         }
 
         PacketSender.sendRunFunction(player, "default", new Statements()
@@ -144,7 +146,8 @@ public class QuestUIManager {
 
     public void setEmptyContents(Player player) {
         Map<String, String> placeholder = new HashMap<>();
-        placeholder.put("quest_descriptions", "");
+        placeholder.put("quest_title", "");
+        placeholder.put("quest_descriptions", "目前你没有任何任务");
         placeholder.put("mission_descriptions", "");
         placeholder.put("quest_reward", "");
         PacketSender.sendSyncPlaceholder(player, placeholder);

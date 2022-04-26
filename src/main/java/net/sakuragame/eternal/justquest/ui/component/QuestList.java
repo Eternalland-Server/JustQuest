@@ -13,6 +13,7 @@ import net.sakuragame.eternal.justquest.core.quest.IQuest;
 import net.sakuragame.eternal.justquest.core.user.QuestAccount;
 import net.sakuragame.eternal.justquest.core.user.QuestProgress;
 import net.sakuragame.eternal.justquest.ui.OperateCode;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -28,6 +29,11 @@ public class QuestList {
     }
 
     public void send(Player player) {
+        if (this.quests.size() == 0) {
+            PacketSender.sendYaml(player, FolderType.Gui, "quest_list", new YamlConfiguration());
+            return;
+        }
+
         QuestAccount account = JustQuest.getAccountManager().getAccount(player);
 
         for (int i = 0; i < quests.size(); i++) {

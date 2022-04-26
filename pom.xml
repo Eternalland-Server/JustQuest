@@ -169,6 +169,14 @@
 
         <dependency>
             <groupId>net.sakuragame.eternal</groupId>
+            <artifactId>KirraDungeonCommon</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/.lib/KirraDungeonCommon-1.0.0.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sakuragame.eternal</groupId>
             <artifactId>KirraDungeonClient</artifactId>
             <version>1.0.0-SNAPSHOT</version>
             <scope>system</scope>

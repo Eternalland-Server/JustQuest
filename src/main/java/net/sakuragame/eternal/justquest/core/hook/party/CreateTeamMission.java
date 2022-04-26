@@ -1,10 +1,11 @@
-package net.sakuragame.eternal.justquest.core.mission.hook.party;
+package net.sakuragame.eternal.justquest.core.hook.party;
 
 import com.taylorswiftcn.megumi.uifactory.generate.ui.component.base.LabelComp;
 import com.taylorswiftcn.megumi.uifactory.generate.ui.screen.ScreenUI;
 import net.sakuragame.eternal.justquest.core.mission.AbstractMission;
 import net.sakuragame.eternal.justquest.core.mission.AbstractProgress;
 import net.sakuragame.eternal.justquest.core.mission.IProgress;
+import net.sakuragame.eternal.justquest.core.mission.progress.CountProgress;
 import net.sakuragame.eternal.justquest.ui.QuestUIManager;
 import net.sakuragame.eternal.kirraparty.bukkit.event.PartyCreateEvent;
 import org.bukkit.configuration.ConfigurationSection;
@@ -43,12 +44,12 @@ public class CreateTeamMission extends AbstractMission {
 
     @Override
     public IProgress newProgress(UUID uuid, String questID) {
-        return new CreateTeamProgress(uuid, questID);
+        return new CountProgress(uuid, questID, 1);
     }
 
     @Override
     public IProgress newProgress(UUID uuid, String questID, String data) {
-        return new CreateTeamProgress(uuid, questID);
+        return new CountProgress(uuid, questID, data);
     }
 
     @EventHandler
@@ -58,43 +59,12 @@ public class CreateTeamMission extends AbstractMission {
         IProgress progress = this.getData(uuid);
         if (progress == null) return;
 
-        progress.push("");
-        progress.update();
+        progress.push();
         if (!progress.isFinished()) {
             progress.update();
             return;
         }
 
         this.complete(uuid);
-    }
-
-    public static class CreateTeamProgress extends AbstractProgress {
-
-        private int count;
-
-        public CreateTeamProgress(UUID uuid, String questID) {
-            super(uuid, questID);
-            this.count = 1;
-        }
-
-        @Override
-        public void push(String key) {
-            this.count--;
-        }
-
-        @Override
-        public void push(String key, int i) {
-            this.count--;
-        }
-
-        @Override
-        public boolean isFinished() {
-            return this.count <= 0;
-        }
-
-        @Override
-        public String getConvertData() {
-            return "" + this.count;
-        }
     }
 }

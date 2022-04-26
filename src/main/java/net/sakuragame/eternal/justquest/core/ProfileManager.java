@@ -1,6 +1,6 @@
 package net.sakuragame.eternal.justquest.core;
 
-import com.sun.org.apache.xerces.internal.impl.dv.xs.IDDV;
+import com.taylorswiftcn.justwei.util.MegumiUtil;
 import net.sakuragame.eternal.justquest.JustQuest;
 import net.sakuragame.eternal.justquest.core.conversation.Conversation;
 import net.sakuragame.eternal.justquest.core.conversation.Dialogue;
@@ -11,10 +11,12 @@ import net.sakuragame.eternal.justquest.core.data.QuestType;
 import net.sakuragame.eternal.justquest.core.event.AbstractEvent;
 import net.sakuragame.eternal.justquest.core.event.IEvent;
 import net.sakuragame.eternal.justquest.core.event.sub.*;
+import net.sakuragame.eternal.justquest.core.hook.store.MerchantEvent;
+import net.sakuragame.eternal.justquest.core.hook.store.StoreHook;
 import net.sakuragame.eternal.justquest.core.mission.AbstractMission;
 import net.sakuragame.eternal.justquest.core.mission.IMission;
-import net.sakuragame.eternal.justquest.core.mission.hook.PluginHook;
-import net.sakuragame.eternal.justquest.core.mission.hook.party.PartyHook;
+import net.sakuragame.eternal.justquest.core.hook.PluginHook;
+import net.sakuragame.eternal.justquest.core.hook.party.PartyHook;
 import net.sakuragame.eternal.justquest.core.mission.sub.*;
 import net.sakuragame.eternal.justquest.core.quest.AbstractQuest;
 import net.sakuragame.eternal.justquest.core.quest.IQuest;
@@ -36,7 +38,7 @@ public class ProfileManager {
     private Map<String, Class<? extends AbstractMission>> missionPreset;
     private Map<String, Class<? extends AbstractEvent>> eventPreset;
 
-    private final Map<String, PluginHook> missionHook;
+    private final List<PluginHook> hooks;
 
     private Map<String, NPCConfig> npcConfig;
     private Map<String, AbstractQuest> quests;
@@ -48,8 +50,9 @@ public class ProfileManager {
     
     public ProfileManager(JustQuest plugin) {
         this.plugin = plugin;
-        this.missionHook = new HashMap<>();
-        this.missionHook.put("KirraPartyBukkit", new PartyHook());
+        this.hooks = new ArrayList<>();
+        this.hooks.add(new PartyHook());
+        this.hooks.add(new StoreHook());
     }
 
     public void init() {
@@ -124,6 +127,7 @@ public class ProfileManager {
         this.registerMissionPreset("mob_killer", MobKillerMission.class);
         this.registerMissionPreset("learn_ability", LearnAbilityMission.class);
         this.registerMissionPreset("consume", ConsumeMission.class);
+        this.registerMissionPreset("dungeon", DungeonMission.class);
     }
     
     private void registerEventPreset() {
@@ -132,7 +136,6 @@ public class ProfileManager {
         this.registerEventPreset("command", CommandEvent.class);
         this.registerEventPreset("message", MessageEvent.class);
         this.registerEventPreset("title", TitleEvent.class);
-        this.registerEventPreset("dungeon", DungeonEvent.class);
     }
 
     public void registerQuestPreset(QuestType type, Class<? extends AbstractQuest> questPreset) {
@@ -177,9 +180,9 @@ public class ProfileManager {
     }
 
     private void loadMissionHook() {
-        for (String key : missionHook.keySet()) {
-            if (Bukkit.getPluginManager().getPlugin(key) == null) continue;
-            this.missionHook.get(key).register();
+        for (PluginHook hook : this.hooks) {
+            if (Bukkit.getPluginManager().getPlugin(hook.getPlugin()) == null) continue;
+            hook.register();
         }
     }
 
@@ -214,7 +217,7 @@ public class ProfileManager {
     private void parseQuestFile(File file) {
         YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
         String id = yaml.getString("id");
-        String name = yaml.getString("name");
+        String name = MegumiUtil.onReplace(yaml.getString("name"));
         QuestType type = QuestType.valueOf(yaml.getString("type").toUpperCase());
         List<String> descriptions = yaml.getStringList("descriptions");
         List<String> missions = yaml.getStringList("missions");
@@ -223,11 +226,11 @@ public class ProfileManager {
         double exp = yaml.getDouble("reward.exp", -1);
         double money = yaml.getDouble("reward.money", -1);
         int coins = yaml.getInt("reward.coins", -1);
-        List<String> items = yaml.getStringList("award.items");
+        List<String> items = yaml.getStringList("reward.items");
         Map<String, Integer> map = new HashMap<>();
         items.forEach(s -> {
             String[] part = s.split(" ", 2);
-            if (part.length > 2) {
+            if (part.length == 2) {
                 map.put(part[0], Integer.parseInt(part[1]));
             }
         });

@@ -1,4 +1,4 @@
-package net.sakuragame.eternal.justquest.core.event.sub;
+package net.sakuragame.eternal.justquest.core.hook.store;
 
 import net.sakuragame.eternal.justquest.core.event.AbstractEvent;
 import net.sakuragame.eternal.juststore.api.JustStoreAPI;
