@@ -139,6 +139,7 @@ public class ProfileManager {
         this.registerEventPreset("message", MessageEvent.class);
         this.registerEventPreset("title", TitleEvent.class);
         this.registerEventPreset("waypoints", WaypointsEvent.class);
+        this.registerEventPreset("dungeon", DungeonEvent.class);
     }
 
     public void registerQuestPreset(QuestType type, Class<? extends AbstractQuest> questPreset) {

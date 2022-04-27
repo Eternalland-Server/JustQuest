@@ -116,11 +116,11 @@ public class QuestAccount {
             return;
         }
 
-        if (!this.questProgress.containsKey(id)) {
-            return;
-        }
+        if (!this.questProgress.containsKey(id)) return;
+        if (this.questTrace.equals(id)) return;
 
         this.questTrace = id;
+
         Scheduler.runAsync(() -> JustQuest.getStorageManager().updateTrace(this.uuid, this.questTrace));
     }
 

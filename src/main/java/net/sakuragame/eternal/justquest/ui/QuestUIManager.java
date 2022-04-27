@@ -118,7 +118,7 @@ public class QuestUIManager {
         for (int i = 0; i < 7; i++) {
             if (quest.getReward().getItems().size() <= i) {
                 PacketSender.putClientSlotItem(player, "quest_reward_" + (i + 1), new ItemStack(Material.AIR));
-                return;
+                continue;
             }
 
             String id = keys.get(i);
@@ -129,12 +129,12 @@ public class QuestUIManager {
             }
         }
 
-        PacketSender.sendRunFunction(player, "default", new Statements()
+        Statements statements = new Statements()
                 .add("global.quest_allow_cancel = " + (quest.isAllowCancel() ? 1 : 0) + ";")
                 .add("global.quest_is_completed = " + (progress.isCompleted() ? 1 : 0) + ";")
-                .build(),
-                false
-        );
+                .add("global.quest_trace = " + (account.getQuestTrace().equals(questID) ? 1 : 0) + ";");
+
+        PacketSender.sendRunFunction(player, "default", statements.build(), false);
 
         PacketSender.sendYaml(player, FolderType.Gui, QuestUIManager.QUEST_OBJECTIVE_ID,
                 (progress.isCompleted() ?
@@ -160,6 +160,7 @@ public class QuestUIManager {
         PacketSender.sendRunFunction(player, "default", new Statements()
                         .add("global.quest_allow_cancel = 0;")
                         .add("global.quest_is_completed = 0;")
+                        .add("global.quest_trace = 0;")
                         .build(),
                 false
         );

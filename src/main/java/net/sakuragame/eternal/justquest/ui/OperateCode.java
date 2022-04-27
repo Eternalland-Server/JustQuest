@@ -9,6 +9,7 @@ public enum OperateCode {
     Choose_Quest(200),
     Cancel_Quest(201),
     Receive_Reward(202),
+    Trace_Quest(203),
     Up_Page(300),
     Next_Page(301);
 

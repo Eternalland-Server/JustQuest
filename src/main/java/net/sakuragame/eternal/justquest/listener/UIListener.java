@@ -5,6 +5,7 @@ import com.taylorswiftcn.megumi.uifactory.generate.function.SubmitParams;
 import net.sakuragame.eternal.dragoncore.network.PacketSender;
 import net.sakuragame.eternal.justquest.JustQuest;
 import net.sakuragame.eternal.justquest.core.quest.IQuest;
+import net.sakuragame.eternal.justquest.core.user.QuestAccount;
 import net.sakuragame.eternal.justquest.file.sub.ConfigFile;
 import net.sakuragame.eternal.justquest.ui.OperateCode;
 import net.sakuragame.eternal.justquest.ui.QuestUIManager;
@@ -38,6 +39,9 @@ public class UIListener implements Listener {
                 return;
             case Cancel_Quest:
                 this.onHandleCancel(player, params.getParam(1));
+                return;
+            case Trace_Quest:
+                this.onHandleTrace(player, params.getParam(1));
         }
     }
 
@@ -71,5 +75,11 @@ public class UIListener implements Listener {
     private void reopen(Player player) {
         int page = JustQuest.getUiManager().getPageCache().get(player.getUniqueId());
         JustQuest.getUiManager().openQuest(player, page);
+    }
+
+    private void onHandleTrace(Player player, String questID) {
+        QuestAccount account = JustQuest.getAccountManager().getAccount(player);
+        account.setQuestTrace(questID);
+        account.updateTraceBar();
     }
 }

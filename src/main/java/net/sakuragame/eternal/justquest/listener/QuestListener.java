@@ -60,7 +60,7 @@ public class QuestListener implements Listener {
         Player player = e.getPlayer();
         IQuest quest = e.getQuest();
 
-        Utils.sendNotify(player, "&6&l[!] &f新任务", quest.getName());
+        Utils.sendNotify(player, "&6&l[!] &f&l有新任务", quest.getName());
     }
 
     @EventHandler
