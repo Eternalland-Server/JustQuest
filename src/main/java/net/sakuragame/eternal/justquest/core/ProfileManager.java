@@ -138,6 +138,7 @@ public class ProfileManager {
         this.registerEventPreset("command", CommandEvent.class);
         this.registerEventPreset("message", MessageEvent.class);
         this.registerEventPreset("title", TitleEvent.class);
+        this.registerEventPreset("waypoints", WaypointsEvent.class);
     }
 
     public void registerQuestPreset(QuestType type, Class<? extends AbstractQuest> questPreset) {
@@ -260,7 +261,8 @@ public class ProfileManager {
         for (String key : yaml.getKeys(false)) {
             String type = yaml.getString(key + ".type");
             ConfigurationSection detail = yaml.getConfigurationSection(key + ".detail");
-            List<String> events = yaml.getStringList(key + ".events");
+            List<String> navigationEvents = yaml.getStringList(key + ".navigation-events");
+            List<String> completeEvents = yaml.getStringList(key + ".complete-events");
             List<String> descriptions = yaml.getStringList(key + ".descriptions");
 
             try {
@@ -268,8 +270,8 @@ public class ProfileManager {
                 if (preset == null) continue;
 
                 this.missions.put(key, preset
-                        .getConstructor(String.class, String.class, List.class, List.class, ConfigurationSection.class)
-                        .newInstance(key, type, events, descriptions, detail)
+                        .getConstructor(String.class, String.class, List.class, List.class, List.class, ConfigurationSection.class)
+                        .newInstance(key, type, navigationEvents, completeEvents, descriptions, detail)
                 );
             }
             catch (Exception e) {

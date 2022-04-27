@@ -23,8 +23,8 @@ public class ConversationMission extends AbstractMission {
     private final String convID;
     private final String npcID;
 
-    public ConversationMission(String ID, String type, List<String> events, List<String> descriptions, ConfigurationSection section) {
-        super(ID, type, events, descriptions, section);
+    public ConversationMission(String ID, String type, List<String> navigationEvents, List<String> completeEvents, List<String> descriptions, ConfigurationSection section) {
+        super(ID, type, navigationEvents, completeEvents, descriptions, section);
         this.convID = section.getString("id");
         this.npcID = section.getString("npc");
     }

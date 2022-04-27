@@ -22,8 +22,8 @@ public class SmelterMission extends AbstractMission {
     private final int type;
     private final int count;
 
-    public SmelterMission(String ID, String type, List<String> events, List<String> descriptions, ConfigurationSection section) {
-        super(ID, type, events, descriptions, section);
+    public SmelterMission(String ID, String type, List<String> navigationEvents, List<String> completeEvents, List<String> descriptions, ConfigurationSection section) {
+        super(ID, type, navigationEvents, completeEvents, descriptions, section);
         this.type = section.getInt("type");
         this.count = section.getInt("count");
     }

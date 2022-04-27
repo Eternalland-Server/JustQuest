@@ -9,7 +9,9 @@ foreword_2:
   type: consume
   detail:
     potato: 1
-  events:
+  navigation-events:
+    -
+  complete-events:
     - foreword_1_b
   descriptions:
     - '&f吃掉背包内的烤马铃薯'

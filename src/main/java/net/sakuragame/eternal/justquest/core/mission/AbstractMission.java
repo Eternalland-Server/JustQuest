@@ -20,15 +20,17 @@ public abstract class AbstractMission implements IMission, Listener {
     private final String ID;
 
     private final String type;
-    private final List<String> events;
+    private final List<String> navigationEvents;
+    private final List<String> completeEvents;
     private final List<String> descriptions;
 
     private final Map<UUID, IProgress> data;
 
-    public AbstractMission(String ID, String type, List<String> events, List<String> descriptions, ConfigurationSection section) {
+    public AbstractMission(String ID, String type, List<String> navigationEvents, List<String> completeEvents, List<String> descriptions, ConfigurationSection section) {
         this.ID = ID;
         this.type = type;
-        this.events = events;
+        this.navigationEvents = navigationEvents;
+        this.completeEvents = completeEvents;
         this.descriptions = descriptions;
 
         this.data = new HashMap<>();
@@ -98,7 +100,7 @@ public abstract class AbstractMission implements IMission, Listener {
     @Override
     public void complete(UUID uuid) {
         IProgress progress = this.data.remove(uuid);
-        JustQuest.getQuestManager().fireEvents(uuid, this.events);
+        JustQuest.getQuestManager().fireEvents(uuid, this.completeEvents);
 
         QuestAccount account = JustQuest.getAccountManager().getAccount(uuid);
         account.completeMission(progress.getQuestID(), this.ID);
@@ -106,7 +108,9 @@ public abstract class AbstractMission implements IMission, Listener {
 
     @Override
     public void navigation(Player player) {
+        if (this.navigationEvents.isEmpty()) return;
 
+        JustQuest.getQuestManager().fireEvents(player.getUniqueId(), this.navigationEvents);
     }
 
     public IProgress getData(UUID uuid) {

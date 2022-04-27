@@ -22,8 +22,8 @@ public class DungeonMission extends AbstractMission {
     private final String id;
     private final int count;
 
-    public DungeonMission(String ID, String type, List<String> events, List<String> descriptions, ConfigurationSection section) {
-        super(ID, type, events, descriptions, section);
+    public DungeonMission(String ID, String type, List<String> navigationEvents, List<String> completeEvents, List<String> descriptions, ConfigurationSection section) {
+        super(ID, type, navigationEvents, completeEvents, descriptions, section);
         this.id = section.getString("id");
         this.count = section.getInt("count");
     }

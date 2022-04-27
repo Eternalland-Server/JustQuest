@@ -21,8 +21,8 @@ public class ConsumeMission extends AbstractMission {
 
     private final Map<String, Integer> requirement;
 
-    public ConsumeMission(String ID, String type, List<String> events, List<String> descriptions, ConfigurationSection section) {
-        super(ID, type, events, descriptions, section);
+    public ConsumeMission(String ID, String type, List<String> navigationEvents, List<String> completeEvents, List<String> descriptions, ConfigurationSection section) {
+        super(ID, type, navigationEvents, completeEvents, descriptions, section);
         this.requirement = new LinkedHashMap<>();
 
         for (String key : section.getKeys(false)) {
