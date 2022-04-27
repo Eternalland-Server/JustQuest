@@ -117,7 +117,7 @@ public class QuestAccount {
         }
 
         if (!this.questProgress.containsKey(id)) return;
-        if (this.questTrace.equals(id)) return;
+        if (this.questTrace != null && this.questTrace.equals(id)) return;
 
         this.questTrace = id;
 
