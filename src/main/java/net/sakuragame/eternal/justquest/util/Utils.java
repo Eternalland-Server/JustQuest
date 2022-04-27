@@ -1,5 +1,7 @@
 package net.sakuragame.eternal.justquest.util;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.taylorswiftcn.megumi.uifactory.generate.ui.screen.ScreenUI;
 import ink.ptms.zaphkiel.ZaphkielAPI;
 import net.sakuragame.eternal.dragoncore.config.FolderType;
@@ -16,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 public class Utils {
+
+    private final static Gson gson = new Gson();
 
     public static void giveItems(Player player, Map<String, Integer> items) {
         int i = 1;
@@ -72,5 +76,9 @@ public class Utils {
         int to = (page > total) ? size : Math.min((page + 1) * 6, size);
 
         return new PageResult(current + 1, total, new ArrayList<>(list.subList(from, to)));
+    }
+
+    public static JsonObject parse(String data) {
+        return gson.fromJson(data, JsonObject.class);
     }
 }

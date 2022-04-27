@@ -35,12 +35,23 @@ public abstract class AbstractMission implements IMission, Listener {
     }
 
     @Override
+    public String getPlugin() {
+        return null;
+    }
+
+    private boolean isInvalid() {
+        return this.getPlugin() != null && Bukkit.getPluginManager().getPlugin(this.getPlugin()) == null;
+    }
+
+    @Override
     public void enable() {
+        if (this.isInvalid()) return;
         Bukkit.getPluginManager().registerEvents(this, JustQuest.getInstance());
     }
 
     @Override
     public void disable() {
+        if (this.isInvalid()) return;
         HandlerList.unregisterAll(this);
     }
 

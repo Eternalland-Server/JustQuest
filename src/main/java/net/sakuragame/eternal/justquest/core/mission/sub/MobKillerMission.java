@@ -31,6 +31,11 @@ public class MobKillerMission extends AbstractMission {
     }
 
     @Override
+    public String getPlugin() {
+        return "MythicMobs";
+    }
+
+    @Override
     public ScreenUI getProgressDisplay(UUID uuid) {
         List<String> display = new ArrayList<>();
         ExpendProgress progress = (ExpendProgress) this.getData(uuid);

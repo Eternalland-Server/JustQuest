@@ -25,6 +25,11 @@ public class LearnAbilityMission extends AbstractMission {
     }
 
     @Override
+    public String getPlugin() {
+        return "JustAbility";
+    }
+
+    @Override
     public ScreenUI getProgressDisplay(UUID uuid) {
         CountProgress progress = (CountProgress) this.getData(uuid);
 

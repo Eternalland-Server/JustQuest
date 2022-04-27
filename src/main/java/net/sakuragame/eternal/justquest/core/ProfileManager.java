@@ -129,6 +129,7 @@ public class ProfileManager {
         this.registerMissionPreset("consume", ConsumeMission.class);
         this.registerMissionPreset("dungeon", DungeonMission.class);
         this.registerMissionPreset("collect", CollectMission.class);
+        this.registerMissionPreset("smelter", SmelterMission.class);
     }
     
     private void registerEventPreset() {

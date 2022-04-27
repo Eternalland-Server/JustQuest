@@ -29,6 +29,11 @@ public class DungeonMission extends AbstractMission {
     }
 
     @Override
+    public String getPlugin() {
+        return "KirraDungeonCommon";
+    }
+
+    @Override
     public void navigation(Player player) {
         if (KirraDungeonCommonAPI.INSTANCE.getCurrentServer() != KirraDungeonCommonAPI.ServerType.CLIENT ) return;
         KirraDungeonClientAPI.INSTANCE.openUI(player, this.id);

@@ -12,6 +12,8 @@ public interface IMission {
 
     List<String> getDescriptions();
 
+    String getPlugin();
+
     /**
      * 启用
      */

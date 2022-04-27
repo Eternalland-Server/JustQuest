@@ -21,6 +21,11 @@ public class CreateTeamMission extends AbstractMission {
     }
 
     @Override
+    public String getPlugin() {
+        return "KirraParty";
+    }
+
+    @Override
     public ScreenUI getProgressDisplay(UUID uuid) {
         ScreenUI ui = new ScreenUI(QuestUIManager.QUEST_OBJECTIVE_ID);
         ui.addComponent(

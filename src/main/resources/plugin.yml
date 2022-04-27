@@ -18,6 +18,7 @@ softdepend:
   - KirraDungeonCommon
   - KirraPartyBukkit
   - JustStore
+  - JustAlchemy
 
 commands:
   jquest:
