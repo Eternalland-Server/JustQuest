@@ -132,6 +132,7 @@ public class ProfileManager {
         this.registerMissionPreset("smelter", SmelterMission.class);
         this.registerMissionPreset("store_trade", StoreTradeMission.class);
         this.registerMissionPreset("identify", IdentifyMission.class);
+        this.registerMissionPreset("level_up", LevelUpMission.class);
     }
     
     private void registerEventPreset() {
