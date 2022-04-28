@@ -43,7 +43,7 @@ public class ConversationMission extends AbstractMission {
 
     @Override
     public void navigation(Player player) {
-        WaypointsAPI.navNPC(player, this.npcID, 4, Arrays.asList("§6§l前往", "§f(%distance%m)"));
+        WaypointsAPI.navNPC(player, this.npcID, 5, Arrays.asList("§6§l前往", "§f(%distance%m)"));
     }
 
     @Override
@@ -120,6 +120,9 @@ public class ConversationMission extends AbstractMission {
             if (!key.equals(ID)) return;
             this.complete = true;
         }
+
+        @Override
+        public void push(int i) {}
 
         @Override
         public void push(String key, int i) {

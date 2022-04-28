@@ -12,6 +12,8 @@ public interface IProgress {
 
     void push(String key);
 
+    void push(int i);
+
     void push(String key, int i);
 
     boolean isFinished();

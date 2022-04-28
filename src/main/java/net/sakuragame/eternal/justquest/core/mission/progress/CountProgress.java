@@ -31,8 +31,13 @@ public class CountProgress extends AbstractProgress {
     }
 
     @Override
+    public void push(int i) {
+        this.count -= i;
+    }
+
+    @Override
     public void push(String key, int i) {
-        this.push();
+        this.push(i);
     }
 
     @Override

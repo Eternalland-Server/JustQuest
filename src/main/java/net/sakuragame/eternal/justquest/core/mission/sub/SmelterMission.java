@@ -111,14 +111,15 @@ public class SmelterMission extends AbstractMission {
         }
 
         @Override
-        public void push() {
-
-        }
+        public void push() {}
 
         @Override
         public void push(String key) {
             this.push(key, 1);
         }
+
+        @Override
+        public void push(int i) {}
 
         @Override
         public void push(String key, int i) {
