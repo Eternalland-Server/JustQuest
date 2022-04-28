@@ -143,6 +143,7 @@ public class ProfileManager {
         this.registerEventPreset("title", TitleEvent.class);
         this.registerEventPreset("waypoints", WaypointsEvent.class);
         this.registerEventPreset("dungeon", DungeonEvent.class);
+        this.registerEventPreset("remove_effect", RemoveEffectEvent.class);
     }
 
     public void registerQuestPreset(QuestType type, Class<? extends AbstractQuest> questPreset) {
