@@ -41,4 +41,12 @@ public class AccountManager {
 
         this.accounts.remove(uuid);
     }
+
+    public void saveAccountsQuest() {
+        this.accounts.values().forEach(QuestAccount::saveQuestsProgress);
+    }
+
+    public void resumeAccountsQuest() {
+        this.accounts.values().forEach(QuestAccount::resumeQuestsProgress);
+    }
 }

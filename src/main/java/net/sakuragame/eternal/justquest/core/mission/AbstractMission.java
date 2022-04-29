@@ -77,6 +77,8 @@ public abstract class AbstractMission implements IMission, Listener {
     @Override
     public void restrain(UUID uuid) {
         IProgress progress = this.data.remove(uuid);
+        if (progress == null) return;
+
         QuestAccount account = JustQuest.getAccountManager().getAccount(uuid);
         account.saveQuestProgress(progress.getQuestID(), this.ID, progress.getConvertData());
 
