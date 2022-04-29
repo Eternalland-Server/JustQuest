@@ -4,14 +4,14 @@ import net.sakuragame.eternal.dragoncore.database.mysql.DatabaseTable;
 
 public enum QuestTables {
 
-    Quest_Account(new DatabaseTable("justquest_account",
+    Quest_Account(new DatabaseTable("quest_account",
             new String[]{
                     "`uid` int not null PRIMARY KEY",
                     "`trace` varchar(32)"
             }
     )),
 
-    Quest_Finished(new DatabaseTable("justquest_finished",
+    Quest_Finished(new DatabaseTable("quest_finished",
             new String[]{
                     "`uid` int not null",
                     "`quest` varchar(32) not null",
@@ -19,7 +19,7 @@ public enum QuestTables {
             }
     )),
 
-    Quest_Progress(new DatabaseTable("justquest_progress",
+    Quest_Progress(new DatabaseTable("quest_progress",
             new String[]{
                     "`uid` int not null",
                     "`quest` varchar(32) not null",

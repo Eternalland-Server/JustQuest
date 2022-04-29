@@ -8,7 +8,7 @@ public enum QuestType {
     MQ(1, "◧", "ui/quest/1.png"), // 主线
     SQ(2, "◨", "ui/quest/2.png"), // 支线
     DQ(3, "◩", "ui/quest/3.png"), // 每日
-    HQ(4, "◪", "ui/quest/4.png"); // 跑环
+    CQ(4, "◪", "ui/quest/4.png"); // 跑环
 
     private final int ID;
     private final String symbol;

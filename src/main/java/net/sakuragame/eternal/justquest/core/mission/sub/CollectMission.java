@@ -26,10 +26,12 @@ import java.util.UUID;
 public class CollectMission extends AbstractMission {
 
     private final Map<String, Integer> requirement;
+    private final boolean remove;
 
     public CollectMission(String ID, String type, List<String> navigationEvents, List<String> completeEvents, List<String> descriptions, ConfigurationSection section) {
         super(ID, type, navigationEvents, completeEvents, descriptions, section);
         this.requirement = new LinkedHashMap<>();
+        this.remove = section.getBoolean("remove", false);
 
         for (String key : section.getKeys(false)) {
             int amount = section.getInt(key);
@@ -129,6 +131,11 @@ public class CollectMission extends AbstractMission {
 
         IProgress progress = this.getData(uuid);
         if (progress == null) return;
+
+        if (this.remove) {
+            e.getItem().remove();
+            e.setCancelled(true);
+        }
 
         progress.push(id, itemStack.getAmount());
         if (!progress.isFinished()) {
