@@ -10,6 +10,7 @@ public class MainCommand extends JustCommand {
         register(new OpenCommand());
         register(new PurgeCommand());
         register(new AllotCommand());
+        register(new EventCommand());
         register(new ReloadCommand());
     }
 }

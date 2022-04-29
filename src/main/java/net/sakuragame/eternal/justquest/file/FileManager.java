@@ -4,7 +4,6 @@ import com.taylorswiftcn.justwei.file.JustConfiguration;
 import com.taylorswiftcn.justwei.util.MegumiUtil;
 import net.sakuragame.eternal.justquest.JustQuest;
 import net.sakuragame.eternal.justquest.file.sub.ConfigFile;
-import net.sakuragame.eternal.justquest.file.sub.MessageFile;
 import lombok.Getter;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -15,7 +14,6 @@ public class FileManager extends JustConfiguration {
 
     private final JustQuest plugin;
     @Getter private YamlConfiguration config;
-    @Getter private YamlConfiguration message;
 
     public FileManager(JustQuest plugin) {
         super(plugin);
@@ -24,10 +22,8 @@ public class FileManager extends JustConfiguration {
 
     public void init() {
         config = initFile("config.yml");
-        message = initFile("message.yml");
 
         ConfigFile.init();
-        MessageFile.init();
 
         this.initDefaultConfig();
     }
