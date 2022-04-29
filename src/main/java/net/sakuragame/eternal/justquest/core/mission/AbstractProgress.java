@@ -20,6 +20,7 @@ public abstract class AbstractProgress implements IProgress {
     @Override
     public void update() {
         QuestAccount account = JustQuest.getAccountManager().getAccount(this.UUID);
+        if (account == null) return;
         if (!account.getQuestTrace().equals(this.questID)) return;
         account.updateTraceBar();
     }
