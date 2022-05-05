@@ -1,6 +1,7 @@
 package net.sakuragame.eternal.justquest.core.user;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.sakuragame.eternal.dragoncore.network.PacketSender;
 import net.sakuragame.eternal.justquest.JustQuest;
 import net.sakuragame.eternal.justquest.api.event.QuestEvent;
@@ -16,23 +17,25 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Getter
+@Setter
 public class QuestAccount {
 
     private final UUID uuid;
     private String questTrace;
-    private final List<String> finished;
-    private final Map<String, QuestProgress> questProgress;
+    private int chain;
+    private List<String> finished;
+    private Map<String, QuestProgress> questProgress;
 
-    public QuestAccount(UUID uuid, String questTrace, List<String> finished, Map<String, QuestProgress> questProgress) {
+    public QuestAccount(UUID uuid) {
         this.uuid = uuid;
-        this.questTrace = questTrace;
-        this.finished = finished;
-        this.questProgress = questProgress;
     }
 
-    public IQuest getTraceQuest() {
-        if (this.questTrace == null) return null;
-        return JustQuest.getProfileManager().getQuest(this.questTrace);
+    public QuestAccount(UUID uuid, String questTrace, int chain, List<String> finished, Map<String, QuestProgress> questProgress) {
+        this.uuid = uuid;
+        this.questTrace = questTrace;
+        this.chain = chain;
+        this.finished = finished;
+        this.questProgress = questProgress;
     }
 
     public IMission getTraceMission() {
@@ -200,14 +203,13 @@ public class QuestAccount {
 
     public void completeMission(String questID, String missionID) {
         IQuest quest = JustQuest.getProfileManager().getQuest(questID);
-        String next = quest.nextMission(missionID);
+        IMission next = quest.nextMission(missionID);
         if (next == null) {
             this.completeQuest(questID);
             return;
         }
 
-        IMission mission = JustQuest.getProfileManager().getMission(next);
-        mission.active(uuid, questID);
+        next.active(uuid, questID);
     }
 
     public void deleteProgress(String questID) {

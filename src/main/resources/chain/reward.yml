@@ -1,0 +1,27 @@
+40:
+  money: 300000
+  items:
+    - aluminum_ore 1 1
+    - stibium_ore 1 1
+    - common_material 6 1
+    - adamas_stone 1 0.5
+    - rose_stone 1 0.5
+    - trumpet_server 1 0.2
+20:
+  money: 200000
+  items:
+    - phosphorus_ore 1 1
+    - plumbum_ore 1 1
+    - common_material 4 1
+    - river_stone 1 0.5
+    - revivelight_stone 1 0.5
+    - trumpet_server 1 0.1
+0:
+  money: 100000
+  items:
+    - iron_ore 1 1
+    - copper_ore 1 1
+    - common_material 2 1
+    - moonlight_stone 1 0.5
+    - sunlight_stone 1 0.5
+    - trumpet_server 1 0.05

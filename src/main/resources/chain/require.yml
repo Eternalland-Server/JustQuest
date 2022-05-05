@@ -1,0 +1,146 @@
+require_1:
+  item: green_hair
+  amount: 12-24
+  dungeon: '上古战场'
+  mobs: '哥布林弩手'
+  scope: 20
+require_2:
+  item: rags
+  amount: 12-24
+  dungeon: '上古战场'
+  mobs: '哥布林战士'
+  scope: 0
+require_3:
+  item: strange_liquid
+  amount: 2-4
+  dungeon: '上古战场'
+  mobs: '哥布林酋长'
+  scope: 0
+require_4:
+  item: wood_spirit_branch
+  amount: 12-24
+  dungeon: '上古战场'
+  mobs: '木灵兽'
+  scope: 0
+require_5:
+  item: wood_spirit_block
+  amount: 12-24
+  dungeon: '上古战场'
+  mobs: '木灵守卫'
+  scope: 0
+require_6:
+  item: wood_spirit_fruit
+  amount: 2-4
+  dungeon: '上古战场'
+  mobs: '木灵法师'
+  scope: 0
+require_7:
+  item: missing_leg_bone
+  amount: 12-24
+  dungeon: '上古战场'
+  mobs: '骸骨剜刀者'
+  scope: 0
+require_8:
+  item: missing_ribs
+  amount: 12-24
+  dungeon: '上古战场'
+  mobs: '骸骨屠夫'
+  scope: 0
+require_9:
+  item: lost_skull
+  amount: 2-4
+  dungeon: '上古战场'
+  mobs: '骸骨指引者'
+  scope: 0
+require_10:
+  item: smooth_rock
+  amount: 12-24
+  dungeon: '上古战场'
+  mobs: '坚岩猪猪'
+  scope: 0
+require_11:
+  item: hard_rock_slab
+  amount: 12-24
+  dungeon: '上古战场'
+  mobs: '坚岩侏儒'
+  scope: 0
+require_12:
+  item: spirit_rock
+  amount: 12-24
+  dungeon: '上古战场'
+  mobs: '坚岩人偶'
+  scope: 0
+
+require_13:
+  item: sunflower_seeds
+  amount: 8-16
+  dungeon: '上古战场'
+  mobs: '浣熊'
+  scope: 20
+require_14:
+  item: hedgehog
+  amount: 8-16
+  dungeon: '上古战场'
+  mobs: '刺猬'
+  scope: 20
+require_15:
+  item: elk_hoof
+  amount: 8-16
+  dungeon: '上古战场'
+  mobs: '麋鹿'
+  scope: 20
+require_16:
+  item: pine_cones
+  amount: 8-16
+  dungeon: '上古战场'
+  mobs: '松鼠'
+  scope: 20
+require_17:
+  item: skunk_claw
+  amount: 8-16
+  dungeon: '上古战场'
+  mobs: '臭鼬'
+  scope: 20
+require_18:
+  item: frog_legs
+  amount: 8-16
+  dungeon: '上古战场'
+  mobs: '青蛙'
+  scope: 20
+
+require_19:
+  item: chariot_parts
+  amount: 12-24
+  dungeon: '上古战场'
+  mobs: '上古哥布林'
+  scope: 40
+require_20:
+  item: spell_bone
+  amount: 12-24
+  dungeon: '上古战场'
+  mobs: '上古骸骨'
+  scope: 40
+require_21:
+  item: heart_of_wood
+  amount: 12-24
+  dungeon: '上古战场'
+  mobs: '上古木灵'
+  scope: 40
+require_22:
+  item: power_spar
+  amount: 12-24
+  dungeon: '上古战场'
+  mobs: '上古坚岩'
+  scope: 40
+require_23:
+  item: originium
+  amount: 2-4
+  dungeon: '上古战场'
+  mobs: '晶龙'
+  scope: 40
+require_24:
+  item: evil_body
+  amount: 2-4
+  dungeon: '上古战场'
+  mobs: '咒龙'
+  scope: 40

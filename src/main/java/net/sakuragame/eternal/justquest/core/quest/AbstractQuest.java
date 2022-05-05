@@ -83,10 +83,10 @@ public abstract class AbstractQuest implements IQuest {
     }
 
     @Override
-    public String nextMission(String id) {
+    public IMission nextMission(String id) {
         int index = this.missions.indexOf(id);
         if (index == -1) return null;
         if (index + 1 >= this.missions.size()) return null;
-        return this.missions.get(index + 1);
+        return JustQuest.getProfileManager().getMission(this.missions.get(index + 1));
     }
 }

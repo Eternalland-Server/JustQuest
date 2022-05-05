@@ -1,6 +1,7 @@
 package net.sakuragame.eternal.justquest.core.quest;
 
 import net.sakuragame.eternal.justquest.core.data.QuestType;
+import net.sakuragame.eternal.justquest.core.mission.IMission;
 
 import java.util.List;
 import java.util.UUID;
@@ -92,5 +93,5 @@ public interface IQuest {
      * @param id 当前子任务ID
      * @return {@link String}
      */
-    String nextMission(String id);
+    IMission nextMission(String id);
 }

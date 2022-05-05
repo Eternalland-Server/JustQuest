@@ -7,7 +7,9 @@ public enum QuestTables {
     Quest_Account(new DatabaseTable("quest_account",
             new String[]{
                     "`uid` int not null PRIMARY KEY",
-                    "`trace` varchar(32)"
+                    "`trace` varchar(32)",
+                    "`chain` int default 0",
+                    "`time` timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
             }
     )),
 
@@ -25,8 +27,10 @@ public enum QuestTables {
                     "`quest` varchar(32) not null",
                     "`mission` varchar(32) not null",
                     "`data` text not null",
+                    "`reward` text",
                     "`state` int not null",
                     "`start` timestamp default CURRENT_TIMESTAMP",
+                    "`expire` timestamp",
                     "UNIQUE KEY `channel`(`uid`,`quest`)"
             }
     ));

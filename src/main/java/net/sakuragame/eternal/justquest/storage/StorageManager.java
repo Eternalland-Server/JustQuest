@@ -6,6 +6,7 @@ import net.sakuragame.eternal.justquest.core.user.QuestProgress;
 import net.sakuragame.serversystems.manage.api.database.DataManager;
 import net.sakuragame.serversystems.manage.api.database.DatabaseQuery;
 import net.sakuragame.serversystems.manage.client.api.ClientManagerAPI;
+import org.apache.commons.lang.time.DateUtils;
 
 import java.sql.ResultSet;
 import java.util.*;
@@ -26,9 +27,7 @@ public class StorageManager {
         int uid = ClientManagerAPI.getUserID(uuid);
         if (uid == -1) return null;
 
-        String trace = null;
-        List<String> finished = new ArrayList<>();
-        Map<String, QuestProgress> channels = new HashMap<>();
+        QuestAccount account = new QuestAccount(uuid);
 
         try (DatabaseQuery query = dataManager.createQuery(
                 QuestTables.Quest_Account.getTableName(),
@@ -36,7 +35,21 @@ public class StorageManager {
         )) {
             ResultSet result = query.getResultSet();
             if (result.next()) {
-                trace = result.getString("trace");
+                String trace = result.getString("trace");
+                int chain = result.getInt("chain");
+                Date date = result.getDate("time");
+
+                account.setQuestTrace(trace);
+                if (DateUtils.isSameDay(date, new Date())) {
+                    account.setChain(chain);
+                }
+                else {
+                    account.setChain(0);
+                    dataManager.executeUpdate(
+                            QuestTables.Quest_Account.getTableName(),
+                            "chain", 0, "uid", uid
+                    );
+                }
             }
         }
         catch (Exception e) {
@@ -48,9 +61,12 @@ public class StorageManager {
                 "uid", uid
         )) {
             ResultSet result = query.getResultSet();
+            List<String> finished = new ArrayList<>();
             while (result.next()) {
                 finished.add(result.getString("quest"));
             }
+
+            account.setFinished(finished);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -61,20 +77,23 @@ public class StorageManager {
                 "uid", uid
         )) {
             ResultSet result = query.getResultSet();
+            Map<String, QuestProgress> progress = new HashMap<>();
             while (result.next()) {
                 String questID = result.getString("quest");
                 String missionID = result.getString("mission");
                 String progressData = result.getString("data");
                 QuestState state = QuestState.match(result.getInt("state"));
 
-                channels.put(questID, new QuestProgress(questID, missionID, progressData, state));
+                progress.put(questID, new QuestProgress(questID, missionID, progressData, state));
             }
+
+            account.setQuestProgress(progress);
         }
         catch (Exception e) {
             e.printStackTrace();
         }
 
-        return new QuestAccount(uuid, trace, finished, channels);
+        return account;
     }
 
     public void updateTrace(UUID uuid, String trace) {
