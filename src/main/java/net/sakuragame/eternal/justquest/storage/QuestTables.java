@@ -30,7 +30,7 @@ public enum QuestTables {
                     "`reward` text",
                     "`state` int not null",
                     "`start` timestamp default CURRENT_TIMESTAMP",
-                    "`expire` timestamp",
+                    "`expire` DATETIME",
                     "UNIQUE KEY `channel`(`uid`,`quest`)"
             }
     ));

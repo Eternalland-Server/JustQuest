@@ -41,11 +41,11 @@ public class ConversationManager {
 
         Conversation def = config.getDefaultConversation();
         for (String quest : config.getQuestConversation()) {
-            if (account.getQuestProgress().containsKey(quest)) {
-                QuestProgress progress = account.getQuestProgress().get(quest);
+            if (account.getProgresses().containsKey(quest)) {
+                QuestProgress progress = account.getProgresses().get(quest);
                 if (progress.isCompleted()) continue;
 
-                String mission = account.getQuestProgress().get(quest).getMissionID();
+                String mission = account.getProgresses().get(quest).getMissionID();
                 Conversation conv = JustQuest.getProfileManager().getConversation(mission);
                 if (conv == null) continue;
                 if (conv.getNPC() != null && !conv.getNPC().equals(id)) continue;

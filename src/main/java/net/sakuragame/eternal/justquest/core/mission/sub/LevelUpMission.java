@@ -35,8 +35,8 @@ public class LevelUpMission extends AbstractMission {
     }
 
     @Override
-    public void keep(UUID uuid, String questID, String data) {
-        super.keep(uuid, questID, data);
+    public void keep(UUID uuid, String questID) {
+        super.keep(uuid, questID);
 
         Player player = Bukkit.getPlayer(uuid);
         if (player.getLevel() >= this.requirement) {

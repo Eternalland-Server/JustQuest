@@ -1,10 +1,16 @@
 package net.sakuragame.eternal.justquest.storage;
 
+import com.alibaba.fastjson.JSON;
+import net.sakuragame.eternal.justquest.JustQuest;
 import net.sakuragame.eternal.justquest.core.data.QuestState;
+import net.sakuragame.eternal.justquest.core.mission.IMission;
+import net.sakuragame.eternal.justquest.core.mission.IProgress;
+import net.sakuragame.eternal.justquest.core.quest.QuestReward;
 import net.sakuragame.eternal.justquest.core.user.QuestAccount;
 import net.sakuragame.eternal.justquest.core.user.QuestProgress;
 import net.sakuragame.serversystems.manage.api.database.DataManager;
 import net.sakuragame.serversystems.manage.api.database.DatabaseQuery;
+import net.sakuragame.serversystems.manage.api.util.TimeDataUtils;
 import net.sakuragame.serversystems.manage.client.api.ClientManagerAPI;
 import org.apache.commons.lang.time.DateUtils;
 
@@ -39,7 +45,7 @@ public class StorageManager {
                 int chain = result.getInt("chain");
                 Date date = result.getDate("time");
 
-                account.setQuestTrace(trace);
+                if (trace != null) account.setTrace(trace);
                 if (DateUtils.isSameDay(date, new Date())) {
                     account.setChain(chain);
                 }
@@ -77,17 +83,25 @@ public class StorageManager {
                 "uid", uid
         )) {
             ResultSet result = query.getResultSet();
-            Map<String, QuestProgress> progress = new HashMap<>();
+            Map<String, QuestProgress> progresses = new HashMap<>();
             while (result.next()) {
                 String questID = result.getString("quest");
                 String missionID = result.getString("mission");
                 String progressData = result.getString("data");
+                String rewardData = result.getString("reward");
                 QuestState state = QuestState.match(result.getInt("state"));
+                String expire = result.getString("expire");
 
-                progress.put(questID, new QuestProgress(questID, missionID, progressData, state));
+                IMission mission = JustQuest.getProfileManager().getMission(missionID);
+                if (mission == null) continue;
+
+                IProgress progress = mission.newProgress(uuid, questID, progressData);
+                QuestReward reward = (rewardData != null) ? JSON.parseObject(rewardData, QuestReward.class) : null;
+
+                progresses.put(questID, new QuestProgress(questID, missionID, progress, reward, state, expire == null ? -1 : TimeDataUtils.getTimeMillis(expire)));
             }
 
-            account.setQuestProgress(progress);
+            account.setProgresses(progresses);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -107,14 +121,25 @@ public class StorageManager {
         );
     }
 
-    public void updateQuestProgress(UUID uuid, QuestProgress progress) {
+    public void updateQuestProgress(UUID uuid, QuestProgress data) {
         int uid = ClientManagerAPI.getUserID(uuid);
         if (uid == -1) return;
 
         dataManager.executeReplace(
                 QuestTables.Quest_Progress.getTableName(),
                 new String[]{"uid", "quest", "mission", "data", "state"},
-                new Object[]{uid, progress.getQuestID(), progress.getMissionID(), progress.getData(), progress.getState().getID()}
+                new Object[]{uid, data.getQuestID(), data.getMissionID(), data.getProgress().getConvertData(), data.getState().getID()}
+        );
+    }
+
+    public void insertQuestProgress(UUID uuid, QuestProgress data) {
+        int uid = ClientManagerAPI.getUserID(uuid);
+        if (uid == -1) return;
+
+        dataManager.executeInsert(
+                QuestTables.Quest_Progress.getTableName(),
+                new String[]{"uid", "quest", "mission", "data", "reward", "state", "expire"},
+                new Object[]{uid, data.getQuestID(), data.getMissionID(), data.getProgress().getConvertData(), data.getRewardData(), data.getState().getID(), data.getExpire()}
         );
     }
 
@@ -124,6 +149,17 @@ public class StorageManager {
 
         dataManager.executeDelete(
                 QuestTables.Quest_Progress.getTableName(),
+                new String[]{"uid", "quest"},
+                new Object[]{uid, questID}
+        );
+    }
+
+    public void insertFinished(UUID uuid, String questID) {
+        int uid = ClientManagerAPI.getUserID(uuid);
+        if (uid == -1) return;
+
+        dataManager.executeReplace(
+                QuestTables.Quest_Finished.getTableName(),
                 new String[]{"uid", "quest"},
                 new Object[]{uid, questID}
         );

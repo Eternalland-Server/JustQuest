@@ -34,8 +34,8 @@ public class ElevateRealmMission extends AbstractMission {
     }
 
     @Override
-    public void keep(UUID uuid, String questID, String data) {
-        super.keep(uuid, questID, data);
+    public void keep(UUID uuid, String questID) {
+        super.keep(uuid, questID);
 
         if (JustLevelAPI.getRealm(uuid) >= this.requirement) {
             this.complete(uuid);

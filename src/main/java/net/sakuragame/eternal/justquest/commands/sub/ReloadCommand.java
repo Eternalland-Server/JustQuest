@@ -4,6 +4,7 @@ import com.taylorswiftcn.justwei.commands.sub.SubCommand;
 import net.sakuragame.eternal.justquest.JustQuest;
 import net.sakuragame.eternal.justquest.commands.CommandPerms;
 import net.sakuragame.eternal.justquest.file.sub.ConfigFile;
+import net.sakuragame.eternal.justquest.util.Scheduler;
 import org.bukkit.command.CommandSender;
 
 public class ReloadCommand extends SubCommand {
@@ -15,8 +16,10 @@ public class ReloadCommand extends SubCommand {
 
     @Override
     public void perform(CommandSender sender, String[] args) {
-        JustQuest.getInstance().reload();
-        sender.sendMessage(ConfigFile.prefix + "重载配置文件成功");
+        Scheduler.runAsync(() -> {
+            JustQuest.getInstance().reload();
+            sender.sendMessage(ConfigFile.prefix + "重载配置文件成功");
+        });
     }
 
     @Override

@@ -39,7 +39,7 @@ public class QuestList {
         for (int i = 0; i < quests.size(); i++) {
             String id = this.quests.get(i);
             IQuest quest = JustQuest.getProfileManager().getQuest(id);
-            QuestProgress progress = account.getQuestProgress().get(id);
+            QuestProgress progress = account.getProgresses().get(id);
 
             UI
                     .addComponent(new TextureComp("q_" + i)

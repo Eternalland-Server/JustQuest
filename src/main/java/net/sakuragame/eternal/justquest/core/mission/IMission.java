@@ -50,10 +50,9 @@ public interface IMission {
      * 为玩家继续激活目标任务
      *
      * @param uuid    uuid
-     * @param questID 任务id
-     * @param data    进度数据
+     * @param questID 任务ID
      */
-    void keep(UUID uuid, String questID, String data);
+    void keep(UUID uuid, String questID);
 
     /**
      * 完成任务

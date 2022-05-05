@@ -4,14 +4,10 @@ import net.sakuragame.eternal.justquest.JustQuest;
 import net.sakuragame.eternal.justquest.core.event.IEvent;
 import net.sakuragame.eternal.justquest.core.mission.IMission;
 import net.sakuragame.eternal.justquest.core.quest.IQuest;
-import net.sakuragame.eternal.justquest.core.user.QuestAccount;
-import net.sakuragame.eternal.justquest.core.user.QuestProgress;
-import net.sakuragame.eternal.justquest.file.sub.ConfigFile;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public class QuestManager {
@@ -23,18 +19,11 @@ public class QuestManager {
         quest.allot(uuid);
     }
 
-    public void resumeQuest(UUID uuid, String questID, String missionID, String data) {
+    public void resumeQuest(UUID uuid, String questID, String missionID) {
         IQuest quest = JustQuest.getProfileManager().getQuest(questID);
         if (quest == null) return;
 
-        quest.resume(uuid, missionID, data);
-    }
-
-    public void saveProgress(UUID uuid, String id) {
-        IMission mission = JustQuest.getProfileManager().getMission(id);
-        if (mission == null) return;
-
-        mission.restrain(uuid);
+        quest.resume(uuid, missionID);
     }
 
     public void fireEvents(Player player, List<String> events) {

@@ -87,7 +87,7 @@ public class ProfileManager {
         this.loadEvent();
         this.loadMissionHook();
         this.loadExhibitNPC();
-        this.loadChain();
+        /*this.loadChain();*/
 
         plugin.getLogger().info("loaded " + npcConfig.size() + " npc");
         plugin.getLogger().info("loaded " + conversations.size() + " conversations");

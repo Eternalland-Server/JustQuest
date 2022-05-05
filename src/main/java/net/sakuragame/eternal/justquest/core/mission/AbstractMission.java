@@ -9,10 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 public abstract class AbstractMission implements IMission, Listener {
@@ -24,7 +21,7 @@ public abstract class AbstractMission implements IMission, Listener {
     private final List<String> completeEvents;
     private final List<String> descriptions;
 
-    private final Map<UUID, IProgress> data;
+    private final Map<UUID, String> members;
 
     public AbstractMission(String ID, String type, List<String> navigationEvents, List<String> completeEvents, List<String> descriptions, ConfigurationSection section) {
         this.ID = ID;
@@ -33,7 +30,7 @@ public abstract class AbstractMission implements IMission, Listener {
         this.completeEvents = completeEvents;
         this.descriptions = descriptions;
 
-        this.data = new HashMap<>();
+        this.members = new HashMap<>();
     }
 
     @Override
@@ -59,53 +56,45 @@ public abstract class AbstractMission implements IMission, Listener {
 
     @Override
     public void active(UUID uuid, String questID) {
-        IProgress progress = this.newProgress(uuid, questID);
-        this.data.put(uuid, progress);
+        this.members.put(uuid, questID);
 
         QuestAccount account = JustQuest.getAccountManager().getAccount(uuid);
-        account.saveQuestProgress(questID, this.ID, progress.getConvertData());
-
-        if (account.getQuestTrace() == null) {
+        IProgress progress = this.newProgress(uuid, questID);
+        account.newQuestProgress(questID, this.ID, progress, null);
+        if (account.getTrace() == null) {
             account.setQuestTrace(questID);
             account.updateTraceBar();
         }
-
         progress.update();
-        if (this.data.size() == 1) this.enable();
+
+        if (this.members.size() == 1) this.enable();
     }
 
     @Override
     public void restrain(UUID uuid) {
-        IProgress progress = this.data.remove(uuid);
-        if (progress == null) return;
-
-        QuestAccount account = JustQuest.getAccountManager().getAccount(uuid);
-        account.saveQuestProgress(progress.getQuestID(), this.ID, progress.getConvertData());
-
-        if (this.data.size() == 0) this.disable();
+        this.members.remove(uuid);
+        if (this.members.size() == 0) this.disable();
     }
 
     @Override
     public void abandon(UUID uuid) {
-        this.data.remove(uuid);
-        if (this.data.size() == 0) this.disable();
+        this.members.remove(uuid);
+        if (this.members.size() == 0) this.disable();
     }
 
     @Override
-    public void keep(UUID uuid, String questID, String data) {
-        IProgress progress = this.newProgress(uuid, questID, data);
-        this.data.put(uuid, progress);
-
-        if (this.data.size() == 1) this.enable();
+    public void keep(UUID uuid, String questID) {
+        this.members.put(uuid, questID);
+        if (this.members.size() == 1) this.enable();
     }
 
     @Override
     public void complete(UUID uuid) {
-        IProgress progress = this.data.remove(uuid);
+        String questID = this.members.remove(uuid);
         JustQuest.getQuestManager().fireEvents(uuid, this.completeEvents);
 
         QuestAccount account = JustQuest.getAccountManager().getAccount(uuid);
-        account.completeMission(progress.getQuestID(), this.ID);
+        account.completeMission(questID, this.ID);
     }
 
     @Override
@@ -116,6 +105,10 @@ public abstract class AbstractMission implements IMission, Listener {
     }
 
     public IProgress getData(UUID uuid) {
-        return this.data.get(uuid);
+        String questID = this.members.get(uuid);
+        if (questID == null) return null;
+
+        QuestAccount account = JustQuest.getAccountManager().getAccount(uuid);
+        return account.getProgresses().get(questID).getProgress();
     }
 }

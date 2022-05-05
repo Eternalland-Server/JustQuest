@@ -55,9 +55,8 @@ public interface IQuest {
      *
      * @param uuid      uuid
      * @param missionID 子任务id
-     * @param data      任务数据
      */
-    void resume(UUID uuid, String missionID, String data);
+    void resume(UUID uuid, String missionID);
 
     /**
      * 取消玩家任务

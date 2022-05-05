@@ -1,7 +1,6 @@
 package net.sakuragame.eternal.justquest.ui;
 
 import com.taylorswiftcn.megumi.uifactory.generate.function.Statements;
-import com.taylorswiftcn.megumi.uifactory.generate.ui.screen.ScreenUI;
 import ink.ptms.zaphkiel.ZaphkielAPI;
 import lombok.Getter;
 import net.sakuragame.eternal.dragoncore.config.FolderType;
@@ -100,7 +99,7 @@ public class QuestUIManager {
 
     public void setQuestContent(Player player, String questID) {
         QuestAccount account = JustQuest.getAccountManager().getAccount(player);
-        QuestProgress progress = account.getQuestProgress().get(questID);
+        QuestProgress progress = account.getProgresses().get(questID);
 
         String missionID = progress.getMissionID();
 
@@ -132,7 +131,7 @@ public class QuestUIManager {
         Statements statements = new Statements()
                 .add("global.quest_allow_cancel = " + (quest.isAllowCancel() ? 1 : 0) + ";")
                 .add("global.quest_is_completed = " + (progress.isCompleted() ? 1 : 0) + ";")
-                .add("global.quest_trace = " + (account.getQuestTrace().equals(questID) ? 1 : 0) + ";");
+                .add("global.quest_trace = " + (account.getTrace().equals(questID) ? 1 : 0) + ";");
 
         PacketSender.sendRunFunction(player, "default", statements.build(), false);
 
