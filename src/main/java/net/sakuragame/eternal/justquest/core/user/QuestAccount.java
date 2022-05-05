@@ -65,15 +65,6 @@ public class QuestAccount {
         return result;
     }
 
-    public void removeExpireProgress() {
-        for (String id : this.progresses.keySet()) {
-            QuestProgress progress = this.progresses.get(id);
-            if (!progress.isExpire()) continue;
-
-            this.deleteQuestProgress(id);
-        }
-    }
-
     public void resumeQuestsProgress() {
         progresses.values().forEach(k -> {
             if (!k.isCompleted()) {
@@ -97,11 +88,17 @@ public class QuestAccount {
         });
     }
 
-    public void newQuestProgress(String questID, String missionID, IProgress progress, Long expire) {
-        QuestProgress questProgress = new QuestProgress(questID, missionID, progress, expire);
+    public void newQuestProgress(String questID, String missionID, IProgress progress) {
+        QuestProgress questProgress = new QuestProgress(questID, missionID, progress);
         this.progresses.put(questID, questProgress);
 
         Scheduler.runAsync(() -> JustQuest.getStorageManager().insertQuestProgress(this.uuid, questProgress));
+    }
+
+    public void addFinished(String questID) {
+        if (this.finished.contains(questID)) return;
+        this.finished.add(questID);
+        JustQuest.getStorageManager().insertFinished(uuid, questID);
     }
 
     public void sendCompletedCount() {

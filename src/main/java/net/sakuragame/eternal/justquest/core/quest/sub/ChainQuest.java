@@ -1,4 +1,4 @@
-package net.sakuragame.eternal.justquest.core.chain;
+package net.sakuragame.eternal.justquest.core.quest.sub;
 
 import net.sakuragame.eternal.justquest.core.data.QuestType;
 import net.sakuragame.eternal.justquest.core.quest.AbstractQuest;
@@ -19,6 +19,6 @@ public class ChainQuest extends AbstractQuest {
 
     @Override
     public boolean isAllowCancel() {
-        return false;
+        return true;
     }
 }

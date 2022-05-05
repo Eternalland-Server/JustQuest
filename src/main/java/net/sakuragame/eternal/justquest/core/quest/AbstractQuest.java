@@ -38,6 +38,7 @@ public abstract class AbstractQuest implements IQuest {
     @Override
     public void allot(UUID uuid) {
         QuestAccount account = JustQuest.getAccountManager().getAccount(uuid);
+        if (account.getFinished().contains(this.getID())) return;
         if (account.getProgresses().containsKey(this.getID())) return;
 
         String missionID = this.getMissions().get(0);
@@ -83,7 +84,7 @@ public abstract class AbstractQuest implements IQuest {
         Scheduler.runAsync(() -> {
             account.deleteQuestProgress(this.ID);
             if (this.getType().isOnce()){
-                JustQuest.getStorageManager().insertFinished(uuid, this.ID);
+                account.addFinished(this.ID);
             }
         });
 

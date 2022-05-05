@@ -1,10 +1,7 @@
 package net.sakuragame.eternal.justquest.core;
 
 import com.taylorswiftcn.justwei.util.MegumiUtil;
-import net.sakuragame.eternal.dragoncore.util.Pair;
 import net.sakuragame.eternal.justquest.JustQuest;
-import net.sakuragame.eternal.justquest.core.chain.ChainRequire;
-import net.sakuragame.eternal.justquest.core.chain.ChainReward;
 import net.sakuragame.eternal.justquest.core.conversation.Conversation;
 import net.sakuragame.eternal.justquest.core.conversation.Dialogue;
 import net.sakuragame.eternal.justquest.core.conversation.ReplayOption;
@@ -14,12 +11,12 @@ import net.sakuragame.eternal.justquest.core.data.QuestType;
 import net.sakuragame.eternal.justquest.core.event.AbstractEvent;
 import net.sakuragame.eternal.justquest.core.event.IEvent;
 import net.sakuragame.eternal.justquest.core.event.sub.*;
+import net.sakuragame.eternal.justquest.core.hook.PluginHook;
+import net.sakuragame.eternal.justquest.core.hook.party.PartyHook;
 import net.sakuragame.eternal.justquest.core.hook.store.MerchantEvent;
 import net.sakuragame.eternal.justquest.core.hook.store.StoreHook;
 import net.sakuragame.eternal.justquest.core.mission.AbstractMission;
 import net.sakuragame.eternal.justquest.core.mission.IMission;
-import net.sakuragame.eternal.justquest.core.hook.PluginHook;
-import net.sakuragame.eternal.justquest.core.hook.party.PartyHook;
 import net.sakuragame.eternal.justquest.core.mission.sub.*;
 import net.sakuragame.eternal.justquest.core.quest.AbstractQuest;
 import net.sakuragame.eternal.justquest.core.quest.IQuest;
@@ -51,9 +48,6 @@ public class ProfileManager {
 
     private Map<String, ExhibitNPC> exhibitNPC;
 
-    private Map<String, ChainRequire> chainRequire;
-    private Map<Integer, ChainReward> chainReward;
-
     
     public ProfileManager(JustQuest plugin) {
         this.plugin = plugin;
@@ -75,9 +69,6 @@ public class ProfileManager {
 
         this.exhibitNPC = new HashMap<>();
 
-        this.chainRequire = new HashMap<>();
-        this.chainReward = new LinkedHashMap<>();
-
         this.registerQuestPreset();
         this.registerMissionPreset();
         this.registerEventPreset();
@@ -87,7 +78,6 @@ public class ProfileManager {
         this.loadEvent();
         this.loadMissionHook();
         this.loadExhibitNPC();
-        /*this.loadChain();*/
 
         plugin.getLogger().info("loaded " + npcConfig.size() + " npc");
         plugin.getLogger().info("loaded " + conversations.size() + " conversations");
@@ -306,7 +296,7 @@ public class ProfileManager {
         }
     }
 
-    private Conversation parseConversation(String id, ConfigurationSection section) {
+    public Conversation parseConversation(String id, ConfigurationSection section) {
         String npc = section.getString("__npc__");
         String complete = section.getString("__complete__");
         Map<String, Dialogue> dialogues = new LinkedHashMap<>();
@@ -351,44 +341,6 @@ public class ProfileManager {
             catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    public void loadChain() {
-        this.loadChainRequire();
-        this.loadChainReward();
-    }
-
-    private void loadChainRequire() {
-        File file = new File(plugin.getDataFolder(), "chain/require.yml");
-        if (!file.exists()) return;
-
-        YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
-        for (String key : yaml.getKeys(false)) {
-            String item = yaml.getString(key + ".item");
-            String amount = yaml.getString(key + ".amount");
-            String dungeon = yaml.getString(key + ".dungeon");
-            String mobs = yaml.getString(key + ".mobs");
-            int scope = yaml.getInt(key + ".scope");
-
-            if (!amount.contains("-")) continue;
-            String[] args = amount.split("-", 2);
-            Pair<Integer, Integer> pair = new Pair<>(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
-
-            this.chainRequire.put(key, new ChainRequire(item, pair, dungeon, mobs, scope));
-        }
-    }
-
-    private void loadChainReward() {
-        File file = new File(plugin.getDataFolder(), "chain/reward.yml");
-        if (!file.exists()) return;
-
-        YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
-        for (String key : yaml.getKeys(false)) {
-            int money = yaml.getInt(key + ".money");
-            List<String> data = yaml.getStringList(key + ".items");
-
-            this.chainReward.put(Integer.parseInt(key), new ChainReward(money, ChainReward.parse(data)));
         }
     }
 }

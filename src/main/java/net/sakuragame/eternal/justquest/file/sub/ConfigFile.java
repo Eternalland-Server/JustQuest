@@ -10,11 +10,13 @@ public class ConfigFile {
     private static YamlConfiguration config;
 
     public static String prefix;
+    public static String chainNPC;
 
     public static void init() {
         config = JustQuest.getFileManager().getConfig();
 
         prefix = getString("prefix");
+        chainNPC = config.getString("chain-npc");
     }
 
     private static String getString(String path) {

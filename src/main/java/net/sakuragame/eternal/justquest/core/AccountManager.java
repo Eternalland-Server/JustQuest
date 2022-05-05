@@ -20,7 +20,6 @@ public class AccountManager {
         QuestAccount account = JustQuest.getStorageManager().getAccount(uuid);
         this.accounts.put(uuid, account);
 
-        account.removeExpireProgress();
         account.resumeQuestsProgress();
     }
 

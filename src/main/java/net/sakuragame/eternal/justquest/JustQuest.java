@@ -1,10 +1,7 @@
 package net.sakuragame.eternal.justquest;
 
 import net.sakuragame.eternal.justquest.commands.MainCommand;
-import net.sakuragame.eternal.justquest.core.AccountManager;
-import net.sakuragame.eternal.justquest.core.ConversationManager;
-import net.sakuragame.eternal.justquest.core.ProfileManager;
-import net.sakuragame.eternal.justquest.core.QuestManager;
+import net.sakuragame.eternal.justquest.core.*;
 import net.sakuragame.eternal.justquest.file.FileManager;
 import lombok.Getter;
 import net.sakuragame.eternal.justquest.listener.*;
@@ -22,6 +19,7 @@ public class JustQuest extends JavaPlugin {
     @Getter private static AccountManager accountManager;
 
     @Getter private static ProfileManager profileManager;
+    @Getter private static ChainManager chainManager;
     @Getter private static QuestManager questManager;
     @Getter private static ConversationManager conversationManager;
 
@@ -40,6 +38,9 @@ public class JustQuest extends JavaPlugin {
 
         profileManager = new ProfileManager(this);
         profileManager.init();
+
+        chainManager = new ChainManager();
+        chainManager.init();
 
         questManager = new QuestManager();
         accountManager = new AccountManager();

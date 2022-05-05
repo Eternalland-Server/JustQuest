@@ -26,6 +26,7 @@ public class FileManager extends JustConfiguration {
         ConfigFile.init();
 
         this.initDefaultConfig();
+        this.initChainConfig();
     }
 
     private void initDefaultConfig() {
@@ -49,6 +50,13 @@ public class FileManager extends JustConfiguration {
         if (eventConfig.mkdirs()) {
             this.copy(plugin.getDataFolder(), "event/events.yml");
         }
+    }
+
+    private void initChainConfig() {
+        File dir = new File(plugin.getDataFolder(), "chain");
+        if (!dir.mkdirs()) return;
+        MegumiUtil.copyFile(plugin.getResource("chain/require.yml"), new File(dir, "require.yml"));
+        MegumiUtil.copyFile(plugin.getResource("chain/reward.yml"), new File(dir, "reward.yml"));
     }
 
     private void copy(File dir, String file) {

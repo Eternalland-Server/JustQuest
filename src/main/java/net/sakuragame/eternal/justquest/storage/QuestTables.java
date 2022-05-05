@@ -27,10 +27,8 @@ public enum QuestTables {
                     "`quest` varchar(32) not null",
                     "`mission` varchar(32) not null",
                     "`data` text not null",
-                    "`reward` text",
                     "`state` int not null",
                     "`start` timestamp default CURRENT_TIMESTAMP",
-                    "`expire` DATETIME",
                     "UNIQUE KEY `channel`(`uid`,`quest`)"
             }
     ));

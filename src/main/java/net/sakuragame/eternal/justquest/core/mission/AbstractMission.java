@@ -60,7 +60,7 @@ public abstract class AbstractMission implements IMission, Listener {
 
         QuestAccount account = JustQuest.getAccountManager().getAccount(uuid);
         IProgress progress = this.newProgress(uuid, questID);
-        account.newQuestProgress(questID, this.ID, progress, null);
+        account.newQuestProgress(questID, this.ID, progress);
         if (account.getTrace() == null) {
             account.setQuestTrace(questID);
             account.updateTraceBar();

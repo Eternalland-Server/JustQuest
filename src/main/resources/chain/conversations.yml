@@ -1,0 +1,31 @@
+Pending:
+  dialogue_0:
+    response:
+      - '你好！热心的探险家'
+      - '商会仓库里面的 <requirement> 又不足了'
+      - '这样下去可不是办法,如果你能帮助我，我将会感激不尽'
+    reply:
+      yes:
+        text: '<chain> 好的，没问题'
+      no:
+        text: '抱歉，我还有事'
+
+Active:
+  dialogue_0:
+    response:
+      - '诶，你怎么还在这'
+      - '老夫可是为你准备了丰富的奖励'
+      - '快去快去，别耽误了'
+    reply:
+      uh:
+        text: '噢，好！'
+
+Finished:
+  dialogue_0:
+    response:
+      - '你做的真不错呀，探险家'
+      - '老夫的奖励已经给你安排好了'
+      - '以后你就多多来老夫这帮忙吧'
+    reply:
+      uh:
+        text: '前往领取奖励'

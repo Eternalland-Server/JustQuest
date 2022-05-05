@@ -51,10 +51,7 @@ public class StorageManager {
                 }
                 else {
                     account.setChain(0);
-                    dataManager.executeUpdate(
-                            QuestTables.Quest_Account.getTableName(),
-                            "chain", 0, "uid", uid
-                    );
+                    dataManager.executeUpdate(QuestTables.Quest_Account.getTableName(), "chain", 0, "uid", uid);
                 }
             }
         }
@@ -88,17 +85,14 @@ public class StorageManager {
                 String questID = result.getString("quest");
                 String missionID = result.getString("mission");
                 String progressData = result.getString("data");
-                String rewardData = result.getString("reward");
                 QuestState state = QuestState.match(result.getInt("state"));
-                String expire = result.getString("expire");
 
                 IMission mission = JustQuest.getProfileManager().getMission(missionID);
                 if (mission == null) continue;
 
                 IProgress progress = mission.newProgress(uuid, questID, progressData);
-                QuestReward reward = (rewardData != null) ? JSON.parseObject(rewardData, QuestReward.class) : null;
 
-                progresses.put(questID, new QuestProgress(questID, missionID, progress, reward, state, expire == null ? -1 : TimeDataUtils.getTimeMillis(expire)));
+                progresses.put(questID, new QuestProgress(questID, missionID, progress, state));
             }
 
             account.setProgresses(progresses);
@@ -138,8 +132,8 @@ public class StorageManager {
 
         dataManager.executeInsert(
                 QuestTables.Quest_Progress.getTableName(),
-                new String[]{"uid", "quest", "mission", "data", "reward", "state", "expire"},
-                new Object[]{uid, data.getQuestID(), data.getMissionID(), data.getProgress().getConvertData(), data.getRewardData(), data.getState().getID(), data.getExpire()}
+                new String[]{"uid", "quest", "mission", "data", "state"},
+                new Object[]{uid, data.getQuestID(), data.getMissionID(), data.getProgress().getConvertData(), data.getState().getID()}
         );
     }
 

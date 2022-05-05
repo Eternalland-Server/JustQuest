@@ -26,7 +26,7 @@ public class AllotCommand extends SubCommand {
         if (quest == null) return;
 
         quest.allot(player.getUniqueId());
-        sender.sendMessage(ConfigFile.prefix + "allot success");
+        sender.sendMessage(ConfigFile.prefix + "Quest assigned");
     }
 
     @Override

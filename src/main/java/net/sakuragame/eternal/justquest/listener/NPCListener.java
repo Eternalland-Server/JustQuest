@@ -6,6 +6,7 @@ import ink.ptms.adyeshach.api.event.AdyeshachEntityInteractEvent;
 import ink.ptms.adyeshach.api.event.AdyeshachPlayerJoinEvent;
 import net.sakuragame.eternal.justquest.JustQuest;
 import net.sakuragame.eternal.justquest.core.data.ExhibitNPC;
+import net.sakuragame.eternal.justquest.file.sub.ConfigFile;
 import net.sakuragame.eternal.justquest.util.Scheduler;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,7 +18,7 @@ import java.util.UUID;
 public class NPCListener implements Listener {
 
     @EventHandler
-    public void onRight(AdyeshachEntityInteractEvent e) {
+    public void onNormal(AdyeshachEntityInteractEvent e) {
         Player player = e.getPlayer();
         if (!e.isMainHand()) return;
 
@@ -44,4 +45,12 @@ public class NPCListener implements Listener {
         });
     }
 
+    @EventHandler
+    public void onChain(AdyeshachEntityInteractEvent e) {
+        Player player = e.getPlayer();
+        if (!e.isMainHand()) return;
+
+        String id = e.getEntity().getId();
+        if (!id.equals(ConfigFile.chainNPC)) return;
+    }
 }
