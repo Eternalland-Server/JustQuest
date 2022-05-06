@@ -11,6 +11,7 @@ import net.sakuragame.eternal.justquest.util.Scheduler;
 import org.bukkit.Bukkit;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Getter
@@ -79,6 +80,9 @@ public abstract class AbstractQuest implements IQuest {
         if (progress == null) return;
         if (!progress.isCompleted()) return;
 
+        IMission mission = JustQuest.getProfileManager().getMission(progress.getMissionID());
+        mission.restrain(uuid);
+
         this.reward.apply(uuid);
 
         Scheduler.runAsync(() -> {
@@ -93,10 +97,30 @@ public abstract class AbstractQuest implements IQuest {
     }
 
     @Override
-    public IMission nextMission(String id) {
+    public String getNextQuest() {
+        return this.next;
+    }
+
+    @Override
+    public IMission getNextMission(String id) {
         int index = this.missions.indexOf(id);
         if (index == -1) return null;
         if (index + 1 >= this.missions.size()) return null;
         return JustQuest.getProfileManager().getMission(this.missions.get(index + 1));
+    }
+
+    @Override
+    public String getRewardDesc(UUID uuid) {
+        return this.reward.getRewardDescriptions();
+    }
+
+    @Override
+    public Map<String, Integer> getRewardItems(UUID uuid) {
+        return this.reward.getItems();
+    }
+
+    @Override
+    public long getExpireTime() {
+        return -1;
     }
 }

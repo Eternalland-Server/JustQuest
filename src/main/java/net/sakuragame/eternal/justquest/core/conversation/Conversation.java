@@ -31,10 +31,12 @@ public class Conversation {
     }
 
     public Dialogue getFirstDialogue() {
-        return this.dialogues.values().stream().findFirst().get();
+        return this.dialogues.values().stream().findFirst().get().clone();
     }
 
     public Dialogue getDialogue(String key) {
-        return this.dialogues.get(key);
+        Dialogue dialogue = this.dialogues.get(key);
+        if (dialogue == null) return null;
+        return dialogue.clone();
     }
 }

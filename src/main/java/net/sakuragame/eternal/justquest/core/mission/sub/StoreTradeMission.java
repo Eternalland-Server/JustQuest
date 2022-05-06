@@ -106,7 +106,7 @@ public class StoreTradeMission extends AbstractMission {
         UUID uuid = player.getUniqueId();
 
         IProgress progress = this.getData(uuid);
-        if (progress == null) return;
+        if (progress == null || progress.isFinished()) return;
 
         String commodityID = e.getCommodity().getId();
         int amount = e.getQuantity();

@@ -82,7 +82,7 @@ public class ElevateRealmMission extends AbstractMission {
         UUID uuid = player.getUniqueId();
 
         IProgress progress = this.getData(uuid);
-        if (progress == null) return;
+        if (progress == null || progress.isFinished()) return;
 
         if (e.getRealm() < this.requirement) {
             progress.update();

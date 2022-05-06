@@ -161,6 +161,14 @@ public class ProfileManager {
         this.eventPreset.put(key, eventPreset);
     }
 
+    public void registerQuest(String id, AbstractQuest quest) {
+        this.quests.put(id, quest);
+    }
+
+    public void registerMission(String id, AbstractMission mission) {
+        this.missions.put(id, mission);
+    }
+
     private void loadNPC() {
         File dir = new File(plugin.getDataFolder(), "npc");
         File[] files = dir.listFiles();
@@ -297,6 +305,8 @@ public class ProfileManager {
     }
 
     public Conversation parseConversation(String id, ConfigurationSection section) {
+        if (section == null) return null;
+
         String npc = section.getString("__npc__");
         String complete = section.getString("__complete__");
         Map<String, Dialogue> dialogues = new LinkedHashMap<>();

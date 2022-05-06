@@ -71,7 +71,7 @@ public class LearnAbilityMission extends AbstractMission {
         if (change < 0) return;
 
         IProgress progress = this.getData(uuid);
-        if (progress == null) return;
+        if (progress == null || progress.isFinished()) return;
 
         progress.push();
         if (!progress.isFinished()) {

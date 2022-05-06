@@ -1,5 +1,6 @@
 package net.sakuragame.eternal.justquest.listener;
 
+import com.taylorswiftcn.justwei.util.MegumiUtil;
 import net.sakuragame.eternal.dragoncore.api.CoreAPI;
 import net.sakuragame.eternal.dragoncore.api.KeyPressEvent;
 import net.sakuragame.eternal.dragoncore.api.event.YamlSendFinishedEvent;
@@ -66,7 +67,7 @@ public class QuestListener implements Listener {
     @EventHandler
     public void onCompleted(QuestEvent.Completed e) {
         Player player = e.getPlayer();
-        player.sendTitle("§a§l任务完成", e.getQuest().getName(), 10, 20, 10);
+        player.sendTitle("§a§l任务完成", MegumiUtil.onReplace(e.getQuest().getName()), 10, 20, 10);
 
         this.updateCount(e.getPlayer());
     }

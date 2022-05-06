@@ -82,7 +82,7 @@ public class LevelUpMission extends AbstractMission {
         UUID uuid = player.getUniqueId();
 
         IProgress progress = this.getData(uuid);
-        if (progress == null) return;
+        if (progress == null || progress.isFinished()) return;
 
         if (e.getNewLevel() < this.requirement) {
             progress.update();

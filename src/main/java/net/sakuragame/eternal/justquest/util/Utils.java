@@ -12,14 +12,18 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.Date;
+import java.util.*;
 
 public class Utils {
 
     private final static Gson gson = new Gson();
+
+    public static String getItemName(String id) {
+        ItemStack item = ZaphkielAPI.INSTANCE.getItemStack(id, null);
+        if (item == null) return "NONE";
+        return item.getItemMeta().getDisplayName();
+    }
 
     public static void giveItems(Player player, Map<String, Integer> items) {
         int i = 1;
@@ -58,6 +62,8 @@ public class Utils {
     }
 
     public static void setTraceBar(Player player, String title, List<String> desc, ScreenUI contents) {
+        if (contents == null) return;
+
         Map<String, String> placeholder = new HashMap<>();
         placeholder.put("trace_title", title);
         placeholder.put("trace_desc", String.join("\n", desc));
@@ -80,5 +86,26 @@ public class Utils {
 
     public static JsonObject parse(String data) {
         return gson.fromJson(data, JsonObject.class);
+    }
+
+    public static Date getTodayZero() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        return new Date(calendar.getTimeInMillis());
+    }
+
+    public static long getNextDayZero() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        return calendar.getTimeInMillis();
     }
 }

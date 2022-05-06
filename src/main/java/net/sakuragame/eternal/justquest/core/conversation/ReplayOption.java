@@ -7,11 +7,11 @@ import org.bukkit.entity.Player;
 import java.util.List;
 
 @Getter
-public class ReplayOption {
+public class ReplayOption implements Cloneable {
 
     private final String ID;
 
-    private final String text;
+    private String text;
     private final List<String> events;
     private final String go;
 
@@ -25,5 +25,18 @@ public class ReplayOption {
     public void fireEvents(Player player) {
         if (this.events.isEmpty()) return;
         JustQuest.getQuestManager().fireEvents(player, this.events);
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    @Override
+    public ReplayOption clone() {
+        try {
+            return (ReplayOption) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

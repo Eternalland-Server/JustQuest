@@ -34,6 +34,11 @@ public abstract class AbstractMission implements IMission, Listener {
     }
 
     @Override
+    public List<String> getDescriptions(UUID uuid) {
+        return this.descriptions;
+    }
+
+    @Override
     public String getPlugin() {
         return null;
     }
@@ -90,7 +95,7 @@ public abstract class AbstractMission implements IMission, Listener {
 
     @Override
     public void complete(UUID uuid) {
-        String questID = this.members.remove(uuid);
+        String questID = this.members.get(uuid);
         JustQuest.getQuestManager().fireEvents(uuid, this.completeEvents);
 
         QuestAccount account = JustQuest.getAccountManager().getAccount(uuid);

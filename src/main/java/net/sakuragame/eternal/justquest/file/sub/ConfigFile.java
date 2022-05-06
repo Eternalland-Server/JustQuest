@@ -7,23 +7,21 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.util.List;
 
 public class ConfigFile {
-    private static YamlConfiguration config;
+    private static YamlConfiguration yaml;
 
     public static String prefix;
-    public static String chainNPC;
 
     public static void init() {
-        config = JustQuest.getFileManager().getConfig();
+        yaml = JustQuest.getFileManager().getConfig();
 
         prefix = getString("prefix");
-        chainNPC = config.getString("chain-npc");
     }
 
     private static String getString(String path) {
-        return MegumiUtil.onReplace(config.getString(path));
+        return MegumiUtil.onReplace(yaml.getString(path));
     }
 
     private static List<String> getStringList(String path) {
-        return MegumiUtil.onReplace(config.getStringList(path));
+        return MegumiUtil.onReplace(yaml.getStringList(path));
     }
 }

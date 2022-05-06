@@ -100,7 +100,7 @@ public class ConsumeMission extends AbstractMission {
         if (!this.requirement.containsKey(item.getId())) return;
 
         IProgress progress = this.getData(uuid);
-        if (progress == null) return;
+        if (progress == null || progress.isFinished()) return;
 
         progress.push(item.getId());
         if (!progress.isFinished()) {

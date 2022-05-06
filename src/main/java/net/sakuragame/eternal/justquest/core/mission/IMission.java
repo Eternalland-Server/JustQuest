@@ -10,7 +10,7 @@ public interface IMission {
 
     String getID();
 
-    List<String> getDescriptions();
+    List<String> getDescriptions(UUID uuid);
 
     String getPlugin();
 

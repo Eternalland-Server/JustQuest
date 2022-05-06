@@ -53,6 +53,7 @@ public class JustQuest extends JavaPlugin {
         this.registerListener(new ConversationListener());
         this.registerListener(new QuestListener());
         this.registerListener(new UIListener());
+        this.registerListener(new ChainListener());
         getCommand("jquest").setExecutor(new MainCommand());
 
         long end = System.currentTimeMillis();

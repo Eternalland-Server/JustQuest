@@ -4,6 +4,7 @@ import net.sakuragame.eternal.justquest.core.data.QuestType;
 import net.sakuragame.eternal.justquest.core.mission.IMission;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public interface IQuest {
@@ -36,12 +37,9 @@ public interface IQuest {
      */
     List<String> getDescriptions();
 
-    /**
-     * 得到奖励
-     *
-     * @return {@link QuestReward}
-     */
-    QuestReward getReward();
+    String getRewardDesc(UUID uuid);
+
+    Map<String, Integer> getRewardItems(UUID uuid);
 
     /**
      * 分配任务给玩家
@@ -84,7 +82,7 @@ public interface IQuest {
      *
      * @return {@link String}
      */
-    String getNext();
+    String getNextQuest();
 
     /**
      * 获取下一个子任务
@@ -92,5 +90,7 @@ public interface IQuest {
      * @param id 当前子任务ID
      * @return {@link String}
      */
-    IMission nextMission(String id);
+    IMission getNextMission(String id);
+
+    long getExpireTime();
 }

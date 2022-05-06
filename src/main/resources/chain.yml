@@ -1,0 +1,14 @@
+npc: chain_npc
+reward:
+  40:
+    money: 400000
+    items:
+      - stage_stone 1
+  20:
+    money: 200000
+    items:
+      - stage_stone 1
+  0:
+    money: 100000
+    items:
+      - stage_stone 1

@@ -130,7 +130,7 @@ public class CollectMission extends AbstractMission {
         if (!this.requirement.containsKey(id)) return;
 
         IProgress progress = this.getData(uuid);
-        if (progress == null) return;
+        if (progress == null || progress.isFinished()) return;
 
         if (this.remove) {
             e.getItem().remove();

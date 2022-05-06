@@ -85,7 +85,7 @@ public class ConversationMission extends AbstractMission {
         String ID = e.getConversation().getID();
 
         IProgress progress = this.getData(uuid);
-        if (progress == null) return;
+        if (progress == null || progress.isFinished()) return;
 
         progress.push(ID);
         if (!progress.isFinished()) {

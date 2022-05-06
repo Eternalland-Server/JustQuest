@@ -76,7 +76,10 @@ public class UIConversationIO implements IConversationIO, Listener {
 
             dialogue.fireEvents(player);
 
-            JustQuest.getUiManager().openConversation(player, this.npcName, this.dialogue, !this.opened);
+            ConversationEvent.Contents event = new ConversationEvent.Contents(player, this.npcID, this.conversation, this.dialogue);
+            event.call();
+
+            JustQuest.getUiManager().openConversation(player, this.npcName, event.getDialogue(), !this.opened);
             if (!this.opened) this.opened = true;
             else this.switching = true;
         });

@@ -64,7 +64,7 @@ public class EquipSuitMission extends AbstractMission {
         if (!this.suits.contains(id)) return;
 
         IProgress progress = this.getData(uuid);
-        if (progress == null) return;
+        if (progress == null || progress.isFinished()) return;
 
         progress.push(id);
         if (!progress.isFinished()) {

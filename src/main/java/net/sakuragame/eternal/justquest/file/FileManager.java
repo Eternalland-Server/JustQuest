@@ -3,6 +3,7 @@ package net.sakuragame.eternal.justquest.file;
 import com.taylorswiftcn.justwei.file.JustConfiguration;
 import com.taylorswiftcn.justwei.util.MegumiUtil;
 import net.sakuragame.eternal.justquest.JustQuest;
+import net.sakuragame.eternal.justquest.file.sub.ChainFile;
 import net.sakuragame.eternal.justquest.file.sub.ConfigFile;
 import lombok.Getter;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -14,6 +15,7 @@ public class FileManager extends JustConfiguration {
 
     private final JustQuest plugin;
     @Getter private YamlConfiguration config;
+    @Getter private YamlConfiguration chain;
 
     public FileManager(JustQuest plugin) {
         super(plugin);
@@ -22,8 +24,10 @@ public class FileManager extends JustConfiguration {
 
     public void init() {
         config = initFile("config.yml");
+        chain = initFile("chain.yml");
 
         ConfigFile.init();
+        ChainFile.init();
 
         this.initDefaultConfig();
         this.initChainConfig();
@@ -55,8 +59,8 @@ public class FileManager extends JustConfiguration {
     private void initChainConfig() {
         File dir = new File(plugin.getDataFolder(), "chain");
         if (!dir.mkdirs()) return;
-        MegumiUtil.copyFile(plugin.getResource("chain/require.yml"), new File(dir, "require.yml"));
-        MegumiUtil.copyFile(plugin.getResource("chain/reward.yml"), new File(dir, "reward.yml"));
+        MegumiUtil.copyFile(plugin.getResource("chain/conversations.yml"), new File(dir, "conversations.yml"));
+        MegumiUtil.copyFile(plugin.getResource("chain/requirement.yml"), new File(dir, "requirement.yml"));
     }
 
     private void copy(File dir, String file) {

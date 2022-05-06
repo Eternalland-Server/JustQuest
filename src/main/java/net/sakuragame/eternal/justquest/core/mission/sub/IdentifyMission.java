@@ -62,7 +62,7 @@ public class IdentifyMission extends AbstractMission {
         UUID uuid = player.getUniqueId();
 
         IProgress progress = this.getData(uuid);
-        if (progress == null) return;
+        if (progress == null || progress.isFinished()) return;
 
         progress.push();
         if (!progress.isFinished()) {

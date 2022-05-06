@@ -98,6 +98,8 @@ public class QuestUIManager {
     }
 
     public void setQuestContent(Player player, String questID) {
+        UUID uuid = player.getUniqueId();
+
         QuestAccount account = JustQuest.getAccountManager().getAccount(player);
         QuestProgress progress = account.getProgresses().get(questID);
 
@@ -109,13 +111,14 @@ public class QuestUIManager {
         Map<String, String> placeholder = new HashMap<>();
         placeholder.put("quest_title", quest.getName());
         placeholder.put("quest_descriptions", String.join("\n", quest.getDescriptions()));
-        placeholder.put("mission_descriptions", String.join("\n", mission.getDescriptions()));
-        placeholder.put("quest_reward", quest.getReward().getRewardDescriptions());
+        placeholder.put("mission_descriptions", String.join("\n", mission.getDescriptions(uuid)));
+        placeholder.put("quest_reward", quest.getRewardDesc(uuid));
         PacketSender.sendSyncPlaceholder(player, placeholder);
 
-        List<String> keys = new ArrayList<>(quest.getReward().getItems().keySet());
+        Map<String, Integer> items = quest.getRewardItems(uuid);
+        List<String> keys = new ArrayList<>(items.keySet());
         for (int i = 0; i < 7; i++) {
-            if (quest.getReward().getItems().size() <= i) {
+            if (items.size() <= i) {
                 PacketSender.putClientSlotItem(player, "quest_reward_" + (i + 1), new ItemStack(Material.AIR));
                 continue;
             }
@@ -123,7 +126,7 @@ public class QuestUIManager {
             String id = keys.get(i);
             ItemStack item = ZaphkielAPI.INSTANCE.getItemStack(id, null);
             if (item != null) {
-                item.setAmount(quest.getReward().getItems().get(id));
+                item.setAmount(items.get(id));
                 PacketSender.putClientSlotItem(player, "quest_reward_" + (i + 1), item);
             }
         }

@@ -84,7 +84,7 @@ public class DungeonMission extends AbstractMission {
         for (Player player : players) {
             UUID uuid = player.getUniqueId();
             IProgress progress = this.getData(uuid);
-            if (progress == null) return;
+            if (progress == null || progress.isFinished()) return;
 
             progress.push();
             if (!progress.isFinished()) {

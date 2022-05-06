@@ -55,6 +55,8 @@ public class ConversationManager {
             }
         }
 
+        if (def == null) return;
+
         ConversationEvent.Enter event = new ConversationEvent.Enter(player, id, def);
         event.call();
         if (event.isCancelled()) return;

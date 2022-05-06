@@ -77,7 +77,7 @@ public class SmelterMission extends AbstractMission {
         UUID uuid = player.getUniqueId();
         if (this.type != -1 && e.getType().getID() != this.type) return;
         IProgress progress = this.getData(uuid);
-        if (progress == null) return;
+        if (progress == null || progress.isFinished()) return;
 
         progress.push(String.valueOf(e.getType().getID()));
         if (!progress.isFinished()) {

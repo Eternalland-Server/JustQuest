@@ -104,7 +104,7 @@ public class MobKillerMission extends AbstractMission {
         if (!requirement.containsKey(id)) return;
 
         IProgress progress = this.getData(uuid);
-        if (progress == null) return;
+        if (progress == null || progress.isFinished()) return;
 
         progress.push(id);
         if (!progress.isFinished()) {

@@ -2,7 +2,7 @@ package net.sakuragame.eternal.justquest.api.event;
 
 import lombok.Getter;
 import net.sakuragame.eternal.justquest.core.conversation.Conversation;
-import net.sakuragame.eternal.justquest.core.conversation.ReplayOption;
+import net.sakuragame.eternal.justquest.core.conversation.Dialogue;
 import org.bukkit.entity.Player;
 
 public class ConversationEvent {
@@ -55,6 +55,21 @@ public class ConversationEvent {
 
         public String getNPC() {
             return npc;
+        }
+    }
+
+    @Getter
+    public static class Contents extends JustEvent {
+
+        private final String npc;
+        private final Conversation conversation;
+        private final Dialogue dialogue;
+
+        public Contents(Player who, String npc, Conversation conversation, Dialogue dialogue) {
+            super(who);
+            this.npc = npc;
+            this.conversation = conversation;
+            this.dialogue = dialogue;
         }
     }
 

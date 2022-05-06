@@ -29,6 +29,8 @@ public class QuestAccount {
 
     public QuestAccount(UUID uuid) {
         this.uuid = uuid;
+        this.trace = null;
+        this.chain = 0;
     }
 
     public QuestAccount(UUID uuid, String trace, int chain, List<String> finished, Map<String, QuestProgress> progresses) {
@@ -66,15 +68,11 @@ public class QuestAccount {
     }
 
     public void resumeQuestsProgress() {
-        progresses.values().forEach(k -> {
-            if (!k.isCompleted()) {
-                JustQuest.getQuestManager().resumeQuest(
-                        this.uuid,
-                        k.getQuestID(),
-                        k.getMissionID()
-                );
-            }
-        });
+        progresses.values().forEach(k -> JustQuest.getQuestManager().resumeQuest(
+                this.uuid,
+                k.getQuestID(),
+                k.getMissionID()
+        ));
     }
 
     public void saveQuestsProgress() {
@@ -89,7 +87,9 @@ public class QuestAccount {
     }
 
     public void newQuestProgress(String questID, String missionID, IProgress progress) {
-        QuestProgress questProgress = new QuestProgress(questID, missionID, progress);
+        IQuest quest = JustQuest.getProfileManager().getQuest(questID);
+
+        QuestProgress questProgress = new QuestProgress(questID, missionID, progress, quest.getExpireTime());
         this.progresses.put(questID, questProgress);
 
         Scheduler.runAsync(() -> JustQuest.getStorageManager().insertQuestProgress(this.uuid, questProgress));
@@ -109,6 +109,11 @@ public class QuestAccount {
         }
 
         PacketSender.sendRunFunction(Bukkit.getPlayer(this.uuid), "default", "global.quest_completed_count = " + i + ";", false);
+    }
+
+    public void updateChain(int chain) {
+        this.chain = chain;
+        JustQuest.getStorageManager().updateChain(this.uuid, this.chain);
     }
 
     public void setQuestTrace(String id) {
@@ -153,9 +158,13 @@ public class QuestAccount {
 
         IQuest quest = JustQuest.getProfileManager().getQuest(this.trace);
         QuestProgress progress = this.progresses.get(this.trace);
+        if (progress == null) {
+            Utils.setTraceBar(player, "&7&o暂未跟踪任何任务&7&l(F)");
+            return;
+        }
 
         String title = quest.getType().getSymbol() + " " + quest.getName() + (progress.isCompleted() ? " ❋" : "");
-        List<String> desc = JustQuest.getProfileManager().getMission(progress.getMissionID()).getDescriptions();
+        List<String> desc = JustQuest.getProfileManager().getMission(progress.getMissionID()).getDescriptions(uuid);
 
         Utils.setTraceBar(player, title, desc,
                 progress.isCompleted() ?
@@ -178,7 +187,7 @@ public class QuestAccount {
         event.call();
 
         if (questID.equals(this.trace)) {
-            String nextID = quest.getNext();
+            String nextID = quest.getNextQuest();
             if (nextID != null) {
                 IQuest next = JustQuest.getProfileManager().getQuest(nextID);
                 if (next == null) {
@@ -208,7 +217,7 @@ public class QuestAccount {
 
     public void completeMission(String questID, String missionID) {
         IQuest quest = JustQuest.getProfileManager().getQuest(questID);
-        IMission next = quest.nextMission(missionID);
+        IMission next = quest.getNextMission(missionID);
         if (next == null) {
             this.completeQuest(questID);
             return;
