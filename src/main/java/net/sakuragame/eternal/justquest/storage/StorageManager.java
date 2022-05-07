@@ -134,10 +134,12 @@ public class StorageManager {
         int uid = ClientManagerAPI.getUserID(uuid);
         if (uid == -1) return;
 
-        dataManager.executeReplace(
+        dataManager.executeUpdate(
                 QuestTables.Quest_Progress.getTableName(),
-                new String[]{"uid", "quest", "mission", "data", "state"},
-                new Object[]{uid, data.getQuestID(), data.getMissionID(), data.getProgress().getConvertData(), data.getState().getID()}
+                new String[]{"mission", "data", "state"},
+                new Object[]{data.getMissionID(), data.getProgress().getConvertData(), data.getState().getID()},
+                new String[]{"uid", "quest"},
+                new Object[]{uid, data.getQuestID()}
         );
     }
 
@@ -148,7 +150,7 @@ public class StorageManager {
         dataManager.executeInsert(
                 QuestTables.Quest_Progress.getTableName(),
                 new String[]{"uid", "quest", "mission", "data", "state", "expire"},
-                new Object[]{uid, data.getQuestID(), data.getMissionID(), data.getProgress().getConvertData(), data.getState().getID(), data.getExpire() == -1 ? null : data.getExpire()}
+                new Object[]{uid, data.getQuestID(), data.getMissionID(), data.getProgress().getConvertData(), data.getState().getID(), data.getExpire() == -1 ? null : new java.sql.Date(data.getExpire())}
         );
     }
 

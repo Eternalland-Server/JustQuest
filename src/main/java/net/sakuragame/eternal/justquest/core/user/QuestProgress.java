@@ -18,7 +18,7 @@ public class QuestProgress implements Comparable<QuestProgress> {
     private final IProgress progress;
     private QuestState state;
 
-    private long expire;
+    private final long expire;
 
     public QuestProgress(String questID, String missionID, IProgress progress) {
         this(questID, missionID, progress, QuestState.Accepted, -1);
@@ -33,6 +33,7 @@ public class QuestProgress implements Comparable<QuestProgress> {
         this.missionID = missionID;
         this.progress = progress;
         this.state = state;
+        this.expire = expire;
     }
 
     public void setState(QuestState state) {

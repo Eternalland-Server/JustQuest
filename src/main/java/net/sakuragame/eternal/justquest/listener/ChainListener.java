@@ -43,7 +43,6 @@ public class ChainListener implements Listener {
 
         QuestAccount account = JustQuest.getAccountManager().getAccount(player);
         int chain = account.getChain();
-        player.sendMessage("chain: " + chain);
 
         ChainRequire require = JustQuest.getChainManager().getRequire(cache);
         String name = Utils.getItemName(require.getItem());
