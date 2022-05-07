@@ -32,7 +32,7 @@ public class CountProgress extends AbstractProgress {
 
     @Override
     public void push(int i) {
-        this.count -= i;
+        this.count = Math.max(0, this.count - i);
     }
 
     @Override
