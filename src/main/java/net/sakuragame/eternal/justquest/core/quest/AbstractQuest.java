@@ -1,5 +1,6 @@
 package net.sakuragame.eternal.justquest.core.quest;
 
+import com.taylorswiftcn.justwei.util.MegumiUtil;
 import lombok.Getter;
 import net.sakuragame.eternal.justquest.JustQuest;
 import net.sakuragame.eternal.justquest.api.event.QuestEvent;
@@ -9,6 +10,7 @@ import net.sakuragame.eternal.justquest.core.user.QuestAccount;
 import net.sakuragame.eternal.justquest.core.user.QuestProgress;
 import net.sakuragame.eternal.justquest.util.Scheduler;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.util.List;
 import java.util.Map;
@@ -50,6 +52,12 @@ public abstract class AbstractQuest implements IQuest {
 
         QuestEvent.Allot event = new QuestEvent.Allot(Bukkit.getPlayer(uuid), this);
         event.call();
+    }
+
+    @Override
+    public void completed(UUID uuid) {
+        Player player = Bukkit.getPlayer(uuid);
+        player.sendTitle("§a§l任务完成", MegumiUtil.onReplace(this.getName()), 10, 20, 10);
     }
 
     @Override

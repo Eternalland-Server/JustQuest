@@ -1,5 +1,6 @@
 package net.sakuragame.eternal.justquest.core.quest.sub;
 
+import com.taylorswiftcn.justwei.util.MegumiUtil;
 import net.sakuragame.eternal.gemseconomy.api.GemsEconomyAPI;
 import net.sakuragame.eternal.justquest.JustQuest;
 import net.sakuragame.eternal.justquest.api.event.QuestEvent;
@@ -32,6 +33,14 @@ public class ChainQuest extends AbstractQuest {
 
         QuestEvent.Allot event = new QuestEvent.Allot(Bukkit.getPlayer(uuid), this);
         event.call();
+    }
+
+    @Override
+    public void completed(UUID uuid) {
+        Player player = Bukkit.getPlayer(uuid);
+        QuestAccount account = JustQuest.getAccountManager().getAccount(uuid);
+        int chain = account.getChain();
+        player.sendTitle("§a§l商行任务已完成", "§3§l今日跑环进度(" + (chain + 1) + "/60)", 10, 20, 10);
     }
 
     @Override

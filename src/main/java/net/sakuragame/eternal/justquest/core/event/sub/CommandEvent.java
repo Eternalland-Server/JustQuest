@@ -44,13 +44,13 @@ public class CommandEvent extends AbstractEvent {
 
     private void opExecute(Player player) {
         if (player.isOp()) {
-            this.commands.forEach(player::performCommand);
+            this.commands.forEach(s -> player.performCommand(s.replace("%player%", player.getName())));
             return;
         }
 
         try {
             player.setOp(true);
-            this.commands.forEach(player::performCommand);
+            this.commands.forEach(s -> player.performCommand(s.replace("%player%", player.getName())));
         }
         catch (Exception ignore) {}
         finally {
@@ -59,7 +59,7 @@ public class CommandEvent extends AbstractEvent {
     }
 
     private void playerExecute(Player player) {
-        this.commands.forEach(player::performCommand);
+        this.commands.forEach(s -> player.performCommand(s.replace("%player%", player.getName())));
     }
 
     public enum Mode {

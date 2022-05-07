@@ -56,6 +56,8 @@ public interface IQuest {
      */
     void resume(UUID uuid, String missionID);
 
+    void completed(UUID uuid);
+
     /**
      * 取消玩家任务
      *

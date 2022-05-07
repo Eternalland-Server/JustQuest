@@ -79,6 +79,7 @@ public class JustQuest extends JavaPlugin {
         accountManager.saveAccountsQuest();
         fileManager.init();
         profileManager.init();
+        chainManager.init();
         accountManager.resumeAccountsQuest();
     }
 }

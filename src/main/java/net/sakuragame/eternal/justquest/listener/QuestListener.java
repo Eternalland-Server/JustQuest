@@ -66,9 +66,6 @@ public class QuestListener implements Listener {
 
     @EventHandler
     public void onCompleted(QuestEvent.Completed e) {
-        Player player = e.getPlayer();
-        player.sendTitle("§a§l任务完成", MegumiUtil.onReplace(e.getQuest().getName()), 10, 20, 10);
-
         this.updateCount(e.getPlayer());
     }
 

@@ -25,7 +25,7 @@ public class OpenCommand extends SubCommand {
 
     @Override
     public boolean playerOnly() {
-        return true;
+        return false;
     }
 
     @Override
