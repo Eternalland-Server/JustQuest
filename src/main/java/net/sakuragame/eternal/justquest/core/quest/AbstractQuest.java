@@ -85,12 +85,10 @@ public abstract class AbstractQuest implements IQuest {
 
         this.reward.apply(uuid);
 
-        Scheduler.runAsync(() -> {
-            account.deleteQuestProgress(this.ID);
-            if (this.getType().isOnce()){
-                account.addFinished(this.ID);
-            }
-        });
+        account.deleteQuestProgress(this.ID);
+        if (this.getType().isOnce()){
+            account.addFinished(this.ID);
+        }
 
         QuestEvent.Finished event = new QuestEvent.Finished(Bukkit.getPlayer(uuid), this);
         event.call();

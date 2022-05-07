@@ -98,7 +98,7 @@ public class QuestAccount {
     public void addFinished(String questID) {
         if (this.finished.contains(questID)) return;
         this.finished.add(questID);
-        JustQuest.getStorageManager().insertFinished(uuid, questID);
+        Scheduler.runAsync(() -> JustQuest.getStorageManager().insertFinished(uuid, questID));
     }
 
     public void sendCompletedCount() {
@@ -113,7 +113,7 @@ public class QuestAccount {
 
     public void updateChain(int chain) {
         this.chain = chain;
-        JustQuest.getStorageManager().updateChain(this.uuid, this.chain);
+        Scheduler.runAsync(() -> JustQuest.getStorageManager().updateChain(this.uuid, this.chain));
     }
 
     public void setQuestTrace(String id) {
@@ -233,6 +233,6 @@ public class QuestAccount {
             this.updateTraceBar();
         }
 
-        JustQuest.getStorageManager().deleteQuestProgress(this.uuid, questID);
+        Scheduler.runAsync(() -> JustQuest.getStorageManager().deleteQuestProgress(this.uuid, questID));
     }
 }

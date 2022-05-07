@@ -53,10 +53,8 @@ public class ChainQuest extends AbstractQuest {
         Player player = Bukkit.getPlayer(uuid);
         Utils.giveItems(player, items);
 
-        Scheduler.runAsync(() -> {
-            account.deleteQuestProgress(this.getID());
-            account.updateChain(chain + 1);
-        });
+        account.deleteQuestProgress(this.getID());
+        account.updateChain(chain + 1);
 
         QuestEvent.Finished event = new QuestEvent.Finished(Bukkit.getPlayer(uuid), this);
         event.call();
