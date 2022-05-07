@@ -81,7 +81,7 @@ public class QuestUIManager {
 
         PacketSender.sendRunFunction(player, "default", new Statements()
                 .add("global.quest_current_page = " + current + ";")
-                .add("global.quest_total_page = " + total + ";")
+                .add("global.quest_total_page = " + (total + 1) + ";")
                 .build(),
                 false
         );
