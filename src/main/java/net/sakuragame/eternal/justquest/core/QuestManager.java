@@ -1,6 +1,7 @@
 package net.sakuragame.eternal.justquest.core;
 
 import net.sakuragame.eternal.justquest.JustQuest;
+import net.sakuragame.eternal.justquest.core.condition.ICondition;
 import net.sakuragame.eternal.justquest.core.event.IEvent;
 import net.sakuragame.eternal.justquest.core.mission.IMission;
 import net.sakuragame.eternal.justquest.core.quest.IQuest;
@@ -26,6 +27,10 @@ public class QuestManager {
         quest.resume(uuid, missionID);
     }
 
+    public void fireEvents(UUID uuid, List<String> events) {
+        this.fireEvents(Bukkit.getPlayer(uuid), events);
+    }
+
     public void fireEvents(Player player, List<String> events) {
         events.forEach(key -> {
             IEvent event = JustQuest.getProfileManager().getEvent(key);
@@ -35,7 +40,12 @@ public class QuestManager {
         });
     }
 
-    public void fireEvents(UUID uuid, List<String> events) {
-        this.fireEvents(Bukkit.getPlayer(uuid), events);
+    public boolean meetConditions(Player player, List<String> conditions) {
+        for (String key : conditions) {
+            ICondition condition = JustQuest.getProfileManager().getCondition(key);
+            if (condition.meet(player)) continue;
+            return false;
+        }
+        return true;
     }
 }

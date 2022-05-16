@@ -53,7 +53,6 @@ public class ExhibitConversationIO implements IConversationIO, Listener {
                     add("");
                     addAll(npc.getDescriptions());
                 }},
-                new ArrayList<>(),
                 new LinkedHashMap<String, ReplayOption>() {{
                     put("try", new ReplayOption("try", "&a点击试穿", new ArrayList<>(), null));
                     put("exit", new ReplayOption("exit", "&f离开", new ArrayList<>(), null));
@@ -69,7 +68,7 @@ public class ExhibitConversationIO implements IConversationIO, Listener {
     }
 
     @Override
-    public void nextDialogue(String key) {
+    public void nextDialogue(Player player, String key) {
 
     }
 

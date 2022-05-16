@@ -54,6 +54,11 @@ public class FileManager extends JustConfiguration {
         if (eventConfig.mkdirs()) {
             this.copy(plugin.getDataFolder(), "event/events.yml");
         }
+
+        File conditionConfig = new File(plugin.getDataFolder(), "condition");
+        if (conditionConfig.mkdirs()) {
+            this.copy(plugin.getDataFolder(), "condition/conditions.yml");
+        }
     }
 
     private void initChainConfig() {

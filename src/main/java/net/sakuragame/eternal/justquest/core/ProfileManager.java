@@ -2,6 +2,9 @@ package net.sakuragame.eternal.justquest.core;
 
 import com.taylorswiftcn.justwei.util.MegumiUtil;
 import net.sakuragame.eternal.justquest.JustQuest;
+import net.sakuragame.eternal.justquest.core.condition.AbstractCondition;
+import net.sakuragame.eternal.justquest.core.condition.ICondition;
+import net.sakuragame.eternal.justquest.core.condition.sub.PermissionCondition;
 import net.sakuragame.eternal.justquest.core.conversation.Conversation;
 import net.sakuragame.eternal.justquest.core.conversation.Dialogue;
 import net.sakuragame.eternal.justquest.core.conversation.ReplayOption;
@@ -37,6 +40,7 @@ public class ProfileManager {
     private Map<QuestType, Class<? extends AbstractQuest>> questPreset;
     private Map<String, Class<? extends AbstractMission>> missionPreset;
     private Map<String, Class<? extends AbstractEvent>> eventPreset;
+    private Map<String, Class<? extends AbstractCondition>> conditionPreset;
 
     private final List<PluginHook> hooks;
 
@@ -44,6 +48,7 @@ public class ProfileManager {
     private Map<String, AbstractQuest> quests;
     private Map<String, AbstractMission> missions;
     private Map<String, AbstractEvent> events;
+    private Map<String, AbstractCondition> conditions;
     private Map<String, Conversation> conversations;
 
     private Map<String, ExhibitNPC> exhibitNPC;
@@ -60,11 +65,13 @@ public class ProfileManager {
         this.questPreset = new HashMap<>();
         this.missionPreset = new HashMap<>();
         this.eventPreset = new HashMap<>();
+        this.conditionPreset = new HashMap<>();
 
         this.npcConfig = new HashMap<>();
         this.quests = new HashMap<>();
         this.missions = new HashMap<>();
         this.events = new HashMap<>();
+        this.conditions = new HashMap<>();
         this.conversations = new HashMap<>();
 
         this.exhibitNPC = new HashMap<>();
@@ -72,10 +79,12 @@ public class ProfileManager {
         this.registerQuestPreset();
         this.registerMissionPreset();
         this.registerEventPreset();
+        this.registerConditionPreset();
 
         this.loadNPC();
         this.loadQuest();
         this.loadEvent();
+        this.loadCondition();
         this.loadMissionHook();
         this.loadExhibitNPC();
 
@@ -104,6 +113,10 @@ public class ProfileManager {
     
     public IEvent getEvent(String key) {
         return this.events.get(key);
+    }
+
+    public ICondition getCondition(String key) {
+        return this.conditions.get(key);
     }
 
     public Conversation getConversation(String key) {
@@ -149,6 +162,10 @@ public class ProfileManager {
         this.registerEventPreset("remove_effect", RemoveEffectEvent.class);
     }
 
+    private void registerConditionPreset() {
+        this.registerConditionPreset("permission", PermissionCondition.class);
+    }
+
     public void registerQuestPreset(QuestType type, Class<? extends AbstractQuest> questPreset) {
         this.questPreset.put(type, questPreset);
     }
@@ -159,6 +176,10 @@ public class ProfileManager {
     
     public void registerEventPreset(String key, Class<? extends AbstractEvent> eventPreset) {
         this.eventPreset.put(key, eventPreset);
+    }
+
+    public void registerConditionPreset(String key, Class<? extends AbstractCondition> conditionPreset) {
+        this.conditionPreset.put(key, conditionPreset);
     }
 
     public void registerQuest(String id, AbstractQuest quest) {
@@ -188,6 +209,7 @@ public class ProfileManager {
                 this.parseMissionFile(new File(sub, "missions.yml"));
                 this.parseConversationFile(new File(sub, "conversations.yml"));
                 this.parseEventFile(new File(sub, "events.yml"));
+                this.parseConditionFile(new File(sub, "conditions.yml"));
             }
         });
     }
@@ -198,6 +220,14 @@ public class ProfileManager {
         if (files == null || files.length == 0) return;
 
         Arrays.stream(files).filter(k -> k.getName().endsWith(".yml")).forEach(this::parseEventFile);
+    }
+
+    private void loadCondition() {
+        File dir = new File(plugin.getDataFolder(), "condition");
+        File[] files = dir.listFiles();
+        if (files == null || files.length == 0) return;
+
+        Arrays.stream(files).filter(k -> k.getName().endsWith(".yml")).forEach(this::parseConditionFile);
     }
 
     private void loadMissionHook() {
@@ -313,6 +343,8 @@ public class ProfileManager {
 
         for (String key : section.getKeys(false)) {
             if (key.startsWith("__")) continue;
+            List<String> conditions = section.getStringList(key + ".conditions");
+            String then = section.getString(key + ".then");
             List<String> response = section.getStringList(key + ".response");
             List<String> events = section.getStringList(key + ".events");
             Map<String, ReplayOption> options = new LinkedHashMap<>();
@@ -325,7 +357,7 @@ public class ProfileManager {
                 options.put(elm, new ReplayOption(elm, text, replyEvents, go));
             }
 
-            dialogues.put(key, new Dialogue(key, response, events, options));
+            dialogues.put(key, new Dialogue(key, conditions, then, response, events, options));
         }
 
         return new Conversation(id, npc, complete, dialogues);
@@ -346,6 +378,30 @@ public class ProfileManager {
                 this.events.put(key, preset
                         .getConstructor(String.class, ConfigurationSection.class)
                         .newInstance(key, section)
+                );
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void parseConditionFile(File file) {
+        if (!file.exists()) return;
+
+        YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
+        for (String key : yaml.getKeys(false)) {
+            String type = yaml.getString(key + ".type");
+            boolean negation = yaml.getBoolean(key + ".negation", false);
+            ConfigurationSection section = yaml.getConfigurationSection(key + ".detail");
+
+            try {
+                Class<? extends AbstractCondition> preset = this.conditionPreset.get(type);
+                if (preset == null) continue;
+
+                this.conditions.put(key, preset
+                        .getConstructor(String.class, Boolean.class, ConfigurationSection.class)
+                        .newInstance(key, negation, section)
                 );
             }
             catch (Exception e) {

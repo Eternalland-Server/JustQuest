@@ -1,8 +1,12 @@
 package net.sakuragame.eternal.justquest.core.conversation;
 
 import lombok.Getter;
+import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Getter
 public class Conversation {
@@ -30,13 +34,23 @@ public class Conversation {
         return npc;
     }
 
-    public Dialogue getFirstDialogue() {
-        return this.dialogues.values().stream().findFirst().get().clone();
+    public Dialogue getFirstDialogue(Player player) {
+        List<String> keys = new ArrayList<>(this.dialogues.keySet());
+        if (keys.size() == 0) return null;
+
+        return this.getDialogue(player, keys.get(0));
     }
 
-    public Dialogue getDialogue(String key) {
+    public Dialogue getDialogue(Player player, String key) {
         Dialogue dialogue = this.dialogues.get(key);
+
         if (dialogue == null) return null;
+
+        if (!dialogue.meetConditions(player)) {
+            if (dialogue.getThen() == null) return null;
+            return this.getDialogue(player, dialogue.getThen());
+        }
+
         return dialogue.clone();
     }
 }

@@ -4,6 +4,7 @@ import lombok.Getter;
 import net.sakuragame.eternal.justquest.JustQuest;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,13 +13,25 @@ import java.util.Map;
 public class Dialogue implements Cloneable {
 
     private final String ID;
-
+    private final List<String> conditions;
+    private final String then;
     private List<String> response;
     private final List<String> events;
     private Map<String, ReplayOption> options;
 
-    public Dialogue(String ID, List<String> response, List<String> events, Map<String, ReplayOption> options) {
+    public Dialogue(String ID, List<String> response, Map<String, ReplayOption> options) {
         this.ID = ID;
+        this.response = response;
+        this.options = options;
+        this.conditions = new ArrayList<>();
+        this.then = null;
+        this.events = new ArrayList<>();
+    }
+
+    public Dialogue(String ID, List<String> conditions, String then, List<String> response, List<String> events, Map<String, ReplayOption> options) {
+        this.ID = ID;
+        this.conditions = conditions;
+        this.then = then;
         this.response = response;
         this.events = events;
         this.options = options;
@@ -29,8 +42,13 @@ public class Dialogue implements Cloneable {
     }
 
     public void fireEvents(Player player) {
-        if (events.isEmpty()) return;
+        if (this.events.isEmpty()) return;
         JustQuest.getQuestManager().fireEvents(player, this.events);
+    }
+
+    public boolean meetConditions(Player player) {
+        if (this.conditions.isEmpty()) return true;
+        return JustQuest.getQuestManager().meetConditions(player, this.conditions);
     }
 
     public void setResponse(List<String> response) {

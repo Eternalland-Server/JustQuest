@@ -52,7 +52,7 @@ public class UIConversationIO implements IConversationIO, Listener {
 
     @Override
     public void start() {
-        this.dialogue = conversation.getFirstDialogue();
+        this.dialogue = conversation.getFirstDialogue(this.player);
         this.lastChoiceOption = null;
         this.display();
     }
@@ -86,8 +86,8 @@ public class UIConversationIO implements IConversationIO, Listener {
     }
 
     @Override
-    public void nextDialogue(String key) {
-        this.dialogue = this.conversation.getDialogue(key);
+    public void nextDialogue(Player player, String key) {
+        this.dialogue = this.conversation.getDialogue(player, key);
         if (this.dialogue == null && this.conversation.getComplete() == null) {
             ConversationEvent.Complete event = new ConversationEvent.Complete(player, npcID, conversation);
             event.call();
@@ -116,7 +116,7 @@ public class UIConversationIO implements IConversationIO, Listener {
         event.call();
         if (event.isCancelled()) return;
 
-        this.nextDialogue(option.getGo());
+        this.nextDialogue(player, option.getGo());
         this.display();
 
         option.fireEvents(player);
