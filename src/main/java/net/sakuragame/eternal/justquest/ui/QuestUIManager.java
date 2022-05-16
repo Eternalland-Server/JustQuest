@@ -47,7 +47,7 @@ public class QuestUIManager {
         placeholder.put("conv_animation", animation ? "1" : "0");
         PacketSender.sendSyncPlaceholder(player, placeholder);
 
-        ConvOptions uiOptions = new ConvOptions(dialogue.getOptions());
+        ConvOptions uiOptions = new ConvOptions(dialogue.getOptions(player));
         uiOptions.send(player);
 
         PacketSender.sendOpenGui(player, CONV_UI_ID);

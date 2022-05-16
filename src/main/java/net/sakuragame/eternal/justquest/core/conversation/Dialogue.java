@@ -37,6 +37,15 @@ public class Dialogue implements Cloneable {
         this.options = options;
     }
 
+    public Map<String, ReplayOption> getOptions(Player player) {
+        Map<String, ReplayOption> map = new LinkedHashMap<>();
+        this.options.forEach((k, v) -> {
+            if (v.meetConditions(player)) map.put(k, v);
+        });
+
+        return map;
+    }
+
     public ReplayOption getOption(String key) {
         return this.options.get(key);
     }

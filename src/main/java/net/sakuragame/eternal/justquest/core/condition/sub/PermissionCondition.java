@@ -8,7 +8,7 @@ public class PermissionCondition extends AbstractCondition {
 
     private final String permission;
 
-    public PermissionCondition(String ID, boolean negation, ConfigurationSection section) {
+    public PermissionCondition(String ID, Boolean negation, ConfigurationSection section) {
         super(ID, negation, section);
         this.permission = section.getString("permission");
     }

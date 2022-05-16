@@ -95,6 +95,14 @@ public class QuestAccount {
         Scheduler.runAsync(() -> JustQuest.getStorageManager().insertQuestProgress(this.uuid, questProgress));
     }
 
+    public QuestState getQuestState(String questID) {
+        if (this.finished.contains(questID)) return QuestState.Finished;
+        if (this.progresses.containsKey(questID)) {
+            return this.progresses.get(questID).getState();
+        }
+        return QuestState.Pending;
+    }
+
     public void addFinished(String questID) {
         if (this.finished.contains(questID)) return;
         this.finished.add(questID);

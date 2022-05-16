@@ -2,6 +2,7 @@ package net.sakuragame.eternal.justquest.core.data;
 
 public enum QuestState {
 
+    Pending(-1),
     Accepted(0),
     Completed(1),
     Finished(2);

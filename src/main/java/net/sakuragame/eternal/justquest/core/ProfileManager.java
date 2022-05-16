@@ -4,7 +4,7 @@ import com.taylorswiftcn.justwei.util.MegumiUtil;
 import net.sakuragame.eternal.justquest.JustQuest;
 import net.sakuragame.eternal.justquest.core.condition.AbstractCondition;
 import net.sakuragame.eternal.justquest.core.condition.ICondition;
-import net.sakuragame.eternal.justquest.core.condition.sub.PermissionCondition;
+import net.sakuragame.eternal.justquest.core.condition.sub.*;
 import net.sakuragame.eternal.justquest.core.conversation.Conversation;
 import net.sakuragame.eternal.justquest.core.conversation.Dialogue;
 import net.sakuragame.eternal.justquest.core.conversation.ReplayOption;
@@ -93,6 +93,7 @@ public class ProfileManager {
         plugin.getLogger().info("loaded " + quests.size() + " quests");
         plugin.getLogger().info("loaded " + missions.size() + " missions");
         plugin.getLogger().info("loaded " + events.size() + " events");
+        plugin.getLogger().info("loaded " + conditions.size() + " conditions");
     }
 
     public NPCConfig getNPCConfig(String ID) {
@@ -164,6 +165,7 @@ public class ProfileManager {
 
     private void registerConditionPreset() {
         this.registerConditionPreset("permission", PermissionCondition.class);
+        this.registerConditionPreset("quest_state", QuestStateCondition.class);
     }
 
     public void registerQuestPreset(QuestType type, Class<? extends AbstractQuest> questPreset) {
@@ -352,9 +354,10 @@ public class ProfileManager {
             ConfigurationSection reply = section.getConfigurationSection(key + ".reply");
             for (String elm : reply.getKeys(false)) {
                 String text = reply.getString(elm + ".text");
+                List<String> replyConditions = section.getStringList(key + ".conditions");
                 List<String> replyEvents = reply.getStringList(elm + ".events");
                 String go = reply.getString(elm + ".go");
-                options.put(elm, new ReplayOption(elm, text, replyEvents, go));
+                options.put(elm, new ReplayOption(elm, text, replyConditions, replyEvents, go));
             }
 
             dialogues.put(key, new Dialogue(key, conditions, then, response, events, options));
