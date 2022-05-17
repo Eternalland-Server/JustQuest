@@ -205,8 +205,17 @@ public class ProfileManager {
         File[] files = dir.listFiles();
         if (files == null || files.length == 0) return;
 
+        this.loadQuest(files);
+    }
+
+    private void loadQuest(File[] files) {
         Arrays.stream(files).filter(File::isDirectory).forEach(sub -> {
-            if (!sub.getName().startsWith("#")) {
+            if (sub.getName().startsWith("*")) {
+                File[] child = sub.listFiles();
+                if (child == null || child.length == 0) return;
+                this.loadQuest(child);
+            }
+            else if (!sub.getName().startsWith("#")) {
                 this.parseQuestFile(new File(sub, "quest.yml"));
                 this.parseMissionFile(new File(sub, "missions.yml"));
                 this.parseConversationFile(new File(sub, "conversations.yml"));
