@@ -354,7 +354,7 @@ public class ProfileManager {
             ConfigurationSection reply = section.getConfigurationSection(key + ".reply");
             for (String elm : reply.getKeys(false)) {
                 String text = reply.getString(elm + ".text");
-                List<String> replyConditions = section.getStringList(key + ".conditions");
+                List<String> replyConditions = reply.getStringList(elm + ".conditions");
                 List<String> replyEvents = reply.getStringList(elm + ".events");
                 String go = reply.getString(elm + ".go");
                 options.put(elm, new ReplayOption(elm, text, replyConditions, replyEvents, go));
