@@ -44,8 +44,8 @@ public class QuestAccount {
     public void purgeData() {
         this.trace = null;
         this.finished.clear();
-        this.progresses.keySet().forEach(k -> {
-            IMission mission = JustQuest.getProfileManager().getMission(k);
+        this.progresses.values().forEach(k -> {
+            IMission mission = JustQuest.getProfileManager().getMission(k.getMissionID());
             if (mission != null) {
                 mission.abandon(uuid);
             }
@@ -194,7 +194,18 @@ public class QuestAccount {
         QuestEvent.Completed event = new QuestEvent.Completed(Bukkit.getPlayer(this.uuid), quest);
         event.call();
 
-        if (questID.equals(this.trace)) {
+        String nextID = quest.getNextQuest();
+        System.out.println("next quest: " + nextID);
+        if (nextID != null) {
+            IQuest next = JustQuest.getProfileManager().getQuest(nextID);
+            if (next != null) next.allot(this.uuid);
+            System.out.println("allot");
+            if (questID.equals(this.trace)) this.setQuestTrace(nextID);
+        }
+
+        this.updateTraceBar();
+
+        /*if (questID.equals(this.trace)) {
             String nextID = quest.getNextQuest();
             if (nextID != null) {
                 IQuest next = JustQuest.getProfileManager().getQuest(nextID);
@@ -209,7 +220,7 @@ public class QuestAccount {
             else {
                 this.updateTraceBar();
             }
-        }
+        }*/
     }
 
     public void cancelQuest(String questID) {
@@ -231,6 +242,8 @@ public class QuestAccount {
             return;
         }
 
+        IMission mission = JustQuest.getProfileManager().getMission(missionID);
+        mission.abandon(uuid);
         next.active(uuid, questID);
     }
 

@@ -3,6 +3,7 @@ package net.sakuragame.eternal.justquest.core.mission;
 import lombok.Getter;
 import net.sakuragame.eternal.justquest.JustQuest;
 import net.sakuragame.eternal.justquest.core.user.QuestAccount;
+import net.sakuragame.eternal.justquest.core.user.QuestProgress;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -114,6 +115,7 @@ public abstract class AbstractMission implements IMission, Listener {
         if (questID == null) return null;
 
         QuestAccount account = JustQuest.getAccountManager().getAccount(uuid);
-        return account.getProgresses().get(questID).getProgress();
+        QuestProgress qp = account.getProgresses().get(questID);
+        return qp.getProgress();
     }
 }

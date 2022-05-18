@@ -84,6 +84,8 @@ public class ConversationMission extends AbstractMission {
         UUID uuid = player.getUniqueId();
         String ID = e.getConversation().getID();
 
+        if (!this.convID.equals(ID)) return;
+
         IProgress progress = this.getData(uuid);
         if (progress == null || progress.isFinished()) return;
 

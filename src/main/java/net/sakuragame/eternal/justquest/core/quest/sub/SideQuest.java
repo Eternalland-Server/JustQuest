@@ -5,11 +5,10 @@ import net.sakuragame.eternal.justquest.core.data.QuestType;
 import net.sakuragame.eternal.justquest.core.quest.AbstractQuest;
 
 import java.util.List;
-import java.util.UUID;
 
-public class SIdeQuest extends AbstractQuest {
+public class SideQuest extends AbstractQuest {
 
-    public SIdeQuest(String ID, String name, List<String> descriptions, List<String> missions, String next, QuestReward reward) {
+    public SideQuest(String ID, String name, List<String> descriptions, List<String> missions, String next, QuestReward reward) {
         super(ID, name, descriptions, missions, next, reward);
     }
 

@@ -25,7 +25,7 @@ import net.sakuragame.eternal.justquest.core.quest.AbstractQuest;
 import net.sakuragame.eternal.justquest.core.quest.IQuest;
 import net.sakuragame.eternal.justquest.core.quest.QuestReward;
 import net.sakuragame.eternal.justquest.core.quest.sub.MainQuest;
-import net.sakuragame.eternal.justquest.core.quest.sub.SIdeQuest;
+import net.sakuragame.eternal.justquest.core.quest.sub.SideQuest;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -134,7 +134,7 @@ public class ProfileManager {
 
     private void registerQuestPreset() {
         this.registerQuestPreset(QuestType.MQ, MainQuest.class);
-        this.registerQuestPreset(QuestType.SQ, SIdeQuest.class);
+        this.registerQuestPreset(QuestType.SQ, SideQuest.class);
     }
 
     private void registerMissionPreset() {
@@ -146,6 +146,7 @@ public class ProfileManager {
         this.registerMissionPreset("collect", CollectMission.class);
         this.registerMissionPreset("smelter", SmelterMission.class);
         this.registerMissionPreset("store_trade", StoreTradeMission.class);
+        this.registerMissionPreset("merchant_trade", MerchantTradeMission.class);
         this.registerMissionPreset("identify", IdentifyMission.class);
         this.registerMissionPreset("level_up", LevelUpMission.class);
         this.registerMissionPreset("equip_suit", EquipSuitMission.class);
@@ -161,6 +162,7 @@ public class ProfileManager {
         this.registerEventPreset("waypoints", WaypointsEvent.class);
         this.registerEventPreset("dungeon", DungeonEvent.class);
         this.registerEventPreset("remove_effect", RemoveEffectEvent.class);
+        this.registerEventPreset("allot_quest", AllotQuestEvent.class);
     }
 
     private void registerConditionPreset() {
@@ -338,6 +340,8 @@ public class ProfileManager {
     }
 
     private void parseConversationFile(File file) {
+        if (!file.exists()) return;
+
         YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
         for (String key : yaml.getKeys(false)) {
             ConfigurationSection section = yaml.getConfigurationSection(key);

@@ -80,7 +80,7 @@ public class ConsumeMission extends AbstractMission {
 
     @Override
     public IProgress newProgress(UUID uuid, String questID) {
-        return new ExpendProgress(uuid, questID, this.requirement);
+        return new ExpendProgress(uuid, questID, new LinkedHashMap<>(this.requirement));
     }
 
     @Override
