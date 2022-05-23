@@ -195,11 +195,9 @@ public class QuestAccount {
         event.call();
 
         String nextID = quest.getNextQuest();
-        System.out.println("next quest: " + nextID);
         if (nextID != null) {
             IQuest next = JustQuest.getProfileManager().getQuest(nextID);
             if (next != null) next.allot(this.uuid);
-            System.out.println("allot");
             if (questID.equals(this.trace)) this.setQuestTrace(nextID);
         }
 
