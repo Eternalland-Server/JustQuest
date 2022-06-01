@@ -15,6 +15,7 @@ import net.sakuragame.eternal.justquest.core.event.AbstractEvent;
 import net.sakuragame.eternal.justquest.core.event.IEvent;
 import net.sakuragame.eternal.justquest.core.event.sub.*;
 import net.sakuragame.eternal.justquest.core.hook.PluginHook;
+import net.sakuragame.eternal.justquest.core.hook.miner.MinerHook;
 import net.sakuragame.eternal.justquest.core.hook.party.PartyHook;
 import net.sakuragame.eternal.justquest.core.hook.store.MerchantEvent;
 import net.sakuragame.eternal.justquest.core.hook.store.StoreHook;
@@ -59,6 +60,7 @@ public class ProfileManager {
         this.hooks = new ArrayList<>();
         this.hooks.add(new PartyHook());
         this.hooks.add(new StoreHook());
+        this.hooks.add(new MinerHook());
     }
 
     public void init() {
