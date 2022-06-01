@@ -1,9 +1,9 @@
 package net.sakuragame.eternal.justquest.listener;
 
-import com.taylorswiftcn.justwei.util.MegumiUtil;
 import net.sakuragame.eternal.dragoncore.api.CoreAPI;
 import net.sakuragame.eternal.dragoncore.api.KeyPressEvent;
 import net.sakuragame.eternal.dragoncore.api.event.YamlSendFinishedEvent;
+import net.sakuragame.eternal.dragoncore.network.PacketSender;
 import net.sakuragame.eternal.justquest.JustQuest;
 import net.sakuragame.eternal.justquest.api.event.QuestEvent;
 import net.sakuragame.eternal.justquest.core.mission.IMission;
@@ -61,12 +61,15 @@ public class QuestListener implements Listener {
         Player player = e.getPlayer();
         IQuest quest = e.getQuest();
 
+        PacketSender.sendPlaySound(player, "sounds/q/100.ogg", 0.33f, 1, false, 0, 0, 0);
         Utils.sendNotify(player, "&6&l[!] &f&l有新任务", quest.getName());
     }
 
     @EventHandler
     public void onCompleted(QuestEvent.Completed e) {
+        Player player = e.getPlayer();
         this.updateCount(e.getPlayer());
+        PacketSender.sendPlaySound(player, "sounds/q/101.ogg", 0.33f, 1, false, 0, 0, 0);
     }
 
     @EventHandler
