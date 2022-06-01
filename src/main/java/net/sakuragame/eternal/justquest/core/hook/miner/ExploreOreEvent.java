@@ -2,6 +2,7 @@ package net.sakuragame.eternal.justquest.core.hook.miner;
 
 import net.sakuragame.eternal.justquest.core.event.AbstractEvent;
 import net.sakuragame.eternal.kirraminer.KirraMinerAPI;
+import net.sakuragame.eternal.kirraminer.ore.Ore;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 

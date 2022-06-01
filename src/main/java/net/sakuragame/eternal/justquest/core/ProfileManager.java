@@ -82,12 +82,12 @@ public class ProfileManager {
         this.registerMissionPreset();
         this.registerEventPreset();
         this.registerConditionPreset();
+        this.registerHook();
 
         this.loadNPC();
         this.loadQuest();
         this.loadEvent();
         this.loadCondition();
-        this.loadMissionHook();
         this.loadExhibitNPC();
 
         plugin.getLogger().info("loaded " + npcConfig.size() + " npc");
@@ -246,10 +246,11 @@ public class ProfileManager {
         Arrays.stream(files).filter(k -> k.getName().endsWith(".yml")).forEach(this::parseConditionFile);
     }
 
-    private void loadMissionHook() {
+    private void registerHook() {
         for (PluginHook hook : this.hooks) {
             if (Bukkit.getPluginManager().getPlugin(hook.getPlugin()) == null) continue;
             hook.register();
+            plugin.getLogger().info("hook: " + hook.getPlugin());
         }
     }
 
