@@ -20,6 +20,7 @@ softdepend:
   - KirraPartyBukkit
   - JustStore
   - JustAlchemy
+  - KirraMiner
 
 commands:
   jquest:
