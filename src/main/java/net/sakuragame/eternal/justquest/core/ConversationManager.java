@@ -22,9 +22,11 @@ import java.util.UUID;
 
 public class ConversationManager {
 
+    private final Map<UUID, String> cache;
     private final Map<UUID, Integer> tryTaskID;
 
     public ConversationManager() {
+        this.cache = new HashMap<>();
         this.tryTaskID = new HashMap<>();
     }
 
@@ -62,6 +64,7 @@ public class ConversationManager {
         if (event.isCancelled()) return;
 
         new UIConversationIO(player, id, def);
+        this.addCache(player.getUniqueId(), id);
     }
 
     public void tryClothes(Player player, List<String> clothes) {
@@ -83,5 +86,17 @@ public class ConversationManager {
     public void cancel(UUID uuid) {
         if (!this.tryTaskID.containsKey(uuid)) return;
         Bukkit.getScheduler().cancelTask(this.tryTaskID.remove(uuid));
+    }
+
+    public void addCache(UUID uuid, String npcID) {
+        this.cache.put(uuid, npcID);
+    }
+
+    public void removeCache(UUID uuid) {
+        this.cache.remove(uuid);
+    }
+
+    public String getCache(UUID uuid) {
+        return this.cache.get(uuid);
     }
 }

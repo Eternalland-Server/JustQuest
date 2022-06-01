@@ -163,6 +163,7 @@ public class ProfileManager {
         this.registerEventPreset("dungeon", DungeonEvent.class);
         this.registerEventPreset("remove_effect", RemoveEffectEvent.class);
         this.registerEventPreset("allot_quest", AllotQuestEvent.class);
+        this.registerEventPreset("animation_play", AnimationPlayEvent.class);
     }
 
     private void registerConditionPreset() {

@@ -53,6 +53,7 @@ public class UIConversationIO implements IConversationIO, Listener {
     @Override
     public void start() {
         this.dialogue = conversation.getFirstDialogue(this.player);
+        this.dialogue.fireEvents(this.player);
         this.lastChoiceOption = null;
         this.display();
     }
