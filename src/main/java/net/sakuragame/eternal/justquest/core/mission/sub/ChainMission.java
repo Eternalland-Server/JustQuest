@@ -6,6 +6,7 @@ import com.taylorswiftcn.megumi.uifactory.generate.ui.component.base.SlotComp;
 import com.taylorswiftcn.megumi.uifactory.generate.ui.screen.ScreenUI;
 import ink.ptms.zaphkiel.ZaphkielAPI;
 import ink.ptms.zaphkiel.api.Item;
+import ink.ptms.zaphkiel.api.ItemStream;
 import lombok.Getter;
 import net.sakuragame.eternal.dragoncore.network.PacketSender;
 import net.sakuragame.eternal.justquest.JustQuest;
@@ -106,13 +107,13 @@ public class ChainMission extends AbstractMission {
         Player player = (Player) e.getEntity();
         UUID uuid = player.getUniqueId();
         ItemStack itemStack = e.getItem().getItemStack();
-        Item item = ZaphkielAPI.INSTANCE.getItem(itemStack);
-        if (item == null) return;
+        ItemStream itemStream = ZaphkielAPI.INSTANCE.read(itemStack);
+        if (itemStream.isVanilla()) return;
 
         ChainProgress progress = (ChainProgress) this.getData(uuid);
         if (progress == null || progress.isFinished()) return;
 
-        String id = item.getId();
+        String id = itemStream.getZaphkielName();
         ChainRequire require = JustQuest.getChainManager().getRequire(progress.getId());
         if (!require.getItem().equals(id)) return;
 
