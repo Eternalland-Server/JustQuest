@@ -5,7 +5,7 @@ author: 'justwei'
 api-version: '1.13'
 depend:
   - MegumiLib
-  - datamanager-bukkit-parent
+  - DataManager
   - DragonCore
   - UIFactory
   - Adyeshach
