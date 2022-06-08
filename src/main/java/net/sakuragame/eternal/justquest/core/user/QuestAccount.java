@@ -191,6 +191,7 @@ public class QuestAccount {
         Scheduler.runAsync(() -> JustQuest.getStorageManager().updateQuestProgress(this.uuid, data));
 
         IQuest quest = JustQuest.getProfileManager().getQuest(questID);
+        quest.completed(this.uuid);
         QuestEvent.Completed event = new QuestEvent.Completed(Bukkit.getPlayer(this.uuid), quest);
         event.call();
 

@@ -2,6 +2,7 @@ package net.sakuragame.eternal.justquest.core.quest.sub;
 
 import com.taylorswiftcn.justwei.util.MegumiUtil;
 import net.sakuragame.eternal.gemseconomy.api.GemsEconomyAPI;
+import net.sakuragame.eternal.justmessage.JustMessage;
 import net.sakuragame.eternal.justquest.JustQuest;
 import net.sakuragame.eternal.justquest.api.event.QuestEvent;
 import net.sakuragame.eternal.justquest.core.ChainManager;
@@ -39,8 +40,13 @@ public class ChainQuest extends AbstractQuest {
     public void completed(UUID uuid) {
         Player player = Bukkit.getPlayer(uuid);
         QuestAccount account = JustQuest.getAccountManager().getAccount(uuid);
-        int chain = account.getChain();
-        player.sendTitle("§a§l商行任务已完成", "§3§l今日跑环进度(" + (chain + 1) + "/60)", 10, 20, 10);
+        int chain = account.getChain() + 1;
+
+        if (chain % 20 == 0) {
+            JustMessage.getChatManager().sendAll("⒞ §a恭喜§7" + player.getName() + "§a完成 §b" + chain + "§a 次跑环,获得了大量奖励!");
+        }
+
+        player.sendTitle("§a§l商行任务已完成", "§3§l今日跑环进度(" + chain + "/60)", 10, 20, 10);
     }
 
     @Override
