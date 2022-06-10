@@ -27,9 +27,9 @@ public class QuestReward {
     }
 
     public void apply(UUID uuid) {
-        JustLevelAPI.addExp(uuid, this.exp);
-        GemsEconomyAPI.deposit(uuid, this.money);
-        GemsEconomyAPI.deposit(uuid, this.coins, EternalCurrency.Coins);
+        if (this.exp > 0) JustLevelAPI.addExp(uuid, this.exp);
+        if (this.money > 0) GemsEconomyAPI.deposit(uuid, this.money);
+        if (this.coins > 0) GemsEconomyAPI.deposit(uuid, this.coins, EternalCurrency.Coins);
 
         Player player = Bukkit.getPlayer(uuid);
         Utils.giveItems(player, this.items);
@@ -37,9 +37,9 @@ public class QuestReward {
 
     public String getRewardDescriptions() {
         StringBuilder builder = new StringBuilder();
-        if (this.money != -1) builder.append("&a金币: &f").append((int) this.money).append("  ");
-        if (this.coins != -1) builder.append("&a点劵: &f").append((int) this.coins).append("  ");
-        if (this.exp != -1) builder.append("&a经验: &f").append((int) this.exp).append("  ");
+        if (this.money > 0) builder.append("&a金币: &f").append((int) this.money).append("  ");
+        if (this.coins > 0) builder.append("&a点劵: &f").append((int) this.coins).append("  ");
+        if (this.exp > 0) builder.append("&a经验: &f").append((int) this.exp).append("  ");
 
         return builder.toString();
     }

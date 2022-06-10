@@ -291,9 +291,9 @@ public class ProfileManager {
         List<String> missions = yaml.getStringList("missions");
         String next = yaml.getString("next");
 
-        double exp = yaml.getDouble("reward.exp", -1);
-        double money = yaml.getDouble("reward.money", -1);
-        int coins = yaml.getInt("reward.coins", -1);
+        double exp = yaml.getDouble("reward.exp", 0);
+        double money = yaml.getDouble("reward.money", 0);
+        int coins = yaml.getInt("reward.coins", 0);
         List<String> items = yaml.getStringList("reward.items");
         Map<String, Integer> map = new HashMap<>();
         items.forEach(s -> {
