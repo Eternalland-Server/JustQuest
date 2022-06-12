@@ -93,7 +93,7 @@ public class QuestUIManager {
             this.setEmptyContents(player);
         }
 
-        this.pageCache.put(player.getUniqueId(), current);
+        this.pageCache.put(player.getUniqueId(), current - 1);
         PacketSender.sendOpenGui(player, QUEST_UI_ID);
     }
 
