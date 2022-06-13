@@ -215,7 +215,7 @@ public class ProfileManager {
 
     private void loadQuest(File[] files) {
         Arrays.stream(files).filter(File::isDirectory).forEach(sub -> {
-            if (sub.getName().startsWith("*")) {
+            if (sub.getName().startsWith("_")) {
                 File[] child = sub.listFiles();
                 if (child == null || child.length == 0) return;
                 this.loadQuest(child);
