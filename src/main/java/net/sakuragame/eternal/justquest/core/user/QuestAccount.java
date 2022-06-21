@@ -160,14 +160,14 @@ public class QuestAccount {
         Player player = Bukkit.getPlayer(this.uuid);
 
         if (this.trace == null) {
-            Utils.setTraceBar(player, "&7&o暂未跟踪任何任务&7&l(F)");
+            Utils.setTraceBar(player, "&7&o暂未跟踪任何任务");
             return;
         }
 
         IQuest quest = JustQuest.getProfileManager().getQuest(this.trace);
         QuestProgress progress = this.progresses.get(this.trace);
         if (progress == null) {
-            Utils.setTraceBar(player, "&7&o暂未跟踪任何任务&7&l(F)");
+            Utils.setTraceBar(player, "&7&o暂未跟踪任何任务");
             return;
         }
 
