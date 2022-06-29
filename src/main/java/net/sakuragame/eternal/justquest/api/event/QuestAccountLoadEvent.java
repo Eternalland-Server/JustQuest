@@ -1,6 +1,7 @@
 package net.sakuragame.eternal.justquest.api.event;
 
 import lombok.Getter;
+import net.sakuragame.eternal.justquest.api.JustEvent;
 import net.sakuragame.eternal.justquest.core.user.QuestAccount;
 import org.bukkit.entity.Player;
 

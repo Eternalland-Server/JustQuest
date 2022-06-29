@@ -21,7 +21,7 @@ public interface IQuest {
      *
      * @return {@link String}
      */
-    String getName();
+    String getName(UUID uuid);
 
     /**
      * 获取任务类型

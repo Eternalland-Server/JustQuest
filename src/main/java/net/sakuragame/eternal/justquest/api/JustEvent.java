@@ -1,4 +1,4 @@
-package net.sakuragame.eternal.justquest.api.event;
+package net.sakuragame.eternal.justquest.api;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

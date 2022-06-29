@@ -73,6 +73,15 @@ public class ChainQuest extends AbstractQuest {
 
         QuestEvent.Finished event = new QuestEvent.Finished(Bukkit.getPlayer(uuid), this);
         event.call();
+
+        JustQuest.getChainManager().allotQuest(player);
+    }
+
+    @Override
+    public String getName(UUID uuid) {
+        QuestAccount account = JustQuest.getAccountManager().getAccount(uuid);
+        int chain = account.getChain();
+        return this.getName().replace("%current%", (chain + 1) + "");
     }
 
     @Override

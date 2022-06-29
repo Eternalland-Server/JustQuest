@@ -1,6 +1,7 @@
 package net.sakuragame.eternal.justquest.api.event;
 
 import lombok.Getter;
+import net.sakuragame.eternal.justquest.api.JustEvent;
 import net.sakuragame.eternal.justquest.core.conversation.Conversation;
 import net.sakuragame.eternal.justquest.core.conversation.Dialogue;
 import org.bukkit.entity.Player;

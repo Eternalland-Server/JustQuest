@@ -1,33 +1,41 @@
 package net.sakuragame.eternal.justquest.core.mission.sub;
 
 import com.google.gson.JsonObject;
+import com.taylorswiftcn.justwei.util.MegumiUtil;
 import com.taylorswiftcn.megumi.uifactory.generate.ui.component.base.LabelComp;
 import com.taylorswiftcn.megumi.uifactory.generate.ui.component.base.SlotComp;
 import com.taylorswiftcn.megumi.uifactory.generate.ui.screen.ScreenUI;
 import ink.ptms.zaphkiel.ZaphkielAPI;
 import ink.ptms.zaphkiel.api.Item;
 import ink.ptms.zaphkiel.api.ItemStream;
+import jdk.nashorn.internal.runtime.regexp.joni.Config;
 import lombok.Getter;
 import net.sakuragame.eternal.dragoncore.network.PacketSender;
 import net.sakuragame.eternal.justquest.JustQuest;
+import net.sakuragame.eternal.justquest.api.event.ChainQuestSubmitEvent;
 import net.sakuragame.eternal.justquest.core.chain.ChainRequire;
 import net.sakuragame.eternal.justquest.core.mission.AbstractMission;
 import net.sakuragame.eternal.justquest.core.mission.AbstractProgress;
 import net.sakuragame.eternal.justquest.core.mission.IProgress;
+import net.sakuragame.eternal.justquest.file.sub.ConfigFile;
 import net.sakuragame.eternal.justquest.ui.QuestUIManager;
 import net.sakuragame.eternal.justquest.util.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class ChainMission extends AbstractMission {
+
+    private final static DecimalFormat FORMAT = new DecimalFormat("0.00");
 
     public ChainMission(String ID, String type, List<String> descriptions) {
         super(ID, type, new ArrayList<>(), new ArrayList<>(), descriptions, null);
@@ -129,6 +137,58 @@ public class ChainMission extends AbstractMission {
         this.complete(uuid);
     }
 
+    @EventHandler
+    public void onSubmit(ChainQuestSubmitEvent e) {
+        Player player = e.getPlayer();
+        UUID uuid = player.getUniqueId();
+
+        ChainProgress progress = (ChainProgress) this.getData(uuid);
+        if (progress == null || progress.isFinished()) return;
+
+        ChainRequire require = JustQuest.getChainManager().getRequire(progress.getId());
+
+        int count = 0;
+
+        for (int i = 0; i < player.getInventory().getSize(); i++) {
+            ItemStack item = player.getInventory().getItem(i);
+            if (MegumiUtil.isEmpty(item)) continue;
+
+            ItemStream itemStream = ZaphkielAPI.INSTANCE.read(item);
+            if (itemStream.isVanilla()) continue;
+
+            String id = itemStream.getZaphkielName();
+            if (!require.getItem().equals(id)) continue;
+
+            int amount = item.getAmount();
+            int current = progress.getCurrent();
+
+            int result = current - amount;
+            if (result >= 0) {
+                player.getInventory().setItem(i, new ItemStack(Material.AIR));
+                progress.push(amount);
+                count += amount;
+                if (!progress.isFinished()) continue;
+                this.complete(uuid);
+                return;
+            }
+            else {
+                item.setAmount(Math.abs(result));
+                player.getInventory().setItem(i, item);
+                progress.push(current);
+                this.complete(uuid);
+                return;
+            }
+        }
+
+        if (count == 0) {
+            player.sendMessage(ConfigFile.prefix + "你背包内没有相关材料可交付");
+            return;
+        }
+
+        progress.update();
+        player.sendTitle("", "§3§l跑环交付进度 §7§l- §8§l[§e§l" + FORMAT.format(progress.getRatio() * 100) + "%§8§l]", 0, 60, 0);
+    }
+
     @Getter
     private static class ChainProgress extends AbstractProgress {
 
@@ -170,6 +230,10 @@ public class ChainMission extends AbstractMission {
         @Override
         public boolean isFinished() {
             return this.current <= 0;
+        }
+
+        public double getRatio() {
+            return (this.total - this.current) / (double) this.total;
         }
 
         @Override

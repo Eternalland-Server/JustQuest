@@ -69,7 +69,7 @@ public class QuestList {
                             .setCompSize(10, 13)
                             .setExtend("q_" + i)
                     )
-                    .addComponent(new LabelComp("q_" + i + "_c", quest.getName())
+                    .addComponent(new LabelComp("q_" + i + "_c", quest.getName(player.getUniqueId()))
                             .setXY("q_" + i + ".x+28", "q_" + i + ".y+7")
                             .setScale(1.2)
                             .setExtend("q_" + i)

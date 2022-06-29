@@ -46,11 +46,15 @@ public class ChainManager {
 
     private void register() {
         JustQuest.getProfileManager().registerQuest(QUEST_ID,
-                new ChainQuest(QUEST_ID, "&f&l商行跑环", Collections.singletonList("&f商行老板 &a钱三万 &f委托的收集任务"))
+                new ChainQuest(QUEST_ID, "&f&l商行跑环&7&l(%current%/60)", Collections.singletonList("&f商行老板 &a钱三万 &f委托的收集任务"))
         );
 
         JustQuest.getProfileManager().registerMission(MISSION_ID,
-                new ChainMission(MISSION_ID, "chain", Arrays.asList("⊔相关区域: <dungeon>", "⊒相关生物: <mobs>"))
+                new ChainMission(MISSION_ID, "chain", Arrays.asList(
+                        "&a交付所需材料给商行老板",
+                        "⊔&f区域: &7<dungeon>",
+                        "⊒&f怪物: &7<mobs>"
+                ))
         );
     }
 
@@ -120,6 +124,15 @@ public class ChainManager {
     }
 
     public void allotQuest(Player player) {
+        QuestAccount account = JustQuest.getAccountManager().getAccount(player);
+        int chain = account.getChain();
+        if (chain == 60) return;
+
+        if (!this.cache.containsKey(player.getUniqueId())) {
+            String requireID = this.getRandom(chain).getID();
+            this.cache.put(player.getUniqueId(), requireID);
+        }
+
         IQuest quest = JustQuest.getProfileManager().getQuest(QUEST_ID);
         quest.allot(player.getUniqueId());
     }

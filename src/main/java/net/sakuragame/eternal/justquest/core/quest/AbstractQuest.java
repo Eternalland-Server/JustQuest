@@ -103,6 +103,11 @@ public abstract class AbstractQuest implements IQuest {
     }
 
     @Override
+    public String getName(UUID uuid) {
+        return this.name;
+    }
+
+    @Override
     public String getNextQuest() {
         return this.next;
     }

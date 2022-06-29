@@ -26,6 +26,6 @@ public class ChainRequire {
 
     public int getRandomAmount() {
         Random random = new Random();
-        return random.nextInt(amount.getKey() + (amount.getValue() - amount.getKey()));
+        return amount.getKey() + random.nextInt(amount.getValue() - amount.getKey());
     }
 }

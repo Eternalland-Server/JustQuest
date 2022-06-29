@@ -43,6 +43,7 @@ public class QuestAccount {
 
     public void purgeData() {
         this.trace = null;
+        this.chain = 0;
         this.finished.clear();
         this.progresses.values().forEach(k -> {
             IMission mission = JustQuest.getProfileManager().getMission(k.getMissionID());
@@ -171,7 +172,7 @@ public class QuestAccount {
             return;
         }
 
-        String title = quest.getType().getSymbol() + " " + quest.getName() + (progress.isCompleted() ? " ❋" : "");
+        String title = quest.getType().getSymbol() + " " + quest.getName(this.uuid) + (progress.isCompleted() ? " ❋" : "");
         List<String> desc = JustQuest.getProfileManager().getMission(progress.getMissionID()).getDescriptions(uuid);
 
         Utils.setTraceBar(player, title, desc,

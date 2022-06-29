@@ -18,6 +18,8 @@ Active:
       - '&f老夫可是为你准备了丰富的奖励'
       - '&f快去快去，别耽误了'
     reply:
+      submit:
+        text: '&a交付材料'
       uh:
         text: '噢，好！'
 

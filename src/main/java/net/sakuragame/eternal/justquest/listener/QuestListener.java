@@ -62,7 +62,7 @@ public class QuestListener implements Listener {
         IQuest quest = e.getQuest();
 
         PacketSender.sendPlaySound(player, "sounds/q/100.ogg", 0.33f, 1, false, 0, 0, 0);
-        Utils.sendNotify(player, "&6&l[!] &f&l有新任务", quest.getName());
+        Utils.sendNotify(player, "&6&l[!] &f&l有新任务", quest.getName(player.getUniqueId()));
     }
 
     @EventHandler

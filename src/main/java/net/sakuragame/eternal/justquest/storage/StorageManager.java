@@ -14,6 +14,7 @@ import net.sakuragame.serversystems.manage.client.api.ClientManagerAPI;
 import org.apache.commons.lang.time.DateUtils;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
 public class StorageManager {
@@ -56,6 +57,13 @@ public class StorageManager {
                     account.setChain(0);
                     dataManager.executeUpdate(QuestTables.Quest_Account.getTableName(), "chain", 0, "uid", uid);
                 }
+            }
+            else {
+                dataManager.executeInsert(
+                        QuestTables.Quest_Account.getTableName(),
+                        new String[]{"uid"},
+                        new Object[]{uid}
+                );
             }
         }
         catch (Exception e) {
@@ -112,10 +120,10 @@ public class StorageManager {
         int uid = ClientManagerAPI.getUserID(uuid);
         if (uid == -1) return;
 
-        dataManager.executeReplace(
+        dataManager.executeUpdate(
                 QuestTables.Quest_Account.getTableName(),
-                new String[]{"uid", "trace"},
-                new Object[]{uid, trace}
+                "trace", trace,
+                "uid", uid
         );
     }
 

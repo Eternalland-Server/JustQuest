@@ -2,6 +2,7 @@ package net.sakuragame.eternal.justquest.listener;
 
 import ink.ptms.adyeshach.api.event.AdyeshachEntityInteractEvent;
 import net.sakuragame.eternal.justquest.JustQuest;
+import net.sakuragame.eternal.justquest.api.event.ChainQuestSubmitEvent;
 import net.sakuragame.eternal.justquest.api.event.ConversationEvent;
 import net.sakuragame.eternal.justquest.core.ChainManager;
 import net.sakuragame.eternal.justquest.core.chain.ChainRequire;
@@ -71,7 +72,18 @@ public class ChainListener implements Listener {
     }
 
     @EventHandler
-    public void onComplete(ConversationEvent.Complete e) {
+    public void onActive(ConversationEvent.Option e) {
+        Player player = e.getPlayer();
+
+        if (!e.getConversation().getID().equals(ChainManager.State.Active.getConversationID())) return;
+        if (!e.getOptionID().equals("submit")) return;
+
+        ChainQuestSubmitEvent event = new ChainQuestSubmitEvent(player);
+        event.call();
+    }
+
+    @EventHandler
+    public void onComplete(ConversationEvent.Leave e) {
         Player player = e.getPlayer();
 
         if (!e.getConversation().getID().equals(ChainManager.State.Completed.getConversationID())) return;
