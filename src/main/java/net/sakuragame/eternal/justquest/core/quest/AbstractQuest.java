@@ -94,6 +94,11 @@ public abstract class AbstractQuest implements IQuest {
         this.reward.apply(uuid);
 
         account.deleteQuestProgress(this.ID);
+
+        if (this.ID.equals(account.getTrace())) {
+            account.updateTraceBar();
+        }
+
         if (this.getType().isOnce()){
             account.addFinished(this.ID);
         }

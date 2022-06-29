@@ -139,17 +139,6 @@ public class QuestAccount {
         Scheduler.runAsync(() -> JustQuest.getStorageManager().updateTrace(this.uuid, this.trace));
     }
 
-    public void autoQuestTrace() {
-        if (this.progresses.size() != 0) {
-            this.trace = this.progresses.keySet().stream().findFirst().get();
-        }
-        else {
-            this.trace = null;
-        }
-
-        Scheduler.runAsync(() -> JustQuest.getStorageManager().updateTrace(this.uuid, this.trace));
-    }
-
     public IMission getTraceMission() {
         if (this.trace == null) return null;
         QuestProgress progress = this.progresses.get(this.trace);
@@ -160,6 +149,11 @@ public class QuestAccount {
     public void updateTraceBar() {
         Player player = Bukkit.getPlayer(this.uuid);
 
+        if (!this.progresses.containsKey(this.trace)) {
+            this.trace = this.progresses.size() != 0 ? this.progresses.keySet().stream().findFirst().get() : null;
+            Scheduler.runAsync(() -> JustQuest.getStorageManager().updateTrace(this.uuid, this.trace));
+        }
+
         if (this.trace == null) {
             Utils.setTraceBar(player, "&7&o暂未跟踪任何任务");
             return;
@@ -167,10 +161,6 @@ public class QuestAccount {
 
         IQuest quest = JustQuest.getProfileManager().getQuest(this.trace);
         QuestProgress progress = this.progresses.get(this.trace);
-        if (progress == null) {
-            Utils.setTraceBar(player, "&7&o暂未跟踪任何任务");
-            return;
-        }
 
         String title = quest.getType().getSymbol() + " " + quest.getName(this.uuid) + (progress.isCompleted() ? " ❋" : "");
         List<String> desc = JustQuest.getProfileManager().getMission(progress.getMissionID()).getDescriptions(uuid);
@@ -229,7 +219,6 @@ public class QuestAccount {
         mission.abandon(this.uuid);
 
         if (this.trace.equals(questID)) {
-            this.autoQuestTrace();
             this.updateTraceBar();
         }
     }
@@ -249,10 +238,6 @@ public class QuestAccount {
 
     public void deleteQuestProgress(String questID) {
         this.progresses.remove(questID);
-        if (questID.equals(this.trace)) {
-            this.autoQuestTrace();
-            this.updateTraceBar();
-        }
 
         Scheduler.runAsync(() -> JustQuest.getStorageManager().deleteQuestProgress(this.uuid, questID));
     }

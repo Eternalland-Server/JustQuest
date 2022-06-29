@@ -23,6 +23,7 @@ import net.sakuragame.eternal.justquest.util.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityPickupItemEvent;
@@ -182,6 +183,7 @@ public class ChainMission extends AbstractMission {
 
         if (count == 0) {
             player.sendMessage(ConfigFile.prefix + "你背包内没有相关材料可交付");
+            player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 0.4f, 1);
             return;
         }
 
