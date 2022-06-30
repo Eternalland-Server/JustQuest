@@ -23,12 +23,16 @@ public interface IQuest {
      */
     String getName(UUID uuid);
 
+    String getTitleDisplay(UUID uuid);
+
     /**
      * 获取任务类型
      *
      * @return {@link QuestType}
      */
     QuestType getType();
+
+    boolean isSilent();
 
     /**
      * 获取任务描述

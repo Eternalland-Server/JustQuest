@@ -5,6 +5,7 @@ import net.sakuragame.eternal.dragoncore.api.event.YamlSendFinishedEvent;
 import net.sakuragame.eternal.justquest.JustQuest;
 import net.sakuragame.eternal.justquest.api.event.QuestAccountLoadEvent;
 import net.sakuragame.eternal.justquest.core.user.QuestAccount;
+import net.sakuragame.eternal.justquest.file.sub.ConfigFile;
 import net.sakuragame.eternal.justquest.util.Scheduler;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,10 +24,13 @@ public class PlayerListener implements Listener {
         Scheduler.runLaterAsync(() -> {
             if (player.isOnline()) {
                 JustQuest.getAccountManager().loadAccount(uuid);
-                QuestAccountLoadEvent event = new QuestAccountLoadEvent(player, JustQuest.getAccountManager().getAccount(uuid));
+                QuestAccount account = JustQuest.getAccountManager().getAccount(uuid);
+                QuestAccountLoadEvent event = new QuestAccountLoadEvent(player, account);
                 event.call();
+
+                ConfigFile.defaultAllot.forEach(id -> JustQuest.getQuestManager().allotQuest(uuid, id));
             }
-        }, 10);
+        }, 20);
     }
 
     @EventHandler

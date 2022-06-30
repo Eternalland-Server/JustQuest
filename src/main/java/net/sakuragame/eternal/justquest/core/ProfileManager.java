@@ -287,6 +287,7 @@ public class ProfileManager {
         String id = yaml.getString("id");
         String name = MegumiUtil.onReplace(yaml.getString("name"));
         QuestType type = QuestType.valueOf(yaml.getString("type").toUpperCase());
+        boolean silent = yaml.getBoolean("silent", false);
         List<String> descriptions = yaml.getStringList("descriptions");
         List<String> missions = yaml.getStringList("missions");
         String next = yaml.getString("next");
@@ -310,8 +311,8 @@ public class ProfileManager {
             if (preset == null) return;
 
             this.quests.put(id, preset
-                    .getConstructor(String.class, String.class, List.class, List.class, String.class, QuestReward.class)
-                    .newInstance(id, name, descriptions, missions, next, reward)
+                    .getConstructor(String.class, String.class, Boolean.class, List.class, List.class, String.class, QuestReward.class)
+                    .newInstance(id, name, silent, descriptions, missions, next, reward)
             );
         }
         catch (Exception e) {

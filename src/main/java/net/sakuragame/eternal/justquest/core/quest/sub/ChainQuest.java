@@ -22,7 +22,7 @@ import java.util.*;
 public class ChainQuest extends AbstractQuest {
 
     public ChainQuest(String ID, String name, List<String> descriptions) {
-        super(ID, name, descriptions, Collections.singletonList(ChainManager.MISSION_ID), null, null);
+        super(ID, name, false, descriptions, Collections.singletonList(ChainManager.MISSION_ID), null, null);
     }
 
     @Override

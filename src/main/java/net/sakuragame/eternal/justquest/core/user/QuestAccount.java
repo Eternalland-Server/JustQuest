@@ -162,7 +162,7 @@ public class QuestAccount {
         IQuest quest = JustQuest.getProfileManager().getQuest(this.trace);
         QuestProgress progress = this.progresses.get(this.trace);
 
-        String title = quest.getType().getSymbol() + " " + quest.getName(this.uuid) + (progress.isCompleted() ? " ❋" : "");
+        String title = quest.getTitleDisplay(this.uuid) + (progress.isCompleted() ? " ❋" : "");
         List<String> desc = JustQuest.getProfileManager().getMission(progress.getMissionID()).getDescriptions(uuid);
 
         Utils.setTraceBar(player, title, desc,

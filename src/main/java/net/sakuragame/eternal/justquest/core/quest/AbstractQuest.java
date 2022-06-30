@@ -21,6 +21,8 @@ public abstract class AbstractQuest implements IQuest {
 
     private final String ID;
     private final String name;
+
+    private final boolean silent;
     private final List<String> descriptions;
 
     private final List<String> missions;
@@ -29,9 +31,10 @@ public abstract class AbstractQuest implements IQuest {
 
     private final QuestReward reward;
 
-    public AbstractQuest(String ID, String name, List<String> descriptions, List<String> missions, String next, QuestReward reward) {
+    public AbstractQuest(String ID, String name, boolean silent, List<String> descriptions, List<String> missions, String next, QuestReward reward) {
         this.ID = ID;
         this.name = name;
+        this.silent = silent;
         this.descriptions = descriptions;
         this.missions = missions;
         this.next = next;
@@ -110,6 +113,11 @@ public abstract class AbstractQuest implements IQuest {
     @Override
     public String getName(UUID uuid) {
         return this.name;
+    }
+
+    @Override
+    public String getTitleDisplay(UUID uuid) {
+        return this.getType().getSymbol() + " " + this.getType().getPrefix() + " " + this.getName(uuid);
     }
 
     @Override

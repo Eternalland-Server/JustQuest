@@ -10,11 +10,13 @@ public class ConfigFile {
     private static YamlConfiguration yaml;
 
     public static String prefix;
+    public static List<String> defaultAllot;
 
     public static void init() {
         yaml = JustQuest.getFileManager().getConfig();
 
         prefix = getString("prefix");
+        defaultAllot = yaml.getStringList("default-allot");
     }
 
     private static String getString(String path) {

@@ -31,7 +31,7 @@ public class QuestListener implements Listener {
                 QuestAccount account = JustQuest.getAccountManager().getAccount(player);
                 account.updateTraceBar();
             }
-        }, 10);
+        }, 5);
     }
 
     @EventHandler
@@ -60,6 +60,8 @@ public class QuestListener implements Listener {
     public void onAllot(QuestEvent.Allot e) {
         Player player = e.getPlayer();
         IQuest quest = e.getQuest();
+
+        if (quest.isSilent()) return;
 
         PacketSender.sendPlaySound(player, "sounds/q/100.ogg", 0.33f, 1, false, 0, 0, 0);
         Utils.sendNotify(player, "&6&l[!] &f&l有新任务", quest.getName(player.getUniqueId()));

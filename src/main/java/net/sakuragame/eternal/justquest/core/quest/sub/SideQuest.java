@@ -8,8 +8,8 @@ import java.util.List;
 
 public class SideQuest extends AbstractQuest {
 
-    public SideQuest(String ID, String name, List<String> descriptions, List<String> missions, String next, QuestReward reward) {
-        super(ID, name, descriptions, missions, next, reward);
+    public SideQuest(String ID, String name, Boolean silent, List<String> descriptions, List<String> missions, String next, QuestReward reward) {
+        super(ID, name, silent, descriptions, missions, next, reward);
     }
 
     @Override
