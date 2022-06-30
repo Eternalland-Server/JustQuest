@@ -36,12 +36,6 @@ public class ConversationMission extends AbstractMission {
     }
 
     @Override
-    public void keep(UUID uuid, String questID) {
-        super.keep(uuid, questID);
-        this.navigation(Bukkit.getPlayer(uuid));
-    }
-
-    @Override
     public void navigation(Player player) {
         WaypointsAPI.navNPC(player, this.npcID, 5, Arrays.asList("§6§l前往", "§f(%distance%m)"));
     }

@@ -153,6 +153,7 @@ public class ProfileManager {
         this.registerMissionPreset("level_up", LevelUpMission.class);
         this.registerMissionPreset("equip_suit", EquipSuitMission.class);
         this.registerMissionPreset("elevate_realm", ElevateRealmMission.class);
+        this.registerMissionPreset("slot", SlotMission.class);
     }
     
     private void registerEventPreset() {

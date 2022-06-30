@@ -194,23 +194,6 @@ public class QuestAccount {
         }
 
         this.updateTraceBar();
-
-        /*if (questID.equals(this.trace)) {
-            String nextID = quest.getNextQuest();
-            if (nextID != null) {
-                IQuest next = JustQuest.getProfileManager().getQuest(nextID);
-                if (next == null) {
-                    this.updateTraceBar();
-                    return;
-                }
-                next.allot(this.uuid);
-                this.setQuestTrace(nextID);
-                this.updateTraceBar();
-            }
-            else {
-                this.updateTraceBar();
-            }
-        }*/
     }
 
     public void cancelQuest(String questID) {

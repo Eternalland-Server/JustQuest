@@ -21,6 +21,8 @@ public interface IQuest {
      *
      * @return {@link String}
      */
+    String getName();
+
     String getName(UUID uuid);
 
     String getTitleDisplay(UUID uuid);

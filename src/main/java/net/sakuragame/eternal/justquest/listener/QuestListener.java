@@ -4,8 +4,10 @@ import net.sakuragame.eternal.dragoncore.api.CoreAPI;
 import net.sakuragame.eternal.dragoncore.api.KeyPressEvent;
 import net.sakuragame.eternal.dragoncore.api.event.YamlSendFinishedEvent;
 import net.sakuragame.eternal.dragoncore.network.PacketSender;
+import net.sakuragame.eternal.justmessage.api.MessageAPI;
 import net.sakuragame.eternal.justquest.JustQuest;
 import net.sakuragame.eternal.justquest.api.event.QuestEvent;
+import net.sakuragame.eternal.justquest.core.data.QuestType;
 import net.sakuragame.eternal.justquest.core.mission.IMission;
 import net.sakuragame.eternal.justquest.core.quest.IQuest;
 import net.sakuragame.eternal.justquest.core.user.QuestAccount;
@@ -70,7 +72,12 @@ public class QuestListener implements Listener {
     @EventHandler
     public void onCompleted(QuestEvent.Completed e) {
         Player player = e.getPlayer();
+        IQuest quest = e.getQuest();
         this.updateCount(e.getPlayer());
+
+        if (quest.getType() != QuestType.CQ) {
+            MessageAPI.sendInformMessage(player, quest.getType().getSymbol() + " &a<&f" + quest.getName() + "&a> &7已完成");
+        }
         PacketSender.sendPlaySound(player, "sounds/q/101.ogg", 0.33f, 1, false, 0, 0, 0);
     }
 
