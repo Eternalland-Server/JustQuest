@@ -46,7 +46,7 @@ public class ChainManager {
 
     private void register() {
         JustQuest.getProfileManager().registerQuest(QUEST_ID,
-                new ChainQuest(QUEST_ID, "&f&l商行跑环&7&l(%current%/60)", Collections.singletonList("&f商行老板 &a钱三万 &f委托的收集任务"))
+                new ChainQuest(QUEST_ID, "&f商行跑环&7(%current%/60)", Collections.singletonList("&f商行老板 &a钱三万 &f委托的收集任务"))
         );
 
         JustQuest.getProfileManager().registerMission(MISSION_ID,
