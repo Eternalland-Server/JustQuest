@@ -3,10 +3,12 @@ package net.sakuragame.eternal.justquest.core.mission.sub;
 import com.taylorswiftcn.megumi.uifactory.generate.ui.component.base.LabelComp;
 import com.taylorswiftcn.megumi.uifactory.generate.ui.screen.ScreenUI;
 import lombok.Getter;
+import net.sakuragame.eternal.justquest.JustQuest;
 import net.sakuragame.eternal.justquest.api.event.ConversationEvent;
 import net.sakuragame.eternal.justquest.core.mission.AbstractMission;
 import net.sakuragame.eternal.justquest.core.mission.AbstractProgress;
 import net.sakuragame.eternal.justquest.core.mission.IProgress;
+import net.sakuragame.eternal.justquest.core.quest.IQuest;
 import net.sakuragame.eternal.justquest.ui.QuestUIManager;
 import net.sakuragame.eternal.waypoints.api.WaypointsAPI;
 import org.bukkit.Bukkit;
@@ -32,6 +34,9 @@ public class ConversationMission extends AbstractMission {
     @Override
     public void active(UUID uuid, String questID) {
         super.active(uuid, questID);
+
+        IQuest quest = JustQuest.getProfileManager().getQuest(questID);
+        if (quest.isSilent()) return;
         this.navigation(Bukkit.getPlayer(uuid));
     }
 
