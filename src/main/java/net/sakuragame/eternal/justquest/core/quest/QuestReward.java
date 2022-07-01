@@ -4,6 +4,7 @@ import lombok.Getter;
 import net.sakuragame.eternal.gemseconomy.api.GemsEconomyAPI;
 import net.sakuragame.eternal.gemseconomy.currency.EternalCurrency;
 import net.sakuragame.eternal.justlevel.api.JustLevelAPI;
+import net.sakuragame.eternal.justquest.file.sub.ConfigFile;
 import net.sakuragame.eternal.justquest.util.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -27,12 +28,20 @@ public class QuestReward {
     }
 
     public void apply(UUID uuid) {
-        if (this.exp > 0) JustLevelAPI.addExp(uuid, this.exp);
-        if (this.money > 0) GemsEconomyAPI.deposit(uuid, this.money);
-        if (this.coins > 0) GemsEconomyAPI.deposit(uuid, this.coins, EternalCurrency.Coins);
-
         Player player = Bukkit.getPlayer(uuid);
+
+        if (this.exp > 0) JustLevelAPI.addExp(uuid, this.exp);
+        if (this.money > 0) {
+            GemsEconomyAPI.deposit(uuid, this.money);
+            player.sendMessage(" §8[§e+§8] §f" + this.money + " §f金币");
+        }
+        if (this.coins > 0) {
+            GemsEconomyAPI.deposit(uuid, this.coins, EternalCurrency.Coins);
+            player.sendMessage(" §8[§e+§8] §f" + this.coins + " §f点劵");
+        }
+
         Utils.giveItems(player, this.items);
+        player.sendMessage(ConfigFile.prefix + "已领取任务奖励");
     }
 
     public String getRewardDescriptions() {
