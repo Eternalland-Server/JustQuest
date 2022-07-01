@@ -51,7 +51,7 @@ public class LevelUpMission extends AbstractMission {
 
         ScreenUI ui = new ScreenUI(QuestUIManager.QUEST_OBJECTIVE_ID);
         ui
-                .addComponent(new LabelComp("require", "&f达到等级: " + player.getLevel() + "/" + this.requirement)
+                .addComponent(new LabelComp("require", "⊑&f等级: " + player.getLevel() + "/" + this.requirement)
                         .setExtend("objectives")
                 );
         return ui;
@@ -61,7 +61,7 @@ public class LevelUpMission extends AbstractMission {
     public ScreenUI getCompleteDisplay(UUID uuid) {
         ScreenUI ui = new ScreenUI(QuestUIManager.QUEST_OBJECTIVE_ID);
         ui
-                .addComponent(new LabelComp("require", "&f达到等级: " + this.requirement + "/" + this.requirement)
+                .addComponent(new LabelComp("require", "⊑&f等级: " + this.requirement + "/" + this.requirement)
                         .setExtend("objectives")
                 );
         return ui;

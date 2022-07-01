@@ -154,8 +154,8 @@ public class ProfileManager {
         this.registerMissionPreset("equip_suit", EquipSuitMission.class);
         this.registerMissionPreset("elevate_realm", ElevateRealmMission.class);
         this.registerMissionPreset("slot", SlotMission.class);
-        this.registerMissionPreset("stage_break", StageBreakMission.class);
-        this.registerMissionPreset("realm_break", RealmBreakMission.class);
+        this.registerMissionPreset("stage_break", BreakStageMission.class);
+        this.registerMissionPreset("realm_break", BreakRealmMission.class);
     }
     
     private void registerEventPreset() {

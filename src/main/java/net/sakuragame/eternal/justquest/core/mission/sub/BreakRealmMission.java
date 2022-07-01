@@ -15,11 +15,11 @@ import org.bukkit.event.EventHandler;
 import java.util.List;
 import java.util.UUID;
 
-public class StageBreakMission extends AbstractMission {
+public class BreakRealmMission extends AbstractMission {
 
     private final int requirement;
 
-    public StageBreakMission(String ID, String type, List<String> navigationEvents, List<String> completeEvents, List<String> descriptions, ConfigurationSection section) {
+    public BreakRealmMission(String ID, String type, List<String> navigationEvents, List<String> completeEvents, List<String> descriptions, ConfigurationSection section) {
         super(ID, type, navigationEvents, completeEvents, descriptions, section);
         this.requirement = section.getInt("level");
     }
@@ -28,8 +28,8 @@ public class StageBreakMission extends AbstractMission {
     public void active(UUID uuid, String questID) {
         super.active(uuid, questID);
 
-        int stage = JustLevelAPI.getStage(uuid);
-        if (stage >= this.requirement) {
+        int realm = JustLevelAPI.getRealm(uuid);
+        if (realm >= this.requirement) {
             this.complete(uuid);
         }
     }
@@ -38,8 +38,8 @@ public class StageBreakMission extends AbstractMission {
     public void keep(UUID uuid, String questID) {
         super.keep(uuid, questID);
 
-        int stage = JustLevelAPI.getStage(uuid);
-        if (stage >= this.requirement) {
+        int realm = JustLevelAPI.getRealm(uuid);
+        if (realm >= this.requirement) {
             this.complete(uuid);
         }
     }
@@ -48,7 +48,7 @@ public class StageBreakMission extends AbstractMission {
     public ScreenUI getProgressDisplay(UUID uuid) {
         ScreenUI ui = new ScreenUI(QuestUIManager.QUEST_OBJECTIVE_ID);
         ui
-                .addComponent(new LabelComp("require", "&f进行阶段突破: 0/1")
+                .addComponent(new LabelComp("require", "⊑&f境界突破: 0/1")
                         .setExtend("objectives")
                 );
         return ui;
@@ -58,7 +58,7 @@ public class StageBreakMission extends AbstractMission {
     public ScreenUI getCompleteDisplay(UUID uuid) {
         ScreenUI ui = new ScreenUI(QuestUIManager.QUEST_OBJECTIVE_ID);
         ui
-                .addComponent(new LabelComp("require", "&f进行阶段突破: 1/1")
+                .addComponent(new LabelComp("require", "⊑&f境界突破: 1/1")
                         .setExtend("objectives")
                 );
         return ui;
@@ -75,7 +75,7 @@ public class StageBreakMission extends AbstractMission {
     }
 
     @EventHandler
-    public void onStageBreak(PlayerBrokenEvent.Stage e) {
+    public void onRealmBreak(PlayerBrokenEvent.Realm e) {
         Player player = e.getPlayer();
         UUID uuid = player.getUniqueId();
 
