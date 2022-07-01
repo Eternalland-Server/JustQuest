@@ -37,9 +37,9 @@ public class QuestReward {
 
     public String getRewardDescriptions() {
         StringBuilder builder = new StringBuilder();
-        if (this.money > 0) builder.append("&a金币: &f").append((int) this.money).append("  ");
-        if (this.coins > 0) builder.append("&a点劵: &f").append((int) this.coins).append("  ");
-        if (this.exp > 0) builder.append("&a经验: &f").append((int) this.exp).append("  ");
+        if (this.money > 0) builder.append("&3金币: &f").append((int) this.money).append("  ");
+        if (this.coins > 0) builder.append("&3点劵: &f").append((int) this.coins).append("  ");
+        if (this.exp > 0) builder.append("&3经验: &f").append((int) this.exp).append("  ");
 
         return builder.toString();
     }

@@ -5,6 +5,7 @@ import lombok.Getter;
 import net.sakuragame.eternal.justquest.JustQuest;
 import net.sakuragame.eternal.justquest.core.data.QuestState;
 import net.sakuragame.eternal.justquest.core.mission.IProgress;
+import net.sakuragame.eternal.justquest.core.quest.IQuest;
 import net.sakuragame.eternal.justquest.core.quest.QuestReward;
 import org.jetbrains.annotations.NotNull;
 
@@ -46,7 +47,15 @@ public class QuestProgress implements Comparable<QuestProgress> {
 
     @Override
     public int compareTo(@NotNull QuestProgress o) {
+        if (!this.isCompleted() && !o.isCompleted()) {
+            IQuest a = JustQuest.getProfileManager().getQuest(this.questID);
+            IQuest b = JustQuest.getProfileManager().getQuest(o.getQuestID());
+
+            return Integer.compare(a.getType().getID(), b.getType().getID());
+        }
+
         if (this.isCompleted() && o.isCompleted()) return 0;
+
         return this.isCompleted() ? -1 : 1;
     }
 }

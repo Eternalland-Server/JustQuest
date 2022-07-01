@@ -46,6 +46,10 @@ public class SlotMission extends AbstractMission {
     public void onUpdate(PlayerSlotUpdateEvent e) {
         Player player = e.getPlayer();
         String ident = e.getIdentifier();
+
+        IProgress progress = this.getData(player.getUniqueId());
+        if (progress == null || progress.isFinished()) return;
+
         if (!this.slotID.equals(ident)) return;
 
         this.complete(player.getUniqueId());

@@ -42,6 +42,7 @@ public class ConversationMission extends AbstractMission {
 
     @Override
     public void navigation(Player player) {
+        player.sendTitle("", "§6已开启导航", 0, 30, 0);
         WaypointsAPI.navNPC(player, this.npcID, 5, Arrays.asList("§6§l前往", "§f(%distance%m)"));
     }
 
