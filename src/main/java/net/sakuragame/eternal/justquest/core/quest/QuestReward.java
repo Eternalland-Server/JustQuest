@@ -7,6 +7,7 @@ import net.sakuragame.eternal.justlevel.api.JustLevelAPI;
 import net.sakuragame.eternal.justquest.file.sub.ConfigFile;
 import net.sakuragame.eternal.justquest.util.Utils;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.util.Map;
@@ -33,15 +34,15 @@ public class QuestReward {
         if (this.exp > 0) JustLevelAPI.addExp(uuid, this.exp);
         if (this.money > 0) {
             GemsEconomyAPI.deposit(uuid, this.money);
-            player.sendMessage(" §8[§e+§8] §f" + this.money + " §f金币");
+            player.sendMessage(" §8[§e+§8] §f" + this.money + " §7金币");
         }
         if (this.coins > 0) {
             GemsEconomyAPI.deposit(uuid, this.coins, EternalCurrency.Coins);
-            player.sendMessage(" §8[§e+§8] §f" + this.coins + " §f点劵");
+            player.sendMessage(" §8[§e+§8] §f" + this.coins + " §7点劵");
         }
 
         Utils.giveItems(player, this.items);
-        player.sendMessage(ConfigFile.prefix + "已领取任务奖励");
+        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BASS, 0.4f, 1);
     }
 
     public String getRewardDescriptions() {
