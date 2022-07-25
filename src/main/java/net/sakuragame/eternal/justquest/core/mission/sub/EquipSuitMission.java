@@ -7,7 +7,7 @@ import net.sakuragame.eternal.justquest.core.mission.AbstractMission;
 import net.sakuragame.eternal.justquest.core.mission.AbstractProgress;
 import net.sakuragame.eternal.justquest.core.mission.IProgress;
 import net.sakuragame.eternal.justquest.ui.QuestUIManager;
-import net.sakuragame.eternal.juststore.api.event.MerchantTradeEvent;
+import net.sakuragame.eternal.juststore.api.event.ShopTradeEvent;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -57,7 +57,7 @@ public class EquipSuitMission extends AbstractMission {
     }
 
     @EventHandler
-    public void onTrade(MerchantTradeEvent.Post e) {
+    public void onTrade(ShopTradeEvent.Post e) {
         Player player = e.getPlayer();
         UUID uuid = player.getUniqueId();
         String id = e.getGoods().getID();

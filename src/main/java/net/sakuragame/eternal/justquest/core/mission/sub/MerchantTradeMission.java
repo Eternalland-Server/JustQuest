@@ -9,7 +9,7 @@ import net.sakuragame.eternal.justquest.core.mission.AbstractMission;
 import net.sakuragame.eternal.justquest.core.mission.IProgress;
 import net.sakuragame.eternal.justquest.core.mission.progress.CountProgress;
 import net.sakuragame.eternal.justquest.ui.QuestUIManager;
-import net.sakuragame.eternal.juststore.api.event.MerchantTradeEvent;
+import net.sakuragame.eternal.juststore.api.event.ShopTradeEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
@@ -98,7 +98,7 @@ public class MerchantTradeMission extends AbstractMission {
     }
 
     @EventHandler
-    public void onTrade(MerchantTradeEvent.Post e) {
+    public void onTrade(ShopTradeEvent.Post e) {
         Player player = e.getPlayer();
         UUID uuid = player.getUniqueId();
 
