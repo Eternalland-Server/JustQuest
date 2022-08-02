@@ -69,11 +69,15 @@ public class QuestAccount {
     }
 
     public void resumeQuestsProgress() {
-        progresses.values().forEach(k -> JustQuest.getQuestManager().resumeQuest(
-                this.uuid,
-                k.getQuestID(),
-                k.getMissionID()
-        ));
+        progresses.values().forEach(k -> {
+            if (!k.isCompleted()) {
+                JustQuest.getQuestManager().resumeQuest(
+                        this.uuid,
+                        k.getQuestID(),
+                        k.getMissionID()
+                );
+            }
+        });
     }
 
     public void saveQuestsProgress() {
