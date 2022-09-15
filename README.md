@@ -6,6 +6,8 @@
 ![img](./.img/1.png)
 
 #### API
+`JustQuestAPI`
+
 ```yaml
 # 分配指定任务给玩家
 JustQuestAPI.allotQuest(Player player, String id)
